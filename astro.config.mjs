@@ -10,6 +10,9 @@ export default defineConfig({
 			social: {
 				github: 'https://github.com/withastro/starlight',
 			},
+			editLink: {
+				baseUrl: 'https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/edit/main/',
+			},
 			sidebar: [
 				{
 					label: 'Guides',
