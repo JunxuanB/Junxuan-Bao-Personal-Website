@@ -31,6 +31,13 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
+					label: 'About Me', 
+					translations: {
+						'en': "About Me",
+						'zh-CN': "关于我",
+					},
+					slug: 'myself' },
+				{
 					label: "Full Stack Tutorial",
 					translations: {
 						'en': "Full Stack Tutorial",
@@ -44,6 +51,13 @@ export default defineConfig({
 						variant: 'tip'
 					  },
 					items: [
+						{
+							label: 'README', 
+							translations: {
+								'en': "README",
+								'zh-CN': "必读",
+							},
+							slug: 'full-stack-tutorial/000-index' },
 						{
 							label: "Frontend",
 							translations: {
@@ -69,16 +83,6 @@ export default defineConfig({
 							autogenerate: { directory: 'full-stack-tutorial/project-e-fridge' },
 						},
 					]
-				},
-				{
-					label: 'Guides',
-					items: [
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
 				},
 			],
 		}),
