@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
+    "@astrojs/mdx": "^3.1.7",
     "@astrojs/starlight": "^0.28.2",
+    "@lorenzo_lewis/starlight-utils": "^0.1.2",
     "astro": "^4.15.3",
+    "astro-auto-import": "^0.4.2",
     "sharp": "^0.32.5",
+    "starlight-heading-badges": "^0.3.0",
     "typescript": "^5.6.2"
   },
   "devDependencies": {

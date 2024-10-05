@@ -1,0 +1,61 @@
+---
+title: 通过Astro构建个人网站
+description: 通过Astro, Starlight, 和Cloudflare Pages构建个人网站
+---
+## 为什么要使用Astro？
+我的前几个版本的个人网站都是基于WordPress搭建的，在使用过程中发现了不少的缺点，比如：  
+- PHP的性能相对于静态网站生成来说很差
+- 编辑器不能直接基于Markdown进行编辑，需要登录到后台进行编辑
+
+因此，为了更好的访问和编辑体验，我决定选择一个框架进行重构。在检索后，目标锁定在：
+- [Astro](https://astro.build) ：基于JavaScript的静态网站生成器
+- [HUGO](https://gohugo.io) ：基于Go的静态网站生成器
+
+后来考虑到我对于Typescript和Javascript的熟悉程度，我选择了Astro。
+
+在选择Astro之后，我发现了一个名为[Starlight](https://starlight.astro.build)的模板库。他是官方doc使用的模板库，并且对于MD和MDX的支持非常好。因此，我决定使用Starlight作为我的网站的模板。
+
+## 安装Astro和Starlight
+首先需要安装npm和node.js。MacOS用户可以通过管理 nvm 管理node.js版本并使用 [Homebrew](https://brew.sh/) 进行软件安装。
+<Aside type="danger">
+请遵循[官方安装要求](https://docs.astro.build/en/install-and-setup/) 安装v18.7.1或v20.3.0的Node.js版本（不支持v19）。  
+并且，按照一个已知的[GitHub Issue](https://github.com/withastro/astro/issues/8473)v20.5.0版本可能存在不兼容的问题。
+</Aside>
+```bash
+brew install nvm # 安装nvm
+nvm ls-remote # 查看所有可用的node版本
+nvm install --lts # 安装最新的LTS版本
+brew install npm # 安装npm
+node -v # 查看node版本
+npm -v # 查看npm版本
+```
+在确认安装了正确的node和npm版本后，我们可以进入目标文件夹的上一级目录，运行以下命令：
+```bash
+npm create astro@latest -- --template starlight # 创建一个新的Astro项目并使用Starlight模板
+cd my-astro-site # 进入项目文件夹
+npm install # 安装依赖（可以跳过，在执行npm create时已经安装了依赖）
+npm run dev # 运行开发服务器
+```
+之后就可以在浏览器中访问`http://localhost:4321`查看你的网站了。
+
+## 配置Cloudflare Pages
+> Cloudflare Pages是一个完全免费的静态网站托管服务，支持自动部署和自定义域名。并且在[测速对比](https://bejamas.io/compare/cloudflare-pages-vs-github-pages)中，在大部分地区的速度都优于GitHub Pages。  
+
+在完成项目配置并上传至GitHub后，我们可以前往[Cloudflare Pages](https://pages.cloudflare.com/)进行项目部署。  
+- 首先，你需要注册一个Cloudflare账号并登录
+- 在左侧导航栏中选择`Workers和Pages`，然后点击`创建`
+- 填写GitHub仓库地址后方可自动完成部署（无需手动打包）
+- 之后每次push代码都会自动打包并部署
+
+## 结语
+Astro配合Starlight和Cloudflare Pages是个人网站的优秀选择，他们在一起提供了舒适的编辑和访问体验，并且成为了我第一个Google PageSpeed 满分的网站。
+
+## 推荐插件
+[Astro官方](https://astro.build/integrations/)和[Starlight社区](https://starlight.astro.build/resources/plugins/)中有许多优秀的插件，这是我正在使用和推荐的几个：
+- [Astro-auto-import](https://github.com/delucis/astro-auto-import/tree/main/packages/astro-auto-import)：自动在所有页面中导入组件
+- [Starlight Utils](https://starlight-utils.pages.dev/docs/): 多个侧边栏
+- [Starlight Heading Badges](https://starlight-heading-badges.vercel.app/getting-started/): 为标题添加徽章
+
+## 参考 :badge[外部链接]
+- [Astro官方文档](https://docs.astro.build)
+- [Starlight官方文档](https://starlight.astro.build)
