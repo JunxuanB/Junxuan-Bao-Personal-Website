@@ -3,8 +3,9 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import AutoImport from "astro-auto-import";
 import starlightUtils from "@lorenzo_lewis/starlight-utils";
-import starlightHeadingBadges from 'starlight-heading-badges'
+import starlightHeadingBadges from "starlight-heading-badges";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,7 +19,7 @@ export default defineConfig({
             switcherStyle: "horizontalList",
           },
         }),
-		starlightHeadingBadges(),
+        starlightHeadingBadges(),
       ],
       title: {
         en: "Junxuan Bao",
@@ -129,13 +130,17 @@ export default defineConfig({
     AutoImport({
       imports: [
         {
-          "@astrojs/starlight/components": ["Aside", "Badge", "Card", "CardGrid"],
+          "@astrojs/starlight/components": [
+            "Aside",
+            "Badge",
+            "Card",
+            "CardGrid",
+          ],
         },
       ],
-    }),
-
-    // Make sure the MDX integration is included AFTER astro-auto-import
+    }), // Make sure the MDX integration is included AFTER astro-auto-import
     mdx(),
+    sitemap(),
   ],
   redirects: {
     "/": "/en",
