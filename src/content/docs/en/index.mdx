@@ -2,22 +2,27 @@
 title: Junxuan Bao's Website
 description: Junxuan Bao's Website
 template: splash
+editUrl: false
+lastUpdated: false
+banner:
+  content: |
+    My site just started and I'm still working on it. Please check back later for more content!
 hero:
   tagline: Welcome! This is Junxuan Bao's personal website, you may find my resume, projects, and blog posts here.
   image:
     file: ../../../assets/houston.webp
   actions:
-    - text: Example Guide
+    - text: Who am I?
       link: /en/myself
       icon: right-arrow
     - text: Read the Starlight docs
       link: https://starlight.astro.build
       icon: external
       variant: minimal
+    - text: 切换到中文
+      link: /zh-cn
+      icon: external
+      variant: minimal
 ---
 
 import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
-
-<Aside type="tip">
-My site just started and I'm still working on it. Please check back later for more content!
-</Aside>

@@ -4,14 +4,20 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://junxuanb.com/',
+	
 	integrations: [
 		starlight({
 			title: {
 				en: 'Junxuan Bao',
 				'zh-CN': '鲍俊轩',
 			  },
+			lastUpdated: true,
+			credits: true,
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				instagram: 'https://unsplash.com/@junxuanb',
+				email: 'mailto:Junxuan.Bao@Gmail.com',
+				github: 'https://github.com/JunxuanB',
 			},
 			editLink: {
 				baseUrl: 'https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/edit/main/',
