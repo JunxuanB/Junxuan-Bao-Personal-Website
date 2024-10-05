@@ -129,7 +129,7 @@ export default defineConfig({
     AutoImport({
       imports: [
         {
-          "@astrojs/starlight/components": ["Aside", "Badge"],
+          "@astrojs/starlight/components": ["Aside", "Badge", "Card", "CardGrid"],
         },
       ],
     }),
