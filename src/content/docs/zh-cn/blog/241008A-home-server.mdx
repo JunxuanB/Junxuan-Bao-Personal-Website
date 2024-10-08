@@ -1,0 +1,94 @@
+---
+title: 家庭服务器搭建
+description: 基于ThinkCentre M800, 群晖DS220+和CyberPower ST625U的家庭服务器搭建
+---
+## 前情提要
+我现在base在加拿大，平时喜欢折腾一些网站、docker等技术，并且有归档文件，家庭影院的需求，因此搭建了这套家庭服务器。
+
+## 需求
+- 首先是娱乐需求，我目前用的是Apple TV+Infuse，因此需要一个NAS来存储影片。  
+- 其次是归档需求，我希望我的文件能够长期保存，因此需要一个比较大的NAS存储空间。  
+- 最后是网站和Docker需求，因为我部分本地客户的网站DEMO也会运行在这台服务器上，所以需要比较稳定的环境。
+
+## 硬件选择
+基于这些需求，考虑到功耗等因素，我选择把相对低性能需求的娱乐和归档放在NAS上。网站和Docker则部署在一台小型主机上。  
+在NAS的选择上，一开始我有考虑过DIY或者使用绿联等其他品牌的NAS，但是最终处于稳定性和功耗的考虑，我选择了 **群晖DS220+**。  
+对于NAS的硬盘，综合考虑硬盘可靠性、噪声（因为我是放在家里的）等因素，最终选择了 **2块8TB的Seagate IronWolf硬盘**。  
+
+在二手主机的选择上，我一开始在考虑香橙派、树莓派、N100系列小主机、二手电脑。首先香橙派的性能较低且不方便维修。树莓派性价比较低并且也不太满足我的需求。N100系列小主机虽然功耗低但是性能较差且相对来说价格高。因此最终我锁定了二手联想的ThinkCentre系列。  
+在搜罗了一圈市场后，我在加区Amazon找到了一个 **ThinkCentre M800**，i5-6500 (3.6GHz)，16GB DDR4，240 GB SSD，2TB HDD的配置，官方认证二手价格为税前加币$169.98。并且带有90天无理由退货，1年保修。  
+
+在UPS选择上，为了拥有自动关机的功能，我参考Amazon的评价选择了 **8CyberPower ST625U**，价格为税前加币$99.99。值得注意的是，该品牌的基础型号 ST425 不带有usb接口，因此无法实现自动关机功能。同时需要提醒的是Amazon的电池类产品不支持退货，因此在购买前请仔细考虑。  
+
+在选择的时候 [r/HomeServer](https://www.reddit.com/r/HomeServer/) 给我提供了很多有用的信息，如果你也有类似的需求，可以去那里看看。
+
+## 成本
+- 群晖DS220+：加币$376.99
+- 8TB Seagate IronWolf硬盘：加币$234.99 * 2 = $469.98
+- ThinkCentre M800：加币$169.98
+- CyberPower ST625U：加币$99.99
+- 税费（13%）：加币$132.20
+- 总计：加币$1,149.14
+
+## 安装
+### 硬件连接
+1. 准备一台显示器，注意ThinkCentre M800的接口为DisplayPort，需要准备好转接线。
+2. 将群晖和ThinkCentre连接到UPS，注意UPS开机需长按电源键。
+3. 将UPS USB连接到群晖。
+4. 连接网线。
+5. 开机。
+
+### ThinkCentre安装Ubuntu Server
+1. 准备一个U盘，大约8GB就够用。
+2. 正常启动和配置Windows，检查硬件是否正常。然后插入U盘。
+3. 下载刷ISO的工具，我使用的是[Rufus](https://rufus.ie/)。
+4. 下载 [Ubuntu ISO](https://ubuntu.com/download/server)。
+5. 使用Rufus把ISO刷入U盘，注意这会清空全部U盘数据。
+6. 保持U盘插入，重启电脑，进入BIOS。
+7. 选择“Startup" -> "Primary Boot Sequence" -> "USB"，然后按下"X"确保从USB启动是启用的。
+8. 保存设置并重新启动，同时进入启动选项（在开机画面出现后按Enter，进入选项页面后选择F12）。
+9. 选择从U盘启动。
+10. 按照提示安装Ubuntu Server，注意：
+    选择Server还是Server (minimized)时，我选择了minimized，因为按照reddit分享，minimized缺少的主要是GUI相关的内容，对于服务器来说是不需要的。  
+    在进行硬盘分区的时候选择Customized，然后将SSD设置为boot drive，从SSD分配内存大小的两倍作为swap分区，剩下的空间分配给根目录（/），格式为ext4。机械硬盘则格式化为ext4并挂载到/home下。
+    在选择是否安装OpenSSH Server时，我选择了安装，方便远程连接。PS：无论是远程用密码还是密钥登录，都需要安装OpenSSH Server。
+
+### 群晖配置
+1. 群晖开机后使用Synology Assistant搜索设备。
+2. 进入Web后按照提示进行配置。
+3. 推荐添加 [我不是矿神SPK](https://imnks.com/1780.html) 的软件源，方便一键安装各类常用软件。
+
+### 配置UPS和NUT
+1. 在Ubuntu上使用 `ipconfig` 查看IP地址。
+2. 连接UPS到群晖。
+3. 在群晖的控制面板中找到“硬件与电源”，然后选择“不断电系统”。
+4. 启用UPS支持并选择“USB UPS”。
+5. 启用网络UPS服务器
+6. 在“允许的Synology NAS设备”中添加Ubuntu的IP地址。
+7. 在Ubuntu上使用 `sudo apt-get install nut` 安装NUT。
+8. 编辑 `/etc/nut/nut.conf`，找到并编辑 `MODE=netclient`。
+9. 编辑 `/etc/nut/upsmon.conf`，添加 `MONITOR ups@192.168.0.102 1 monuser secret slave`。请替换 `192.168.0.102` 为你的群晖IP地址
+10. 使用 `service nut-client restart` 重启NUT服务。
+
+### 安装网站面板
+我之前使用过aaPanel，但是因为其需要登录且较为臃肿，这次在多番对比下选择了CloudPanel，它支持NodeJS，PHP等多种语言，无需配置，支持多用户，使用/home的权限管理和存储逻辑并且对Cloudflare有额外的支持。  
+你可以参考 [CloudPanel官方文档](https://www.cloudpanel.io/docs/v2/getting-started/other/) 进行安装。  
+注意：CloudPanel使用自签署的SSL证书，因此在访问时需要使用https://头。
+
+### 安装Docker面板
+考虑到Portainer作为商业软件具有一定的限制，我选择Dockge作为Docker面板。  
+首先你需要参考 [Dockge官方文档](https://docs.docker.com/desktop/install/linux/) 安装Docker。  
+然后你可以参考 [Dockge官方文档](https://dockge.kuma.pet/) 安装Dockge。  
+Dockage没有SSL证书，因此在访问时需要使用http://头。
+
+### 附：如何在Linux下编辑文件
+1. 使用 `sudo vi [文件名]` 打开文件。
+2. 按 `i` 进入编辑模式。
+3. 编辑完成后按 `ESC` 退出编辑模式。
+4. 输入 `:wq` 保存并退出。
+
+### 附：Ubuntu权限问题
+在遇到权限问题时，你可以在命令前加上 `sudo` 来以管理员权限运行。
+
+## 结语
+这套家庭服务器同时满足了娱乐、存储、网站和Docker的需求，同时也有一定的扩展性。如果你有类似的需求，可以参考我的配置。
