@@ -135,8 +135,12 @@ export default defineConfig({
             "Badge",
             "Card",
             "CardGrid",
+            "LinkCard",
           ],
         },
+        {
+          "astro-embed": ["LinkPreview"]
+        }
       ],
     }), // Make sure the MDX integration is included AFTER astro-auto-import
     mdx(),
