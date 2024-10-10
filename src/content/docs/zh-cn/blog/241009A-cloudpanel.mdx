@@ -1,0 +1,13 @@
+---
+title: CloudPanel的一些坑
+description: CloudPanel的一些坑
+---
+## Clouflare 重定向次数过多
+由于我当前使用的是将服务器IP A记录到某个域名，然后其他域名再CNAME到这个域名，因此Cloudflare会出现重定向次数过多的问题。  
+发生的原因其实是CloudPanel默认开启了强制SSL访问，只需在站点Vhost中删除有关HTTP重定向的内容即可。
+
+## 后台超级指令无效
+Ubuntu系统默认没有root用户，因此在CloudPanel中使用超级指令时需要添加`sudo`。同时，当出现 `/usr/bin/clpctl: 5: printf: %q: invalid directive` 时，还需要添加 `bash`，因此正确的指令应该是 `sudo bash clpctl ...`。
+
+## NodeJS网站520错误
+CloudPanel不会自动安装NodeJS，因此在安装NodeJS网站时需要手动安装NodeJS并按照 [CloudPanel官方文档](https://www.cloudpanel.io/docs/v2/nodejs/deployment/pm2/) 使用PM2部署。
