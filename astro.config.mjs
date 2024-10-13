@@ -80,10 +80,10 @@ export default defineConfig({
               },
               items: [
                 {
-                  label: "README",
+                  label: "Welcome",
                   translations: {
-                    en: "README",
-                    "zh-CN": "必读",
+                    en: "Welcome",
+                    "zh-CN": "欢迎",
                   },
                   slug: "full-stack-tutorial/000-index",
                 },
