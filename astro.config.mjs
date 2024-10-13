@@ -88,6 +88,14 @@ export default defineConfig({
                   slug: "full-stack-tutorial/000-index",
                 },
                 {
+                  label: "Language Basics",
+                  translations: {
+                    en: "Language Basics",
+                    "zh-CN": "语言基础",
+                  },
+                  autogenerate: { directory: "full-stack-tutorial/basic" },
+                },
+                {
                   label: "Frontend",
                   translations: {
                     en: "Frontend",
