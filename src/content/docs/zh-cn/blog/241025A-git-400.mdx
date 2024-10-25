@@ -1,0 +1,13 @@
+---
+title: GitHub HTTP 400 Error
+description: RPC failed; HTTP 400 curl 22
+---
+```
+error: RPC failed; HTTP 400 curl 22 The requested URL returned error: 400
+send-pack: unexpected disconnect while reading sideband packet
+Writing objects: 100% (212/212), 5.46 MiB | 10.13 MiB/s, done.
+Total 212 (delta 152), reused 0 (delta 0), pack-reused 0
+fatal: the remote end hung up unexpectedly
+Everything up-to-date
+```
+解决方法：`git config http.postBuffer 524288000`
