@@ -1,5 +1,5 @@
 ---
-title: 数据
+title: 数据 / 变量
 description: TypeScript 数据类型 变量 ENUM INTERFACE TYPE 快速入门
 ---
 计算机语言的核心是对数据的展示和操作，在 TypeScript（简称 TS） 中，数据有了“类型”，接下来让我们进一步了解数据的类型和各种运用。
