@@ -1,0 +1,117 @@
+---
+title: useState
+description: 本节将介绍如何使用 useState 来实现页面状态管理
+---
+import { CounterA, CounterB, Notice } from '/src/components/full-stack-tutorial/frontend.tsx'
+
+想象一下这个场景：我们正在开发一款计数器，当用户点击按钮，屏幕上显示的数字就会增加。  
+这个组件很好实现！我们只需要在组件中定义一个变量，然后在点击事件中对这个变量进行加一操作就可以了，就像这样：
+```typescript
+export const Counter = () => {
+  let count = 0;
+  return (
+    <div>
+      当前计数：{count}
+      <a onClick={() => count++}> [点击 +1] </a>
+    </div>
+  );
+}
+```
+> 效果：
+> <CounterA client:visible />
+
+**诶？为什么点击按钮后，数字没有变化呢？** 这是因为 React 并不知道我们对 `count` 进行了修改，所以页面中的 `JSX` 不会随着数字的变化而更新。
+
+## useState
+为了解决这个问题，我们需要使用 `useState` 这个 `React` 提供的 `Hook`。`useState` 是一个函数，它的作用是在函数组件中添加状态。这是上面的计数器组件使用 `useState` 的例子：
+```typescript
+export const Counter = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      当前计数：{count}
+      <a onClick={() => setCount(count + 1)}> [点击 +1] </a>
+    </div>
+  );
+}
+```
+> 效果：
+> <CounterB client:visible />
+
+在这个例子中，我们可以看到 `useState` 的基本用法是 `const [state, setState] = useState(initialState)`。`useState` 接受一个参数，这个参数是状态的初始值。`useState` 返回一个数组，数组的第一个元素是状态的当前值，第二个元素是一个函数，这个函数用来更新状态的值。  
+
+注意，`useState` 是通过返回数组的第二个元素来更新状态的，因此即使我们会对 `count` 进行加一操作（改变数值），但是我们依旧不需要用 `let` 来定义 `count`，因为 `count` 是通过 `setCount` 来更新的。
+
+## 改写：提示框
+轮到你了！在我们之前的课程中，我们只做了 `Notice` 这个组件，现在，为它添加一个关闭按钮，点击按钮后，内容就会消失。  
+
+<Notice title="提示条" content="这是一个内容" closable={true} client:visible />
+
+自己尝试一下吧！提示：你可以使用 `condition && <Component />` 的方式来通过一个条件来控制组件的显示，你也可以调用 antd 中的组件来实现。这是我的代码：
+
+<Blur isEnglish={false} client:visible>
+```typescript
+import { Button } from "antd";
+import { useState } from "react";
+
+interface Props {
+  title: string;
+  content: string;
+}
+
+const Notice = (props: Props) => {
+  const [closed, setClosed] = useState(false);
+  return (
+    !closed && // 如果 closed 为 true 则不显示
+    <div
+      style={{
+        width: '50%', // 我在这里修改为了 50% 为了确保他可以被完整地显示
+        border: '1px dotted #aaa',
+        borderRadius: '5px',
+        padding: '10px',
+        position: 'relative',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <h4
+        style={{
+          margin: 0,
+          paddingBottom: '5px',
+          fontSize: '16px',
+          color: '#333',
+          borderBottom: '1px solid #ddd',
+        }}
+      >
+        {props.title}
+
+        {/* 使用 antd 的按钮 新增一个靠右的按钮 */}
+        <Button
+        type="link"
+        onClick={() => setClosed(!closed)}
+        style={{
+          position: 'absolute',
+          right: '0px',
+          top: '5px',
+          fontSize: '14px',
+        }}
+        >
+          隐藏
+        </Button>
+      </h4>
+      <p
+        style={{
+          margin: '10px 0 0',
+          fontSize: '14px',
+          color: '#555',
+        }}
+      >
+        {props.content}
+      </p>
+    </div>
+  );
+};
+
+export default Notice
+```
+</Blur>

@@ -1,10 +1,16 @@
+import { Button } from "antd";
+import { useState } from "react";
+
 interface NoticeProps {
     title: string;
     content: string;
+    closable?: boolean;
 }
 
 export const Notice = ( props: NoticeProps ) => {
+  const [closed, setClosed] = useState(false);
   return (
+    (!closed || !props.closable) && // 如果 closed 为 true 则不显示
     <div
       style={{
         width: '100%',
@@ -26,6 +32,19 @@ export const Notice = ( props: NoticeProps ) => {
         }}
       >
         {props.title}
+
+        {props.closable && <Button
+        type="link"
+        onClick={() => setClosed(!closed)}
+        style={{
+          position: 'absolute',
+          right: '0px',
+          top: '5px',
+          fontSize: '14px',
+        }}
+        >
+          隐藏
+        </Button>}
       </h4>
       <p
         style={{
@@ -39,6 +58,10 @@ export const Notice = ( props: NoticeProps ) => {
     </div>
   );
 };
+
+
+
+
 
 // 一个接受 JSX 元素的函数
 export const Template = ( props: { children: JSX.Element } ) => {
@@ -54,6 +77,26 @@ export const Template = ( props: { children: JSX.Element } ) => {
     >
       <h3 style={{color: '#333'}}>测试页面</h3>
       {props.children}
+    </div>
+  );
+}
+
+export const CounterA = () => {
+  let count = 0;
+  return (
+    <div>
+      当前计数：{count}
+      <a onClick={() => count++}> [点击 +1] </a>
+    </div>
+  );
+}
+
+export const CounterB = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      当前计数：{count}
+      <a onClick={() => setCount(count + 1)}> [点击 +1] </a>
     </div>
   );
 }

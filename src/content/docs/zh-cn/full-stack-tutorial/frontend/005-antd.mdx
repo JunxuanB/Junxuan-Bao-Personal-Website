@@ -1,0 +1,72 @@
+---
+title: UI 库 Ant Design
+description: 本节将介绍如何使用 Ant Design 来实现页面 UI
+---
+import { Button } from 'antd';
+
+这一节，我们会进入编程学习中的一个经典环节：白学。  
+
+在大部分个人项目中，我们的需求都比较简单, 但是我们又希望项目看起来很漂亮。这时候，我们就需要使用一些现成的 UI 库来帮助我们实现这个目标。这样，我们就可以专注于业务逻辑的实现，而不用花费大量的时间在页面的样式上。简单来说，对于个人项目，我们并不需要自己写大部分的 CSS 以及 HTML 代码，所以你的 CSS 和 HTML **白 学 啦！**  
+
+当然这只是开玩笑的，因为在实际项目中，我们还是需要写一些 CSS 和 HTML 代码的，并且 JSX 的语言逻辑也是基于 HTML 的。并且在大企业的项目中，通常需要定制化的 UI 组件，这时候就需要我们自己来实现了。  
+
+## UI 库
+首先，我们需要知道什么是 UI 库。在前端课程的介绍中，我们就给出了一个按钮的例子：
+```typescript
+import { Button } from 'antd'
+<Button type="dashed" loading>加载中...</Button>
+```
+> 结果：<Button type="dashed" loading client:visible >加载中...</Button>  
+
+在这里，我们就用了一个 UI 库 里的按钮，非常简单的就实现了一个带虚线和加载动画的按钮。
+
+## Ant Design
+在上面的例子里，我们使用的是 [antd](https://ant.design/) (Ant Design) 这个 UI 库。`Ant Design` 是由 `阿里巴巴` 旗下的 `阿里妈妈` 开发的一套企业级的中后台 UI 设计语言和 React 组件库。`Ant Design` 提供了一套丰富的组件，可以帮助我们快速搭建页面。  
+
+现在，让我们在项目中引用 `antd`，首先，我们需要用 `npm` 安装 `antd`。在 `VSCode` 的项目终端中输入：
+```bash
+npm install antd --save
+```
+安装完成后，我们就可以在项目中使用 `antd` 了。
+
+## 组件
+打开 `HelloWorld.tsx`，让我们添加一个 `antd` 的按钮：
+```typescript
+import { Button } from 'antd'
+<Button type="primary">Hello World</Button>
+```
+可以看到，`Button` 中还有一个 `type` 属性，在 `antd` 中，大部分组件都有这样的属性，你可以在 [组件总览](https://ant.design/components/overview-cn/) 中查看所有的组件和属性，antd 的文档中有非常详细的介绍，甚至包括用例。  
+
+## 布局组件
+其中，还有一些用于布局的组件，比如说 [Flex 弹性布局](https://ant.design/components/flex-cn) 尝试阅读一下这些文档，并且在 `HelloWorld.tsx` 中使用这个组件实现页面中所有元素有序的从上到下排列。我是这么做的：
+<Blur isEnglish={false} client:visible>
+```typescript
+import { useNavigate, useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+import TemplateComponent from "../components/TemplateComponent";
+import { Button, Flex } from "antd";
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    return (
+        <Flex vertical gap={'middle'}>
+            <Button type="primary">Hello World</Button>
+            <button onClick={() => navigate('/temp/1')}>跳转到 /hello/2</button>
+            <TemplateComponent>
+                <>
+                    <Notice title={"提示条 #" + id} content="这是一个内容" />
+                    <p>
+                        Hello world!
+                    </p>
+                </>
+            </TemplateComponent>
+        </Flex>
+    )
+}
+
+export default HelloWorld;
+```
+</Blur>
+
+在这里，我用 `Flex` 替代了原来的空标签，实现了简单的布局。
