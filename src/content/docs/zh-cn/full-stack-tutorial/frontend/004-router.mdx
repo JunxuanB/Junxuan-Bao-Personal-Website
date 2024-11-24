@@ -247,3 +247,44 @@ export default HelloWorld
 </Blur>
 
 ## 跳转页面
+在传统的 HTML 网站中，我们会使用 `<a href="...">` 标签来实现页面跳转。但是在 `React` 中，我们不推荐这样做。因为这样会导致页面刷新和页面的状态丢失，而且会影响用户体验。在 `React` 中，我们推荐使用 `useNavigate` 函数来实现页面跳转。比如说，我们希望在点击一个按钮时跳转到 `/temp/1` 页面，我们可以这样写：
+```typescript
+import { useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate();
+<button onClick={() => navigate('/temp/1')}>跳转到 /hello/2</button>
+```
+在这里，我们首先引入了 `useNavigate` 函数，然后把他赋值给 `navigate` 变量。之后，我们在按钮的 `onClick` 事件中（当用户点击时）调用 `navigate` 函数，并传入我们希望跳转的路径。这样，我们就可以实现页面的跳转了。  
+
+现在，轮到你来实现了！在 `HelloWorld.tsx` 文件中，添加一个按钮，当用户点击时，跳转到 `/temp/1` 页面。这是我的答案：
+<Blur isEnglish={false} client:visible>
+```typescript
+import { useNavigate, useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+import TemplateComponent from "../components/TemplateComponent";
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    return (
+        <>
+            <button onClick={() => navigate('/temp/1')}>跳转到 /hello/2</button>
+            <TemplateComponent>
+                <>
+                    <Notice title={"提示条 #" + id} content="这是一个内容" />
+                    <p>
+                        Hello world!
+                    </p>
+                </>
+            </TemplateComponent>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+</Blur>
+现在，你可以尝试点击按钮，看看效果！  
+
+## 总结
+路由的内容比较多，并且路由这个概念对你来说可能也比较陌生。如果你对部分内容不确定，可以多看几遍，始终记得你可以在 [前端课程 GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) 中找到对应的代码。
