@@ -2,3 +2,230 @@
 title: 组件和页面
 description: 撰写第一个 React 组件 / 页面
 ---
+import { Notice } from './components.tsx';
+
+想象一下，我们现在正在制作一个提示条，我们希望实现这样的一个通知框：
+<Notice title="标题" content="内容" />
+
+这里给出这个组件的 `HTML` 代码：
+```html
+<div
+  style="
+    width: 100%;
+    border: 1px dotted #aaa;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  "
+>
+  <h4
+    style="
+      margin: 0;
+      padding-bottom: 5px;
+      font-size: 16px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+    "
+  >
+    标题
+  </h4>
+  <p
+    style="
+      margin: 10px 0 0;
+      font-size: 14px;
+      color: #555;
+    "
+  >
+    内容
+  </p>
+</div>
+```
+
+## 为什么需要组件？
+现在，想象一下，你需要做一个通知中心，这个通知中心会有很多这样的通知条，你会怎么做呢？你会复制粘贴这个 `HTML` 代码很多次吗？这样做的话，你会发现，当你需要修改这个通知条的样式时，你需要修改很多地方，这样会很麻烦。  
+
+## 怎么创建一个组件？
+因此，我们有了 `组件` 的概念。组件就是一个可以重复使用的代码块。在 `React` 中，我们可以使用 `函数组件` 来定义一个组件，就和定义任何函数或者变量一样简单！这是一个简单的 `React` 组件：
+```typescript
+const Notice = () => {
+    return (
+        <div>这是一个组件</div>
+    )
+}
+```
+可以看到，这个组件就是一个函数，这个函数返回了一个 `JSX` 元素。接下来，我们就可以直接通过 `<Notice />` 来使用这个组件了！  
+
+## 在项目中创建组件
+让我们在之前的项目中实际动手试一试吧！首先，在 `src` 目录下创建一个 `components` 文件夹，然后在这个文件夹中创建一个 `Notice.tsx` 文件用于存放我们的通知组件。**注意：在 `React` 中，组件的文件名必须以大写字母开头，这是为了和 `HTML` 标签区分开来。**  
+
+然后，打开这个文件，我们可以写入以下代码：
+```typescript
+import React from 'react'
+
+const Notice = () => {
+  return (
+    <div>Notice</div>
+  )
+}
+
+export default Notice
+```
+如果你使用的是 `VSCode`，你也可以在文件中输入 `rafce` 然后按下回车，`VSCode` 会自动帮你生成一个函数组件。首先，让我们删除第一行 `import React from 'react'`，因为我们并没有使用 `React` 这个变量。然后，我们替换掉 `Notice` 函数中的 `div` 元素，替换成我们刚刚展示的代码。现在，我们的 `Notice.tsx` 文件应该是这样的：
+```typescript
+const Notice = () => {
+    return (
+        <div>这是一个组件</div>
+    )
+}
+
+export default Notice
+```
+
+## 使用组件
+接下来，让我们使用这个组件。首先，我们需要介绍两个重要的知识和技巧。  
+在 React 中，每个组件只能返回一个元素。这是什么意思呢？让我们看看这段错误示范：
+```typescript
+const Notice = () => {
+    return (
+        <div>这是一个组件</div>
+        <div>这是另一个组件</div> // 这里会报错
+    )
+}
+```
+但是，我们可以使用一个 `div` 元素包裹这两个 `div` 元素，这样就不会报错了：
+```typescript
+const Notice = () => {
+    return (
+        <div>
+            <div>这是一个组件</div>
+            <div>这是另一个组件</div>
+        </div>
+    )
+}
+```
+有没有更简单的方法？当然！在 `React` 中，我们可以使用空标签 `<></>` 来包裹多个元素，这样就不需要额外的 `div` 元素了：
+```typescript
+const Notice = () => {
+    return (
+        <>
+            <div>这是一个组件</div>
+            <div>这是另一个组件</div>
+        </>
+    )
+}
+```
+现在，让我们在 `main.tsx` 文件中使用这个组件。首先，我们需要把之前的 `Hello World` 包裹在一个空标签中，然后在这个空标签中加入我们的 `Notice` 组件，这样，我们就不会因为返回多个元素而报错了：
+```typescript
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import Notice from './components/Notice'
+
+createRoot(document.getElementById('root')!).render(
+  <>
+    <Notice />
+    <p>
+      Hello world!
+    </p>
+  </>
+  ,
+)
+```
+在现代 IDE 中，编辑器会自动帮你补全 `import` 语句，所以你只需要输入 `Notice` 然后按下回车键，编辑器就会自动帮你补全 `import Notice from './components/Notice'` 这一行。  
+
+现在，你就完成了第一个组件的制作！接下来，让我们填入一些内容。
+
+## 插入模板
+在这篇教程开始之前，我们给出了通知组件的 `HTML` 代码，现在，让我们把这个代码放入我们的组件中。注意，在 `React` 中，我们的 `HTML` 代码部分语法会有一些变动，包括需要添加 `''` 或者使用数组而不是 `;`。观察对比在课程开始前我给出的 `HTML` 代码和下面的 `JSX`（`React` 中的 `HTML` 被我们称之为 `JSX`） 代码：
+```javascript
+<div
+    style={{
+        width: '100%',
+        border: '1px dotted #aaa',
+        borderRadius: '5px',
+        padding: '10px',
+        position: 'relative',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+    }}
+>
+    <h4
+        style={{
+            margin: 0,
+            paddingBottom: '5px',
+            fontSize: '16px',
+            color: '#333',
+            borderBottom: '1px solid #ddd',
+        }}
+    >
+        标题
+    </h4>
+    <p
+        style={{
+            margin: '10px 0 0',
+            fontSize: '14px',
+            color: '#555',
+        }}
+    >
+      内容
+    </p>
+</div>
+```
+仔细观察他们之间的区别，不必担心，在你多写几次之后，你就会习惯这种写法的。现在，让我们把这段代码放入我们的组件中：
+```typescript
+const Notice = () => {
+    return (
+        // 上面的代码
+    )
+}
+```
+现在，让我们刷新网页，你就应该能够看到一个通知条了！
+<Notice title="标题" content="内容" />
+
+## 传递参数
+很酷吧！但是还记得我们为什么要创建组件吗？我们希望这个组件可以重复使用，而不是每次都需要手动修改内容。现在，让我们把这个组件变得更加灵活，让我们可以传入参数来改变这个通知条的内容。  
+
+首先，我们需要定义一个 `interface` 来规定这个组件的参数。在之前的课程中，我们有介绍过 `interface` 和 `type` 的区别，在定义组件参数时，我们通常使用 `interface`。  
+我们的通知条有两个参数，一个是 `title`，一个是 `content`，我们可以这样定义这个 `interface` 并放在 `Notice.tsx` 文件的上方：
+```typescript
+interface Props {
+    title: string;
+    content: string;
+}
+```
+对于组件参数，因为其他文件不会访问，因此，我们可以直接命名为 `Props`，当然，你也可以使用更加具体的名字，比如 `NoticeProps`。注意，`interface` `type` 和 `组件` 的名称通常以大写字母开头。  
+
+之后，我们就可以要求这个组件接收这个参数，让我们替换 `()` 部分：
+```typescript
+const Notice = (props: Props) => {
+    // props 是变量名称 Props 是我们定义的接口名称
+    return (
+        // ...
+    )
+}
+```
+如何在组件中使用这个参数呢？在 `JSX` 语法中，我们可以使用 `{}` 来插入变量，这个变量可以是任何 `JS` 表达式。在这里，我们可以用 `{props.title}` 来插入 `title` 参数，用 `{props.content}` 来插入 `content` 参数。现在，我们的组件应该是这样的：
+```typescript
+interface Props {
+    title: string;
+    content: string;
+}
+
+const Notice = (props: Props) => {
+    return (
+      <div style={{...}} >
+        <h4 style={{...}} >
+            {props.title}
+        </h4>
+        <p style={{...}} >
+            {props.content}
+        </p>
+      </div>
+    );
+  };
+
+export default Notice
+```
+
+就这样，我们完成了一个可以接收参数的组件！也许你注意到了，在标题中还有 `和页面` 部分，其实在 `React` 中，组件和页面是一样的，都是由组件构成的。在下一节，我们将学习 `路由` 的概念，之后就可以开始制作我们的页面了！
