@@ -1,0 +1,85 @@
+---
+title: 路由
+description: 本节将介绍如何使用 React Router 来实现页面路由
+---
+<Aside type="danger" title="高难度内容">
+这部分内容难度较高，请预留更多的时间来学习。在学习高难度内容时，建议一次性学习完整个部分，不要中途放弃。  
+如果你遇到困难，不妨查看 [前端课程 GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) 并通过关键词搜索的方式找到对应的代码。
+</Aside>
+
+你可能已经意识到了一个问题，我们的应用现在只有一个页面，这显然是不够的。在这一节中，我们将学习如何使用 `React Router` 来实现页面路由。
+
+## 什么是路由
+`路由` 是指根据不同的 `URL` 地址，展示不同的内容。比如说：
+```
+https://example.com/ -> 首页
+https://example.com/about -> 关于页面
+https://example.com/contact -> 联系页面
+```
+这些不同的 `URL` 地址对应着不同的页面，这就是 `路由` 的概念。
+
+## React Router
+在 `React` 中，我们可以使用 `React Router` 来快速实现路由，通过 `VSCode` 打开终端，输入以下命令来安装 `React Router`：
+```bash
+npm install react-router-dom
+```
+
+## 创建一个页面
+首先，在 `src` 目录下新建一个 `pages` 文件夹，然后在这个文件夹中新建一个 `HelloWorld.tsx` 文件，用于存放我们之前的 `main` 组件。尝试着自己完成这个步骤，如果遇到问题，可以查看下面的代码示例。
+```typescript
+import Notice from "../components/Notice"
+
+const HelloWorld = () => {
+    return (
+        <>
+            <Notice title="这是一个标题" content="这是一个内容" />
+            <p>
+                Hello world!
+            </p>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+现在，我们已经有了一个页面，接下来，让我们开始配置路由。
+
+## 配置 main.tsx
+在我们开始之前，让我们先备份一下当前的 `main.tsx` 文件，让我们重命名为 `main-helloWorld.tsx`。然后，新建一个 `main.tsx` 文件，我们可以在这个文件中写入以下代码：
+```typescript
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HelloWorld from "./pages/HelloWorld";
+
+createRoot(document.getElementById('root')!).render(
+    <BrowserRouter>
+        <Routes>
+            <Route index element={<HelloWorld />} />
+            <Route path="/hello" element={<HelloWorld />} />
+            <Route path="/hello/*" element={<HelloWorld />} />
+            <Route path="/hello/:id" element={<HelloWorld />} />
+        </Routes>
+    </BrowserRouter>
+);
+```
+让我们来逐行理解这段代码：
+- `BrowserRouter` 和 `Routes` 是 `React Router` 提供的一个组件，用于包裹整个应用，在这里我们直接使用就好。
+- `Route` 则用于配置路由，`index` 表示默认路由，`path` 表示路径，`element` 表示对应的组件。
+- 这里我们可以看到几种特殊的用法：
+    - `index` 表示默认路由
+    - `path="/hello"` 表示路径为 `/hello` 的路由
+    - `path="/hello/*"` 表示 `/hello` 开头的所有路径的路由。这里的 `*` 是通配符，表示所有路径。
+    - `path="/hello/:id"` 表示 `/hello` 开头的所有路径的路由，其中 `:id` 是一个参数，可以在组件中通过 `useParams` 来获取。
+
+现在，你可以打开浏览器，尝试以下链接，看看效果：
+- `http://localhost:5173/`
+- `http://localhost:5173/hello`
+- `http://localhost:5173/hello/123`
+- `http://localhost:5173/hello/abc/a`  
+
+这些路径都会展示我们的 `HelloWorld` 页面。
+
+## 路径参数
+
+## 模板框架
+

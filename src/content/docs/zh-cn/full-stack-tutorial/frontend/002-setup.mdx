@@ -3,6 +3,7 @@ title: 配置项目 & Hello World
 description: 初始化一个 Vite + React 项目 撰写你的第一个 react 页面
 ---
 import { Button } from 'antd';
+import { FileTree } from '@astrojs/starlight/components';
 
 现在，我们就要开始正式学习如何完成一个前端项目了。在这一节中，我们会使用 `Vite` 来初始化一个 `React` 项目。
 
@@ -56,21 +57,23 @@ npm create vite@5.5.5 .
 
 ### 项目结构
 现在，我们可以在目录中看到这样的文件结构：
-```bash
-my-app
-├── node_modules
-├── public
-├── src
-│   ├── assets
-│   ├── App.css
-│   ├── App.tsx
-│   ├── index.css
-│   ├── main.tsx
-│   └── vite-env.d.ts
-├── index.html
-├── package.json
-└── ...
-```
+<FileTree>
+
+- node_modules/
+- public/
+- src
+  - assets/
+  - App.css
+  - App.tsx
+  - index.css
+  - main.tsx
+  - vite-env.d.ts
+- index.html
+- package.json
+- ...
+
+</FileTree>
+
 这里，我们只展示了一些基础的重要文件，其中：
 - `node_modules` 是由 `npm` 自动下载的依赖包
 - `public` 是一些静态资源，比如说图片、字体等
