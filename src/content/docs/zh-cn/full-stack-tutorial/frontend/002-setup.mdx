@@ -1,0 +1,126 @@
+---
+title: 配置项目 & Hello World
+description: 初始化一个 Vite + React 项目 撰写你的第一个 react 页面
+---
+import { Button } from 'antd';
+
+现在，我们就要开始正式学习如何完成一个前端项目了。在这一节中，我们会使用 `Vite` 来初始化一个 `React` 项目。
+
+## React
+正如之前所介绍的，我们会使用 `React` 作为前端框架。所谓 `框架` 就是一个包装好的代码库。打个比方：我们现在要展示一个按钮，我们可以用 `HTML` 来写，比如说这样：  
+```html
+<button>按钮</button>
+```
+> 结果：<button>按钮</button>  
+
+现在，我们希望这个按钮有虚线边框，我们可以这样写：
+```html
+<button style="border: 1px dashed #000;">加载中...</button>
+```
+> 结果：<button style="border: 1px dashed #000;">加载中...</button>  
+
+不难发现，即使是一个简单的按钮，一旦有了复杂的需求，这就需要我们拥有很强的 CSS 和 JS 能力。很多时候，一些复杂的需求会耗费我们大量的时间，比如说一个带虚线和加载动画的按钮。而 `React` 就是为了解决这个问题而生的。我们可以用 `React` 来轻松实现这个按钮：
+```typescript
+import { Button } from 'antd'
+<Button type="dashed" loading>加载中...</Button>
+```
+> 结果：<Button type="dashed" loading client:visible >加载中...</Button>    
+
+这里，我们使用了 `antd` 这个 React UI 库，这会在之后的内容中详细介绍。总之，`React` 可以让我们更加专注于业务逻辑，使用更少的代码来实现更多的功能和样式！
+
+## Vite
+在前端开发中，我们经常会使用一些脚手架工具来帮助我们初始化项目。这些脚手架工具会帮我们自动完成一些繁琐的配置，让我们可以直接开始编写代码。在这个教程中，我们会使用 `Vite` 来初始化我们的项目。
+
+## 让我们开始吧！
+### 新建项目
+首先，找到一个合适的目录，新建一个文件夹，比如说 `my-app`，然后在 VSCode 中打开这个文件夹。然后在顶部菜单的终端中，选择新建终端，并输入以下命令：
+```bash
+npm create vite@5.5.5 . 
+```
+这里的 `npm create` 用于创建一个基于 `npm` 包管理器的项目，`vite` 是 `vite` 在 `npm` 服务器中的包名，`@5.5.5` 是 `vite` 的版本号，为了方便教学，建议使用这个版本号，如果你希望使用最新版本，可以将 `@5.5.5` 替换为 `@latest`。最后的 `.` 表示在当前目录下创建项目，而不是新建一个文件夹。  
+
+在输入以上指令后，你还需要回答一些问题，你可以参考以下内容进行回答：
+```bash
+# 如果你的目录中有文件，npm 会询问你是否删除这些文件，这里建议你选择删除
+✔ Current directory is not empty. Please choose how to proceed: › Remove existing files and continue
+
+# 选择一个框架，这里我们选择 React
+✔ Select a framework: › React
+
+# 选择一个语言，这里我们选择 TypeScript
+# 还有另一个 TypeScript + SWC 的选项，SWC 是一个更快的编译器，我们这里先不使用
+✔ Select a variant: › TypeScript
+```
+
+之后，你需要手动安装使用 `npm install` 安装依赖。安装完成后，你可以使用 `npm run dev` 来启动项目。在浏览器中输入 `http://localhost:5173/` (有可能每个人的默认端口是不一样的，输入指令后，你可以看到网址信息)，你会看到一个 `React` 的欢迎页面。
+
+### 项目结构
+现在，我们可以在目录中看到这样的文件结构：
+```bash
+my-app
+├── node_modules
+├── public
+├── src
+│   ├── assets
+│   ├── App.css
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   └── vite-env.d.ts
+├── index.html
+├── package.json
+└── ...
+```
+这里，我们只展示了一些基础的重要文件，其中：
+- `node_modules` 是由 `npm` 自动下载的依赖包
+- `public` 是一些静态资源，比如说图片、字体等
+- `src` 是我们的 `React` 代码
+- `index.html` 是我们的入口 `HTML` 文件
+- `package.json` 是我们的 `npm` 配置文件
+
+### 删除自带文件
+自带的文件中，大部分是我们不需要的，我们可以删除这些文件。按照以下步骤进行：
+1. 删除 `public` 文件夹中的所有文件（不要删除文件夹）
+2. 删除 `src` 中除了 `main.tsx`, `index.css`, `vite-env.d.ts` 之外的所有文件和文件夹
+3. 删除根目录下的 `README.md` 文件
+
+此时，你会发现我们的网页中出现了报错，这是正常情况，因为我们删除了一些文件，导致项目无法正常运行。接下来，让我们修复这个问题，进入 `main.tsx` 文件，删除 `import App from './App.tsx'` 以及 `<App />` 这一行。
+```typescript
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+  </StrictMode>,
+)
+```
+现在，你应该得到一个空白的页面，这就是我们的项目初始化完成了！
+
+### Hello World
+现在，我们来尝试输出一个 `Hello World`。首先，你可能可以注意到，在你的网页顶部，或者说 `HTML` 的 `head` 标签中的 `title` 所展示的部分，现在默认是 `Vite + React + TS`。让我们先对它进行修改，打开 `index.html` 文件（注意，这个文件不在 `src` 目录，而是在根目录中。将 `<title>Vite + React + TS</title>` 修改为 `<title>Hello World</title>`。  
+
+现在我们就可以看到网页的标题变成了 `Hello World`。接下来，让我们看一下 `main.tsx` 文件，这个文件中目前我们只需要关注 `StrictMode` 这个标签。`StrictMode` 是一个 `React` 提供的组件，它可以帮助我们检测一些不安全的代码，比如说过时的 API，这会让我们的程序更加安全可靠，但是有可能会导致一些不必要的警告。在这个教程中，我们不需要关注这个组件，所以我们可以将 `StrictMode` 删除。注意，不要删掉后面的 `,`。接下来，让我们用一个 `p` 标签来输出 `Hello World` 替代原来 `StrictMode` 的位置：
+```typescript
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+createRoot(document.getElementById('root')!).render(
+  <p>
+    Hello world!
+  </p>,
+)
+```
+这时候，你的编辑器可能会在 `import { StrictMode } from 'react'` 上弹出报错，这是因为 `StrictMode` 组建已经被我们删除了，所以我们不应该 import 不需要的组建，所以让我们删除这一行。  
+
+现在，你的页面中会有一个 `Hello World!` 的文字，但是他的位置比较奇怪，它被纵向居中了，这是因为在文件顶部，我们导入了 `index.css` 文件，这个文件包含了自带的一些样式，这些样式会被运用到我们整个项目中。在这个教程中，我们不需要这些样式，所以我们可以将 `index.css` 文件中的内容全部删除，但是依旧保留这个文件。  
+
+现在，我们就已经删除了所有多余的自带内容并且输出了一个 `Hello World`！
+
+
+<Aside type="tip" title="课程源码">
+你可以在 [我的 GitHub 项目中](https://github.com/JunxuanB/full-stack-tutorial-frontend) 找到前端部分的代码。这个项目会贯穿整个课程，在你完成全部内容后，你会得到和我几乎一样的项目，但是在此之前，这些文件会被逐步更改。  
+
+如果你无法访问 Github，也不用担心。源码不是必须的，你可以直接在本教程中完成所有内容的学习。
+</Aside>

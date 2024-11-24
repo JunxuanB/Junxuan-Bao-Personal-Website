@@ -1,0 +1,62 @@
+---
+title: 基础工具和概念
+description: npm / git / Lorem Ipsum / json
+---
+## VSCode
+正如第一部分所述，本教程使用 `Visual Studio Code` 作为代码编辑器（IDE），这是我个人感觉对 TypeScript 支持最好的 IDE。你可以在 [VSCode 官网](https://code.visualstudio.com/) 下载安装包，然后按照提示安装即可。
+
+## Node.js
+`Node.js` 是一个 JavaScript 运行环境。他可以方便快捷地实现和运行 JavaScript 代码。而在这门课程中，我们使用的 TypeScript 作为 JavaScript 的一个变种，也可以在 Node.js 中运行。
+
+首先，你需要安装 Node.js 环境。你可以在 [Node.js 官网](https://nodejs.org/zh-cn/download/package-manager) 下载安装包，然后按照提示安装即可。
+
+本教程使用 `v23.1.0` 版本的 Node.js 进行开发。建议你安装相同版本的 Node.js 或最新 LTS 版本（LTS 版本是长期支持版本，通常更加稳定，你可以直接在版本号后看到 LTS 字样）。MacOS 用户建议使用 [Homebrew](https://brew.sh/) 安装 Node.js，
+
+## npm
+`npm` 则是基于 Node.js 的包管理工具。在撰写项目的时候，你通常不会从零直接开始，而是基于一些现有的项目开发，这些现有的项目就叫做 `包`。`npm` 就是用来管理这些包的工具。  
+
+在安装 Node.js 的时候，`npm` 会一同安装。你可以在终端中输入 `npm -v` 来查看当前安装的 `npm` 版本。本教程使用 `10.9.0` 版本的 `npm`，你可以使用不同的版本，但是建议使用相同或最新版本。
+
+<Aside type="danger" title="如果你位于中国大陆">
+因为 `npm` 需要下载不同的包，而 `npm` 的服务器位于境外，通常会出现下载缓慢甚至无法下载的情况，这时候你需要使用一个境内源，也就是 `npm` 服务器位于中国大陆的克隆版本。这里推荐使用由阿里云提供的 [npmmirror](https://npmmirror.com/)。  
+你可以使用下面的指令来切换到 `npmmirror` 的源，这样你就可以更快地下载包了。
+```
+npm install -g cnpm --registry=https://registry.npmmirror.com
+```
+</Aside>
+
+## git
+`git` 是一个代码版本控制工具。在开发过程中，你通常会遇到需要保存代码的不同版本，或者需要和其他人协作开发的情况。这时候 `git` 就可以帮助你管理这些代码。本教程将会使用 `GitHub` 作为代码托管平台，中国大陆用户如果无法访问 `GitHub` 则可以使用 `Gitee` 等其他产品作为替代。
+
+你可以在 [git 官网](https://git-scm.com/) 下载安装包，然后按照提示安装即可。你可以在终端中输入 `git -v` 来查看当前安装的 `git` 版本。本教程使用 `git version 2.47.0` 版本，你可以使用不同的版本，但是建议使用相同或最新版本。MacOS 用户建议使用 [Homebrew](https://brew.sh/) 安装 `git`，同时可能还需要使用以下指令来同意 `Xcode` 的许可协议（如果你安装了的话）：
+```
+sudo xcodebuild -license accept
+```
+
+## Lorem Ipsum
+这里插入一个概念，在开发前端内容时，我们通常希望在展示或者测试时显示完整的内容，这里我们就需要 `占位符`。`Lorem Ipsum` 就是一个常用的占位符文本。你可以在 [Lorem Ipsum 官网](https://www.lipsum.com/) 生成一些 `Lorem Ipsum` 文本。在 VSCode 中，你也可以使用相关插件来生成 `Lorem Ipsum` 文本。
+
+## JSON
+另一个重要概念 `JSON`，这是一种数据格式，可以用于前后端数据交互。它的主要特点是可以用文本表示几乎所有的数据类型，是一种非常方便的数据交换格式。比如说，我们有一个 `People` 类型的数据：
+```typescript
+type People = {
+  name: string;
+  age: number   
+}
+```
+以及一个 `People` 类型的数据：
+```typescript
+const people: People = {
+  name: "Alice",
+  age: 18
+}
+```
+这时候，我们就可以使用 `JSON.stringify` 方法将 `people` 对象转换为 JSON 字符串：
+```typescript
+const peopleJSON = JSON.stringify(people);
+console.log(peopleJSON);
+// 输出：{"name":"Alice","age":18}
+```
+这里输出的 `{"name":"Alice","age":18}` 就是一个 `JSON` 字符串。  
+
+现在你只需要了解 `JSON` 的基本格式和概念即可，后续课程中会有更多关于 `JSON` 的内容。
