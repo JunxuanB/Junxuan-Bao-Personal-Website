@@ -40,3 +40,20 @@ export const Notice = ( props: NoticeProps ) => {
   );
 };
 
+// 一个接受 JSX 元素的函数
+export const Template = ( props: { children: JSX.Element } ) => {
+  return (
+    <div
+      style={{
+        width: '100%',
+        padding: '10px',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        color: '#333',
+      }}
+    >
+      <h3 style={{color: '#333'}}>测试页面</h3>
+      {props.children}
+    </div>
+  );
+}

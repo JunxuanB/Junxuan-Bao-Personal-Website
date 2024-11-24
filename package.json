@@ -24,6 +24,7 @@
     "astro-embed": "^0.7.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
     "sharp": "^0.32.5",
     "starlight-heading-badges": "^0.3.0",
     "typescript": "^5.6.2"

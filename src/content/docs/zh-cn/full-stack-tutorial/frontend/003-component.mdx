@@ -2,7 +2,7 @@
 title: 组件和页面
 description: 撰写第一个 React 组件 / 页面
 ---
-import { Notice } from './components.tsx';
+import { Notice } from '/src/components/full-stack-tutorial/frontend.tsx'
 
 想象一下，我们现在正在制作一个提示条，我们希望实现这样的一个通知框：
 <Notice title="标题" content="内容" />
@@ -117,6 +117,7 @@ const Notice = () => {
 }
 ```
 现在，让我们在 `main.tsx` 文件中使用这个组件。首先，我们需要把之前的 `Hello World` 包裹在一个空标签中，然后在这个空标签中加入我们的 `Notice` 组件，这样，我们就不会因为返回多个元素而报错了：
+<Blur isEnglish={false} client:visible>
 ```typescript
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -132,6 +133,7 @@ createRoot(document.getElementById('root')!).render(
   ,
 )
 ```
+</Blur>
 在现代 IDE 中，编辑器会自动帮你补全 `import` 语句，所以你只需要输入 `Notice` 然后按下回车键，编辑器就会自动帮你补全 `import Notice from './components/Notice'` 这一行。  
 
 现在，你就完成了第一个组件的制作！接下来，让我们填入一些内容。
@@ -206,6 +208,7 @@ const Notice = (props: Props) => {
 }
 ```
 如何在组件中使用这个参数呢？在 `JSX` 语法中，我们可以使用 `{}` 来插入变量，这个变量可以是任何 `JS` 表达式。在这里，我们可以用 `{props.title}` 来插入 `title` 参数，用 `{props.content}` 来插入 `content` 参数。现在，我们的组件应该是这样的：
+<Blur isEnglish={false} client:visible>
 ```typescript
 interface Props {
     title: string;
@@ -227,6 +230,7 @@ const Notice = (props: Props) => {
 
 export default Notice
 ```
+</Blur>
 就这样，我们完成了一个可以接收参数的组件！我们可以修改 `main.tsx` 文件来传入参数：
 ```typescript
 <Notice title="这是一个标题" content="这是一个内容" />

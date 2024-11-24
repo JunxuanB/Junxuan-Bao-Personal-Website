@@ -2,6 +2,8 @@
 title: 路由
 description: 本节将介绍如何使用 React Router 来实现页面路由
 ---
+import { Notice, Template } from '/src/components/full-stack-tutorial/frontend.tsx'
+
 <Aside type="danger" title="高难度内容">
 这部分内容难度较高，请预留更多的时间来学习。在学习高难度内容时，建议一次性学习完整个部分，不要中途放弃。  
 如果你遇到困难，不妨查看 [前端课程 GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) 并通过关键词搜索的方式找到对应的代码。
@@ -80,6 +82,168 @@ createRoot(document.getElementById('root')!).render(
 这些路径都会展示我们的 `HelloWorld` 页面。
 
 ## 路径参数
+在刚刚的内容中，我们给出了 `path="/hello/:id"` 这样的路由，这种路由可以接受一个参数，这个参数可以在组件中通过 `useParams` 来获取。现在，比方说我们希望用 `id` 来表示页面上展示的提示条序号，比如说访问 `id` 为 `1` 的页面，我们展示 `提示条 #1`，访问 `id` 为 `2` 的页面，我们展示 `提示条 #2`，以此类推。让我们来实现这个功能。  
+
+首先，进入 `HelloWorld.tsx` 文件，就和其他的函数一样，在页面中，在返回之前，我们也可以进行其他操作。现在，让我们在 `return` 前，添加 `const { id } = useParams();`，这样我们就可以通过 `id` 来获取到路径参数了。注意，`useParams` 是一个 `React Router` 提供的 `hook`（钩子，一种特别的函数），我们需要先引入它，所以在文件的开头，我们需要添加 `import { useParams } from "react-router-dom";`。  
+
+之后，我们就可以使用 `{ id }` 来获取到路径参数 `id` 了，接下来，我们可以根据 `id` 来展示不同的提示条。让我们来看看完整的代码：
+```typescript
+import { useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    return (
+        <>
+            <Notice title={ "提示条 #" + id } content="这是一个内容" />
+            <p>
+                Hello world!
+            </p>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+现在，你可以尝试访问 `http://localhost:5173/hello/2`，你应该可以看到：
+<Notice title="提示条 #2" content="这是一个内容" />
 
 ## 模板框架
+让我们观察一下常见的网站，比如说你现在看到的这个教程页面。其实你会发现，无论你在看教程的哪个部分，大体的布局是不变的，只有内容是变化的。这就是一个模板框架的概念，在这个部分，我们会尝试着实现一个简单的模板框架。就像这样：
+<Template>
+    <p>页面 1</p>
+</Template>
+<Template>
+    <p>页面 2</p>
+</Template>
+<Template>
+    <p>页面 3</p>
+</Template>
+我们假设我们有三个页面，我们希望能够实现这三个页面都能有一个阴影效果作为页面的背景，并给每个页面都添加一个 "测试页面" 的标题。让我们来实现这个功能！
+### 通过路由实现（推荐）
+首先，让我们在 `pages` 文件夹下新建一个 `Template.tsx` 文件，用于存放我们的模板框架。在这个文件中，我们可以写入以下代码：
+```typescript
+import { Outlet } from "react-router-dom"
 
+const Template = () => {
+    return (
+        <div
+            style={{
+                width: '100%',
+                padding: '10px',
+                backgroundColor: '#f9f9f9',
+                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+            }}
+        >
+            <h3>测试页面</h3>
+            <Outlet />
+        </div>
+    )
+}
+
+export default Template
+```
+相信你已经可以看懂除了 `Outlet` 之外的代码了，`Outlet` 是 `React Router` 提供的一个组件，用于展示子路由的内容。稍后你就会体会到它的作用。  
+
+然后，我们要创建三个页面用于展示我们的模板框架，我们可以在 `pages` 文件夹下新建一个文件夹 `temp`，然后在这个文件夹中新建三个文件 `Page1.tsx`、`Page2.tsx` 和 `Page3.tsx`。在这三个文件中，我们直接使用之前介绍的 `rafce` 快捷键快速生成页面即可。  
+
+接下来，打开 `main.tsx` 文件，我们希望创建一个新的 `temp/` 路由，并且在这个路由下展示我们的三个页面。让我们在 `<Route path="/hello/:id" element={<HelloWorld />} />` 下方添加以下代码：
+```typescript
+<Route path="/temp/" element={<Template />} >
+    <Route index element={<Page1 />} />
+    <Route path="1" element={<Page1 />} />
+    <Route path="2" element={<Page2 />} />
+    <Route path="3" element={<Page3 />} />
+</Route>
+```
+在这里，我们用一个 `Route` 包裹了另外三个 `Route`，这样我们就可以在 `/temp/` 下展示我们的三个页面了。其中，我们重复利用 `Page1` 页面，让它即可以作为默认页面，也可以作为 `1` 页面。  
+
+现在，当你访问 `http://localhost:5173/temp/` 或者 `http://localhost:5173/temp/1` 时，你应该可以看到：
+<Template>
+    <p>Page1</p>
+</Template>
+当你访问 `http://localhost:5173/temp/2` 时，你应该可以看到：
+<Template>
+    <p>Page2</p>
+</Template>
+当你访问 `http://localhost:5173/temp/3` 时，你应该可以看到：
+<Template>
+    <p>Page3</p>
+</Template>
+这样，我们就实现了一个简单的模板框架。
+
+### 通过组件实现
+除此之外，你还可以通过组件的方式来实现模板框架。相比之下，这种方法在每个页面都需要单独调用，没有路由方便。但是，最好还是了解一下这种方法。现在，在 `components` 文件夹下新建一个 `TemplateComponent.tsx` 文件，用于存放我们的模板框架。在这个文件中，我们可以写入以下代码：
+```typescript
+const TemplateComponent = ( props: { children: JSX.Element } ) => {
+    return (
+      <div
+        style={{
+          width: '100%',
+          padding: '10px',
+          backgroundColor: '#f9f9f9',
+          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <h3>测试页面</h3>
+        {props.children}
+      </div>
+    );
+  }
+
+export default TemplateComponent
+```
+观察这个文件。由于只有一个 `children` 参数，我们直接用 `:` 来定义参数类型，而不是之前的 `interface`。这是一种简化的写法，你可以根据自己的喜好来选择，如果你还是希望使用 `interface`，你可以这样写：
+```typescript
+interface Props {
+    children: JSX.Element
+}
+const TemplateComponent = ( props: Props ) => {...}
+```
+可以看到，`JSX` 元素是一种特殊的类型，它表示一个 `React` 元素。并且 `children` 是一个特殊的属性，它表示组件的子元素。这是什么意思呢？通常来说，你可能认为给 `children` 传递参数应该使用：
+```typescript
+<TemplateComponent children={<p>测试页面</p>} />
+```
+这样固然没错，但是 `React` 提供了一种更简便的写法，你可以直接在组件标签中写入子元素，就像这样：
+```typescript
+<TemplateComponent>
+    <p>测试页面</p>
+</TemplateComponent>
+```
+这就是 `children` 独有的写法。然后，我们就可以用 `{props.children}` 来获取到子元素了。
+现在让我们回到 `HelloWorld.tsx` 文件，我们可以添加 `TemplateComponen` 组件，来实现模板框架。现在，我希望你能把之前写的内容包裹进 `TemplateComponent` 组件中，尝试自己完成吧！这是你需要实现的效果：
+<Template>
+    <Notice title="提示条 #{id}" content="这是一个内容" />
+    <p>
+        Hello world!
+    </p>  
+</Template>
+
+这是我的写法：
+<Blur isEnglish={false} client:visible>
+```typescript
+import { useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+import TemplateComponent from "../components/TemplateComponent";
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    return (
+        <>
+            <TemplateComponent>
+                <>
+                    <Notice title={"提示条 #" + id} content="这是一个内容" />
+                    <p>
+                        Hello world!
+                    </p>
+                </>
+            </TemplateComponent>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+</Blur>
+
+## 跳转页面

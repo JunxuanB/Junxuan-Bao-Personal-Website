@@ -138,6 +138,7 @@ export default defineConfig({
   }), // Make sure the MDX integration is included AFTER astro-auto-import
   AutoImport({
     imports: [
+      "./src/components/Blur.tsx",
       {
         "@astrojs/starlight/components": [
           "Aside",
