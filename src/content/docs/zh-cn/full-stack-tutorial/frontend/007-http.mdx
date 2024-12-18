@@ -1,0 +1,163 @@
+---
+title: HTTP API 请求
+description: 本节将介绍如何使用 Axiom 来进行 API 请求
+---
+接下来，我们将使用 Axiom 来发起 API 请求。首先，让我们了解一下什么是 `API`
+
+## API
+`API` 是 `Application Programming Interface` 的缩写，即应用程序编程接口。它的范围很广泛，一个库的接口，例如我们之前介绍过的 `React` 的接口就可以被称之为 `API`。但是在这里，我们想要详细讨论的是 `API` 的一个细分类 `HTTP API`。  
+
+`HTTP API` 是一种通过 `HTTP` 协议来提供服务的接口。你可以简单的把 `HTTP` 协议理解为你日常使用的浏览器访问网页时使用的协议。`HTTP API` 则可以理解为一种特殊的网页，它不是用来展示给用户看的，而是用来提供数据给程序使用的。  
+
+打个比方，我有一个 `HTTP API`，它的地址是 `https://api.example.com`，我可以通过访问这个地址来获取一些数据，例如 `https://api.example.com/user` 可以获取用户信息，`https://api.example.com/post` 可以获取文章信息。这些地址就是 `API` 的 `endpoint`，通过访问这些地址，我们可以获取到对应的数据。  
+
+在使用 `HTTP API` 的时候，我们会使用不同的 `请求方法` 比如说 `GET` 用来获取数据，`POST` 用来提交数据，`PUT` 用来更新数据，`DELETE` 用来删除数据。这些请求方法就是我们和 `API` 交互的方式。虽然你可以把所有功能都使用 `GET` 方法来实现，但是这样会让你的 `API` 变得不够规范，不够清晰。所以在使用 `API` 的时候，我们应该根据 `HTTP` 协议的规范来使用对应的请求方法，而这一套规范被称之为 `Rest API`。  
+
+现在，让我们整理一下我们学到的东西。为了发起一个 `HTTP API` 请求，我们需要知道以下几个信息：
+- `API` 的地址，被称之为 `endpoint`，如 `https://api.example.com/user`
+- 请求方法，如 `GET`，`POST`，`PUT`，`DELETE`
+- 请求内容，比如说 `name = 'John'`  
+
+在发起请求后，我们会得到一个 `response`，这个 `response` 包含了我们请求的数据，在这个例子中，他可能是一个用户的信息，比如说 `age = 18`。
+
+现在，你可能注意到了上面的例子中 `name = 'John'` `age = 18` 都是字符串，他们的格式不清晰，在数据变得更加庞大的时候，这种格式会变得难以维护。所以我们需要一种更加规范的数据格式，这就是 `JSON`。有关 `JSON` 的概念可以在这个课程的 `基础工具和概念` 部分找到。在这里，我们就可以修改成请求内容为 `{"name": "John"}`，返回内容为 `{"age": 18}`。这样的格式更加清晰，更加容易维护。
+
+现在，让我们专注于使用 `HTTP API`，至于如何制作一个 `HTTP API` 则是后端的工作，这会在下一个章节中介绍。
+
+## 发起一个请求
+其实，最贱的 `GET` 请求就是在浏览器中输入一个地址，然后按下回车。比如说，你可以打开这门课程提供的 DEMO API [https://junxuanb.com/api/products.json](https://junxuanb.com/api/products.json) 这样你就已经发起了一个 `GET` 请求，你会得到一个 `JSON` 格式的数据。但是，当你想要发起更加复杂的请求，例如 `POST`，`PUT`，`DELETE` 的时候，你就需要使用一些工具来帮助你发起请求。  
+
+市面上有很多调试工具，例如 [postman](https://www.postman.com/)，[Apifox](https://www.apifox.com/)，这些工具都可以帮助你发起 `HTTP API` 请求。你可以自己尝试，寻找一个适合你的工具并且尝试向 `https://junxuanb.com/api/products.json` 发送一个 `POST` 请求。  
+
+注意，这是一个 `POST` 请求，虽然这和你刚刚在浏览器中打开的页面一样，但是不同的请求方式会得到不同的结果。`POST` 请求的结果应该是：
+```json
+{
+    "message": "POST request received",
+    "credit": {
+        ...
+    }
+}
+```
+如果你获得了这个结果，那么恭喜你，你已经成功发起了一个 `POST` 请求。接下来我们将会学习如何在我们的程序中使用 `HTTP API`。
+
+## useEffect
+首先，我们需要介绍一个东西叫做 `useEffect`。`useEffect` 是一个 `React` 提供的 `hook`，它可以让我们在 `React` 组件中执行一些副作用操作，比如说发起一个 `HTTP API` 请求。换一句话就是，当我们要执行某个操作，它会花费不少的时间并且不影响用户看到的大框架时，我们就可以使用 `useEffect` 来执行这个操作。比如说，我现在要展示用户钱包的余额，那么因为获取余额信息需要花费时间，并且余额不会影响展示的大框架，所以我就可以使用 `useEffect` 来获取余额信息。  
+
+让我们回到 `HelloWorld.tsx` 在 HelloWord 组件内的 `return` 之前插入一个 `useEffect`：
+```tsx
+useEffect(() => {
+    // 获取信息
+}, []);
+```
+让我来解释一下这段代码，这里的 `useEffect` 接受两个参数，第一个参数是一个函数，这个函数就是我们要执行的操作，第二个参数是一个数组，这个数组是一个依赖数组，当数组中的值发生变化时，`useEffect` 会重新执行。在这个例子中，我们传入了一个空数组，这意味着 `useEffect` 只会在组件挂载时执行一次。对于第二个数组举个例子，如果我们的页面中有一个文本框用于输入银行卡号，另一个文字框用来展示对应的余额。那么我们就可以把银行卡号的值放入依赖数组中，这样当银行卡号发生变化时，`useEffect` 就会重新执行，获取对应的余额。
+
+## 在 TS 中使用 Axios 发起请求
+接下来，让我们补充 `// 获取信息` 部分的代码。在这里，我们的目标是展示一个水果列表，我们可以通过 `https://junxuanb.com/api/products.json` 来获取这个列表。接下来让我们逐步实现。
+
+首先，我们需要用到 `Axios`，这是一个用于发起 `HTTP API` 请求的库，它提供了一种简单的方式来发起请求。首先，你需要用 `npm` 安装 `Axios`：
+```bash
+npm install axios
+```  
+
+然后，让我们先新建一个空白的 `state` 来存储我们获取到的水果列表。还记得我们之前提到过的 `useState` 吗？让我们使用它来创建一个 `state`：
+```tsx
+const [products, setProducts] = useState<
+    {
+        id: number,
+        name: string,
+        price: number
+    }[]
+>([]);
+```
+这里的 `products` 是我们的水果列表，`setProducts` 是一个函数，用来更新 `products` 的值。`<>`内的东西是水果列表的格式。接下来，我们就可以使用 `Axios` 来获取水果列表了：
+```tsx
+axios.get('https://junxuanb.com/api/products.json')
+    .then(response => {
+        setProducts(response.data.products);
+    });
+```
+注意我们需要使用 `import axios from 'axios';` 来引入 `Axios`。在这段代码中，我们首先使用 `axios.get` 来发起一个 `GET` 请求，然后我们使用 `.then` 来填入获取到数据后的操作。`response.data` 可以用于获取到数据，查看过 `https://junxuanb.com/api/products.json` 你会发现 `products` 是一个数组，所以我们可以直接使用 `response.data.products` 来获取到水果列表。最后，我们使用 `setProducts` 来更新 `products` 的值。  
+
+现在，我们就能获取到数据了！我们希望按照 `#[id] - [name] - $[price]` 的格式展示水果列表，所以我们需要对 `products` 进行处理：
+```tsx
+<div>
+    {products.map(product => (
+        <div key={product.id}>
+            {product.id} - {product.name} - ${product.price}
+        </div>
+    ))}
+</div>
+```
+这里，我们使用 `products.map` 来遍历 `products`，然后使用 `product.id`，`product.name`，`product.price` 来展示水果列表。`key={product.id}` 是为了让 `React` 能够更好的识别每个水果，这样可以提高性能。现在，你就应该在你的网页上看到这个内容：
+```
+1 - Apple - $1.99
+2 - Banana - $0.99
+3 - Cherry - $2.99
+```
+
+如果你遇到了问题，你可以参考我的 `HelloWorld.tsx`：
+<Blur isEnglish={false} client:visible>
+```tsx
+// ...
+import axios from "axios";
+
+const HelloWorld = () => {
+    // ...
+    const [products, setProducts] = useState<
+        {
+            id: number,
+            name: string,
+            price: number
+        }[]
+    >([]);
+    useEffect(() => {
+        axios.get('https://junxuanb.com/api/products.json')
+            .then(response => {
+                setProducts(response.data.products);
+            });
+    }, []);
+
+    return (
+        <Flex vertical gap={'middle'}>
+            <div>
+                {products.map(product => (
+                    <div key={product.id}>
+                        {product.id} - {product.name} - ${product.price}
+                    </div>
+                ))}
+            </div>
+            {/* ... */}
+        </Flex>
+    )
+}
+
+export default HelloWorld
+```
+</Blur>
+
+## 进阶操作
+现在，你已经学会了如何使用 `Axios` 来发起 `HTTP API` 请求，但是这只是冰山一角。让我们学习一些进阶操作。
+
+### 发起 POST 请求
+类似的，我们可以使用 `axios.post` 来发起 `POST` 请求，包含一个简单的 JSON。让我们尝试向 `https://junxuanb.com/api/products.json` 发送一个 `POST` 请求并打印到控制台：
+```tsx
+useEffect(() => {
+    axios.post('https://junxuanb.com/api/products.json', {
+        name: 'Orange',
+        price: 1.49
+    })
+        .then(response => {
+            console.log(response.data);
+        });
+}, []);
+```
+
+现在，打开你的控制台（在你的网页上任意位置右键点击 `检查` 即可打开调试面板，上面的选项中找到 `控制台`），你应该看到了一个 `POST` 请求的结果：
+```json
+{
+    "message": "POST request received",
+    "credit": {
+        ...
+    }
+}
+```

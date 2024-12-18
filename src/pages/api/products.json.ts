@@ -1,20 +1,26 @@
 import type { APIRoute } from 'astro';
 import { JSON_CREDIT, JSON_IMG_AUTHORS } from './credit';
+import { headers } from './cors';
+
+export const OPTIONS: APIRoute = () => {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:5173",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+};
 
 export const POST: APIRoute = ({ params, request, url }) => {
   return new Response(
     JSON.stringify({
       message: 'POST request received',
-      data: JSON.parse(request.body?.toString() || '{}'),
       credit: {
-        ... JSON_CREDIT,
+        ...JSON_CREDIT,
       }
-    }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
+    }), { status: 200, headers }
   )
 }
 
@@ -48,19 +54,14 @@ export const GET: APIRoute = ({ params, request, url }) => {
         },
       ],
       credit: {
-        ... JSON_CREDIT,
-        ... JSON_IMG_AUTHORS,
+        ...JSON_CREDIT,
+        ...JSON_IMG_AUTHORS,
         imgAuthors: [
           'https://pixabay.com/users/pexels-2286921/',
           'https://pixabay.com/users/jgzelaya-5725431/',
           'https://pixabay.com/users/shutterbug75-2077322/',
         ],
       }
-    }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
+    }), { status: 200, headers }
   )
 }
