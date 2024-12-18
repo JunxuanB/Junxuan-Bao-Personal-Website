@@ -1,16 +1,9 @@
 import type { APIRoute } from 'astro';
 import { JSON_CREDIT, JSON_IMG_AUTHORS } from './credit';
-import { headers } from './cors';
+import { headers, options } from './cors';
 
 export const OPTIONS: APIRoute = () => {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "http://localhost:5173",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    },
-  });
+  return new Response(null, options);
 };
 
 export const POST: APIRoute = ({ params, request, url }) => {
