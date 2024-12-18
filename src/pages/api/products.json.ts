@@ -1,6 +1,23 @@
 import type { APIRoute } from 'astro';
 import { JSON_CREDIT, JSON_IMG_AUTHORS } from './credit';
 
+export const POST: APIRoute = ({ params, request, url }) => {
+  return new Response(
+    JSON.stringify({
+      message: 'POST request received',
+      data: JSON.parse(request.body?.toString() || '{}'),
+      credit: {
+        ... JSON_CREDIT,
+      }
+    }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  )
+}
+
 export const GET: APIRoute = ({ params, request, url }) => {
   return new Response(
     JSON.stringify({
