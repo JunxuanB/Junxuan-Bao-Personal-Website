@@ -2,7 +2,11 @@
 title: HTTP API 请求
 description: 本节将介绍如何使用 Axiom 来进行 API 请求
 ---
-接下来，我们将使用 Axiom 来发起 API 请求。首先，让我们了解一下什么是 `API`
+
+<Aside type="danger" title="高难度内容">
+这部分内容难度较高，请预留更多的时间来学习。在学习高难度内容时，建议一次性学习完整个部分，不要中途放弃。  
+如果你遇到困难，不妨查看 [前端课程 GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) 并通过关键词搜索的方式找到对应的代码。
+</Aside>
 
 ## API
 `API` 是 `Application Programming Interface` 的缩写，即应用程序编程接口。它的范围很广泛，一个库的接口，例如我们之前介绍过的 `React` 的接口就可以被称之为 `API`。但是在这里，我们想要详细讨论的是 `API` 的一个细分类 `HTTP API`。  
@@ -110,6 +114,7 @@ const HelloWorld = () => {
             price: number
         }[]
     >([]);
+
     useEffect(() => {
         axios.get('https://junxuanb.com/api/products.json')
             .then(response => {
@@ -161,3 +166,31 @@ useEffect(() => {
     }
 }
 ```
+
+### axios 根域名
+在实际开发中，我们基本上以使用自己的后端 API 为主，所以部分域名是固定的，比如说 `https://junxuanb.com/api/`，这时候我们可以使用 `axios.create` 来创建一个 `axios` 实例，这样我们就不需要在每次请求时都写上 `https://junxuanb.com/api/`。  
+
+现在，让我们在 `src` 目录下新建一个 `axios.ts` 文件：
+```tsx
+import axios from "axios";
+
+const myAPI = axios.create({
+    baseURL: "https://junxuanb.com/api/",
+});
+```
+
+这样，我们就完成了一个 `axios` 实例的创建，现在我们就可以使用 `axiosInstance.get('products.json')` 来代替 `axios.get('https://junxuanb.com/api/products.json')`。让我们来修改 `HelloWorld.tsx`：
+```tsx
+import myAPI from "../axios";
+
+useEffect(() => {
+        myAPI.get('products.json')
+            .then(response => {
+                setProducts(response.data.products);
+            });
+    }, []);
+```
+现在代码就变得更加简洁了！
+
+### 结语
+现在，你已经学会了最基础的前端开发内容，接下来，学习如何使用 `React` 来制作一个简单的购物车吧！
