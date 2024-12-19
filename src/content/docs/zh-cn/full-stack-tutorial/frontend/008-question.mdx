@@ -1,6 +1,7 @@
 ---
 title: 动手做：购物车 题目
 description: 现在，让我们尝试自己完成购物车功能。
+tableOfContents: false
 ---
 import { Cart } from '/src/components/full-stack-tutorial/frontend.tsx'
 
@@ -18,3 +19,46 @@ import { Cart } from '/src/components/full-stack-tutorial/frontend.tsx'
 <Cart client:visible />
 
 ## 要求
+- 新建一个 React 页面并绑定到 `/cart` 路由
+- 在主页添加一个按钮跳转到 `/cart`
+
+#### /cart 页面
+- `GET` 读取 `https://junxuanb.com/api/products.json` 中 `products` 的数据
+- 展示每个商品的数据，其中 `discount` 表示打折的金额
+- 对于不打折的商品，直接展示 `price` 即可
+- 对于打折的商品，首先，你应该用中划线划掉原来的单价。然后，使用高亮展示真实单价。你应该使用 `price` 减去 `discount` 来计算真实单价。
+- 商品展示中有一个 `加入购物车` 按钮，点击后，将商品加入购物车并且库存减少
+- 购物车中每个商品有三个按钮：`+`、`-`、`删除`，分别用于增加数量、减少数量、删除商品，操作后也应该对库存进行相应的增减
+- 购物车底部实时计算总价
+- 购物车底部有一个 `结算` 按钮，点击后，将购物车中的商品结算并且跳出提示框
+
+## 提示
+- 你可以使用 [Card 卡片](https://ant.design/components/card-cn) 来进行布局、商品单个展示、购物车中的列表等
+= 你可以使用 [Flex 弹性布局](https://ant.design/components/flex-cn) 来实现商品展示区域的自动换行
+- 你可以使用 [Typography 排版](https://ant.design/components/typography-cn) 来实现中划线和高亮
+- antd 中内置了许多 [Icon 图标](https://ant.design/components/icon-cn) 可以用来实现 `+`、`-`、`删除` 等按钮
+- 结算时的提示框可以使用 [Message 全局提示](https://ant.design/components/message-cn#message-demo-hooks) 来实现
+
+#### 浮点数精度问题
+在处理 `Cherry` 时，它的真实价格应该是 `2.99 - 0.3 = 2.69`，如果你得到 `2.6900000000000004`，这是因为 TypeScript 的浮点数精度问题，你可以使用 `npm install decimal.js` 安装 `decimal.js` 并使用它来处理浮点数运算，例如 `new Decimal(2.99).minus(0.3).toNumber()`
+
+#### 深拷贝
+在对于一个 `useState` 的数组进行变更时，你可以需要先对这个数组进行一些操作，然后再存入，这时候你需要进行一个 `深拷贝` 操作。给你举个例子：
+```tsx
+const [cart, setCart] = useState<Product[]>([]);
+const newCart = cart;
+// ... 对 newCart 进行一些操作，例如 .forEach()、.push() 等
+setCart(newCart); 
+```
+**这样的操作会出现问题！** 因为 `newCart` 本质上只是一个指向 `cart` 的引用，换而言之，改变 `newCart` 的内容是在尝试直接改变 `cart` 的内容。这是不合法的。因此我们需要：
+```tsx
+const [cart, setCart] = useState<Product[]>([]);
+const newCart = [...cart]; // 进行深拷贝，而不是直接引用
+// ... 对 newCart 进行一些操作，例如 .forEach()、.push() 等
+setCart(newCart); 
+```
+这样就可以避免通过不合法的方式直接改变 `cart` 的内容了。
+
+<Aside type="caution" title="自己尝试！">
+在继续往下查看答案之前，请先尝试自己完成这个练习！只有自己动手实践，才能更好地理解所学内容!
+</Aside>

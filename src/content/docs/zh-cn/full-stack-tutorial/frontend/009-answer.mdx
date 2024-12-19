@@ -1,4 +1,327 @@
 ---
 title: 动手做：购物车 答案
 description: 现在，让我们尝试自己完成购物车功能。
+tableOfContents: false
 ---
+<Aside>
+如果你拥有一定的自学能力，你可以直接在 [前端课程 GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) 中找到对应的代码。  
+
+如果你喜欢这个课程，欢迎给 [这个课程](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website) 加一颗星星⭐️，这将是对我最大的鼓励！
+</Aside>
+
+### 准备工作
+1. 使用 `npm install decimal.js` 安装 `decimal.js`。
+1. 在 `src/pages` 目录下新建 `Cart.tsx` 文件，使用 `rafce` 快速生成一个函数组件（页面）。
+2. 在 `src/main.tsx` 中引入 `Cart` 组件并注册路由。
+```tsx
+import Cart from "./pages/cart";
+
+createRoot(document.getElementById('root')!).render(
+    <BrowserRouter>
+        <Routes>
+            <Route path="/cart" element={<Cart />} />
+            { /* ... 其他路由 */ }
+        </Routes>
+    </BrowserRouter>
+);
+```
+3. 在 `src/pages/HelloWorld.tsx` 中添加一个按钮，跳转到 `/cart`。
+```tsx
+<button onClick={() => navigate('/cart')}>购物车</button>
+```
+
+### 定义变量
+接下来，所有的操作都在 `Cart.tsx` 中的 `Cart` 函数组件中进行。
+1. 引入需要用的 `hook`。之所以需要这一步是因为 `antd` 中有的组件是需要单独通过一些代码引入的，例如 `message` 和 `Typography`。
+```tsx
+const { Title, Text } = Typography;
+const [messageApi, contextHolder] = message.useMessage();
+```
+2. 定义数据结构。
+```tsx
+type Product = {
+    id: number,
+    name: string,
+    price: number,
+    discount: number,
+    stock: number,
+    image: string,
+    realPrice: number
+}
+```
+3. 定义商品和购物车的列表
+```tsx
+const [products, setProducts] = useState<Product[]>([]);
+
+const [cart, setCart] = useState<
+    {
+        id: number,
+        quantity: number
+    }[]
+>([]);
+```
+4. 获取数据
+```tsx
+useEffect(() => {
+    myAPI.get('products.json')
+        .then(response => {
+            const newProducts = response.data.products as Product[];
+            newProducts.forEach(product => {
+                product.realPrice = new Decimal(product.price).minus(product.discount).toDecimalPlaces(2).toNumber();
+
+            });
+            setProducts(newProducts);
+        });
+}, []);
+```
+
+### 帮助函数
+1. 我们需要一个 `total()` 函数来计算购物车中的总价。
+```tsx
+const total = () => {
+    let sum = new Decimal(0);
+    cart.forEach(item => {
+        const product = products.find(product => product.id === item.id);
+        if (product) {
+            sum = sum.plus(new Decimal(product.realPrice).times(item.quantity));
+        }
+    });
+    return sum.toDecimalPlaces(2).toNumber();
+}
+```
+2. 还需要一个 `updateCard(id, quantity)` 函数来更新购物车中的商品数量。其中 `quantity` 表示的是增加的数量。在撰写过程中还需要注意修改库存！
+```tsx
+const updateCart = (id: number, quantity: number) => {
+    const product = products.find(product => product.id === id);
+    if (!product || product.stock < quantity) {
+        return;
+    }
+    let newCart = [...cart];
+    let found = false;
+    newCart.forEach(item => {
+        if (item.id === id) {
+            item.quantity += quantity;
+            found = true;
+            if (item.quantity <= 0) {
+                newCart = newCart.filter(item => item.id !== id);
+            }
+        }
+    });
+    if (!found && quantity > 0) {
+        newCart.push({ id, quantity });
+    }
+    setCart(newCart);
+    const updateProducts = [...products];
+    updateProducts.forEach(product => {
+        if (product.id === id) {
+            product.stock -= quantity;
+        }
+    });
+    setProducts(updateProducts);
+}
+```
+
+### 页面
+1. 首先让我们制作一个框架。
+```tsx
+<Card>
+    {contextHolder} { /* 参考 antd 文档加入用于展示 message 的代码 */ }
+    <Row>
+        <Col span={16}>
+            <Title level={3} style={{ marginTop: 0 }}>水果商城 🍎</Title>
+            <Flex gap={5} wrap>
+                { /* 商品列表 */ }
+            </Flex>
+        </Col>
+        <Col span={8}>
+            <Card title="购物车">
+                <Flex gap={5} vertical>
+                    { /* 购物车列表 */ }
+                    <Title level={5}>总价：${total()}</Title>
+                    { /* 结算按钮 注意观察 onClick 的写法 */ }
+                    <Button type="primary" onClick={() => { messageApi.success('已结算'); setCart([]) }}>结算</Button>
+                </Flex>
+            </Card>
+        </Col>
+    </Row>
+</Card>
+```
+2. 商品列表
+```tsx
+{products.map(product => (
+    <Card key={product.id}>
+        <Flex gap={1} vertical>
+            <Title level={5} style={{ marginTop: -10 }}>
+                <Tag color="cyan">#{product.id}</Tag>
+                {product.name}
+            </Title>
+            <Text delete={product.discount > 0}>单价：${product.price}</Text>
+            {product.discount > 0 && <Text mark>折后价：${product.realPrice}</Text>}
+            <Text type="secondary">库存：{product.stock}</Text>
+            <Image
+                width={100}
+                src={product.image}
+            />
+            <Button style={{ marginTop: 10 }} onClick={() => updateCart(product.id, 1)} disabled={product.stock <= 0}>加入购物车</Button>
+        </Flex>
+    </Card>
+))}
+```
+3. 购物车列表
+```tsx
+{cart.map(item => (
+    <Card key={item.id} size="small" style={{ marginBottom: 10 }}>
+        <DeleteOutlined style={{ marginRight: 10, color: 'red' }} onClick={() => updateCart(item.id, -item.quantity)} />
+        {products.find(product => product.id === item.id)?.name} - ${products.find(product => product.id === item.id)?.realPrice} |
+        数量：<MinusCircleOutlined onClick={() => updateCart(item.id, -1)} /> {item.quantity} <PlusCircleOutlined onClick={() => updateCart(item.id, +1)} />
+    </Card>
+))}
+```
+
+### 完整代码
+<Blur isEnglish={false} client:visible>
+```tsx
+import { Card, Col, Flex, Row, Typography, Image, Tag, Button, message } from "antd"
+import { useEffect, useState } from "react";
+import { myAPI } from "../axios";
+import { DeleteOutlined, MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import Decimal from 'decimal.js';
+
+const Cart = () => {
+    const { Title, Text } = Typography;
+    const [messageApi, contextHolder] = message.useMessage();
+
+    type Product = {
+        id: number,
+        name: string,
+        price: number,
+        discount: number,
+        stock: number,
+        image: string,
+        realPrice: number
+    }
+
+    const [products, setProducts] = useState<Product[]>([]);
+
+    const [cart, setCart] = useState<
+        {
+            id: number,
+            quantity: number
+        }[]
+    >([]);
+
+    useEffect(() => {
+        myAPI.get('products.json')
+            .then(response => {
+                const newProducts = response.data.products as Product[];
+                newProducts.forEach(product => {
+                    product.realPrice = new Decimal(product.price).minus(product.discount).toDecimalPlaces(2).toNumber();
+
+                });
+                setProducts(newProducts);
+            });
+    }, []);
+
+    const total = () => {
+        let sum = new Decimal(0);
+        cart.forEach(item => {
+            const product = products.find(product => product.id === item.id);
+            if (product) {
+                sum = sum.plus(new Decimal(product.realPrice).times(item.quantity));
+            }
+        });
+        return sum.toDecimalPlaces(2).toNumber();
+    }
+
+    const updateCart = (id: number, quantity: number) => {
+        const product = products.find(product => product.id === id);
+        if (!product || product.stock < quantity) {
+            return;
+        }
+        let newCart = [...cart];
+        let found = false;
+        newCart.forEach(item => {
+            if (item.id === id) {
+                item.quantity += quantity;
+                found = true;
+                if (item.quantity <= 0) {
+                    newCart = newCart.filter(item => item.id !== id);
+                }
+            }
+        });
+        if (!found && quantity > 0) {
+            newCart.push({ id, quantity });
+        }
+        setCart(newCart);
+        const updateProducts = [...products];
+        updateProducts.forEach(product => {
+            if (product.id === id) {
+                product.stock -= quantity;
+            }
+        });
+        setProducts(updateProducts);
+    }
+
+    return (
+        <Card>
+            {contextHolder}
+            <Row>
+                <Col span={16}>
+                    <Title level={3} style={{ marginTop: 0 }}>水果商城 🍎</Title>
+                    <Flex gap={5} wrap>
+                        {products.map(product => (
+                            <Card key={product.id}>
+                                <Flex gap={1} vertical>
+                                    <Title level={5} style={{ marginTop: -10 }}>
+                                        <Tag color="cyan">#{product.id}</Tag>
+                                        {product.name}
+                                    </Title>
+                                    <Text delete={product.discount > 0}>单价：${product.price}</Text>
+                                    {product.discount > 0 && <Text mark>折后价：${product.realPrice}</Text>}
+                                    <Text type="secondary">库存：{product.stock}</Text>
+                                    <Image
+                                        width={100}
+                                        src={product.image}
+                                    />
+                                    <Button style={{ marginTop: 10 }} onClick={() => updateCart(product.id, 1)} disabled={product.stock <= 0}>加入购物车</Button>
+                                </Flex>
+                            </Card>
+                        ))}
+                    </Flex>
+                </Col>
+                <Col span={8}>
+                    <Card title="购物车">
+                        <Flex gap={5} vertical>
+                            {cart.map(item => (
+                                <Card key={item.id} size="small" style={{ marginBottom: 10 }}>
+                                    <DeleteOutlined style={{ marginRight: 10, color: 'red' }} onClick={() => updateCart(item.id, -item.quantity)} />
+                                    {products.find(product => product.id === item.id)?.name} - ${products.find(product => product.id === item.id)?.realPrice} |
+                                    数量：<MinusCircleOutlined onClick={() => updateCart(item.id, -1)} /> {item.quantity} <PlusCircleOutlined onClick={() => updateCart(item.id, +1)} />
+                                </Card>
+                            ))}
+                            <Title level={5}>总价：${total()}</Title>
+                            <Button type="primary" onClick={() => { messageApi.success('已结算'); setCart([]) }}>结算</Button>
+                        </Flex>
+                    </Card>
+                </Col>
+            </Row>
+        </Card>
+    )
+}
+
+export default Cart
+```
+</Blur>
+
+<Aside type="tip" title="🎉 恭喜你🎉 ">
+恭喜你成功完成了购物车功能！这也是我们前端技术的一个总结。如果你能成功完成这个功能，那么你已经掌握了前端开发的基本技能。接下来，我们将进入后端开发的学习。  
+
+在进入后端开发之前，你也可以查看本张杰的 未来 部分，了解一些前端的未来发展方向和其他你可以学习的内容。  
+
+再次提醒，你可以在 [前端课程 GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) 中找到对应的代码。
+</Aside>
+<Aside type="tip" title="如果你喜欢这个课程..">
+如果你喜欢这个课程，欢迎在 Github 上为 [我的网站](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website) 点一下右上角的 `⭐️ Star`，这将是对我最大的鼓励！  
+
+你也可以通过 [issue](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/issues) 提出你的意见与建议，帮助我改进这个课程。
+</Aside>

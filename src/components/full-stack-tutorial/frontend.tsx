@@ -88,7 +88,7 @@ export const Cart = () => {
         <Card style={{ marginTop: 20 }}>
             <Row>
                 <Col span={16}>
-                    <Title level={3} style={{ marginTop: 0 }}>水果商城 🍎</Title>
+                    <Title level={3} style={{ marginTop: 0, color: 'black' }}>水果商城 🍎</Title>
                     <Flex gap={5} wrap>
                         {products.map(product => (
                             <Card key={product.id}>
@@ -120,7 +120,7 @@ export const Cart = () => {
                                     数量：<MinusCircleOutlined onClick={() => updateCart(item.id, -1)} /> {item.quantity} <PlusCircleOutlined onClick={() => updateCart(item.id, +1)} />
                                 </Card>
                             ))}
-                            <Title level={5}>总价：${total()}</Title>
+                            <Title level={5} style={{ color: 'black' }}>总价：${total()}</Title>
                             <Button type="primary" onClick={() => { message.success('已结算'); setCart([]) }}>结算</Button>
                         </Flex>
                     </Card>
