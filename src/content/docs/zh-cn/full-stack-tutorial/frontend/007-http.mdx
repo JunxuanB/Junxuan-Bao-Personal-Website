@@ -31,18 +31,15 @@ description: 本节将介绍如何使用 Axiom 来进行 API 请求
 ## 发起一个请求
 其实，最贱的 `GET` 请求就是在浏览器中输入一个地址，然后按下回车。比如说，你可以打开这门课程提供的 DEMO API [https://junxuanb.com/api/products.json](https://junxuanb.com/api/products.json) 这样你就已经发起了一个 `GET` 请求，你会得到一个 `JSON` 格式的数据。但是，当你想要发起更加复杂的请求，例如 `POST`，`PUT`，`DELETE` 的时候，你就需要使用一些工具来帮助你发起请求。  
 
-市面上有很多调试工具，例如 [postman](https://www.postman.com/)，[Apifox](https://www.apifox.com/)，这些工具都可以帮助你发起 `HTTP API` 请求。你可以自己尝试，寻找一个适合你的工具并且尝试向 `https://junxuanb.com/api/products.json` 发送一个 `POST` 请求。  
+市面上有很多调试工具，例如 [postman](https://www.postman.com/)，[Apifox](https://www.apifox.com/)，这些工具都可以帮助你发起 `HTTP API` 请求。你可以自己尝试，寻找一个适合你的工具并且尝试向 `https://jsonplaceholder.typicode.com/posts` 发送一个 `POST` 请求。  
 
-注意，这是一个 `POST` 请求，虽然这和你刚刚在浏览器中打开的页面一样，但是不同的请求方式会得到不同的结果。`POST` 请求的结果应该是：
+注意，这是一个 `POST` 请求，你看到的内容应该是：
 ```json
 {
-    "message": "POST request received",
-    "credit": {
-        ...
-    }
+    "id": 101
 }
 ```
-如果你获得了这个结果，那么恭喜你，你已经成功发起了一个 `POST` 请求。接下来我们将会学习如何在我们的程序中使用 `HTTP API`。
+如果你获得了这个结果，那么恭喜你，你已经成功发起了一个 `POST` 请求。否则，你发送的可能是 `GET` 请求。接下来我们将会学习如何在我们的程序中使用 `HTTP API`。
 
 ## useEffect
 首先，我们需要介绍一个东西叫做 `useEffect`。`useEffect` 是一个 `React` 提供的 `hook`，它可以让我们在 `React` 组件中执行一些副作用操作，比如说发起一个 `HTTP API` 请求。换一句话就是，当我们要执行某个操作，它会花费不少的时间并且不影响用户看到的大框架时，我们就可以使用 `useEffect` 来执行这个操作。比如说，我现在要展示用户钱包的余额，那么因为获取余额信息需要花费时间，并且余额不会影响展示的大框架，所以我就可以使用 `useEffect` 来获取余额信息。  
@@ -144,10 +141,10 @@ export default HelloWorld
 现在，你已经学会了如何使用 `Axios` 来发起 `HTTP API` 请求，但是这只是冰山一角。让我们学习一些进阶操作。
 
 ### 发起 POST 请求
-类似的，我们可以使用 `axios.post` 来发起 `POST` 请求，包含一个简单的 JSON。让我们尝试向 `https://junxuanb.com/api/products.json` 发送一个 `POST` 请求并打印到控制台：
+类似的，我们可以使用 `axios.post` 来发起 `POST` 请求，包含一个简单的 JSON。让我们尝试向 `https://jsonplaceholder.typicode.com/posts` 发送一个 `POST` 请求：
 ```tsx
 useEffect(() => {
-    axios.post('https://junxuanb.com/api/products.json', {
+    axios.post('https://jsonplaceholder.typicode.com/posts', {
         name: 'Orange',
         price: 1.49
     })
@@ -160,10 +157,9 @@ useEffect(() => {
 现在，打开你的控制台（在你的网页上任意位置右键点击 `检查` 即可打开调试面板，上面的选项中找到 `控制台`），你应该看到了一个 `POST` 请求的结果：
 ```json
 {
-    "message": "POST request received",
-    "credit": {
-        ...
-    }
+    "name": "Orange",
+    "price": 1.49,
+    "id": 101
 }
 ```
 

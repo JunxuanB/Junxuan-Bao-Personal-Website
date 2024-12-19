@@ -6,16 +6,17 @@ export const OPTIONS: APIRoute = () => {
   return new Response(null, options);
 };
 
-export const POST: APIRoute = ({ params, request, url }) => {
-  return new Response(
-    JSON.stringify({
-      message: 'POST request received',
-      credit: {
-        ...JSON_CREDIT,
-      }
-    }), { status: 200, headers }
-  )
-}
+// CF Pages 不支持 POST 请求
+// export const POST: APIRoute = ({ params, request, url }) => {
+//   return new Response(
+//     JSON.stringify({
+//       message: 'POST request received',
+//       credit: {
+//         ...JSON_CREDIT,
+//       }
+//     }), { status: 200, headers }
+//   )
+// }
 
 export const GET: APIRoute = ({ params, request, url }) => {
   return new Response(
