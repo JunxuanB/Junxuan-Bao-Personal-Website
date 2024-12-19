@@ -72,13 +72,6 @@ export default defineConfig({
               en: "Full Stack Tutorial",
               "zh-CN": "全栈教程",
             },
-            badge: {
-              text: {
-                en: "Incomplete",
-                "zh-CN": "未完成",
-              },
-              variant: "tip",
-            },
             items: [
               {
                 label: "Welcome",
@@ -94,6 +87,13 @@ export default defineConfig({
                   en: "Language Basics",
                   "zh-CN": "语言基础",
                 },
+                badge: {
+                  text: {
+                    en: "Completed",
+                    "zh-CN": "已完结",
+                  },
+                  variant: "success",
+                },
                 autogenerate: { directory: "full-stack-tutorial/basic" },
               },
               {
@@ -101,6 +101,13 @@ export default defineConfig({
                 translations: {
                   en: "Frontend",
                   "zh-CN": "前端",
+                },
+                badge: {
+                  text: {
+                    en: "Completed",
+                    "zh-CN": "已完结",
+                  },
+                  variant: "success",
                 },
                 autogenerate: { directory: "full-stack-tutorial/frontend" },
               },
@@ -110,6 +117,13 @@ export default defineConfig({
                   en: "Backend",
                   "zh-CN": "后端",
                 },
+                badge: {
+                  text: {
+                    en: "In Progress",
+                    "zh-CN": "未完成",
+                  },
+                  variant: "tip",
+                },
                 autogenerate: { directory: "full-stack-tutorial/backend" },
               },
               {
@@ -117,6 +131,13 @@ export default defineConfig({
                 translations: {
                   en: "Project: E-Fridge",
                   "zh-CN": "项目：赛博冰箱",
+                },
+                badge: {
+                  text: {
+                    en: "In Progress",
+                    "zh-CN": "未完成",
+                  },
+                  variant: "tip",
                 },
                 autogenerate: {
                   directory: "full-stack-tutorial/project-e-fridge",
