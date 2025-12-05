@@ -23,8 +23,8 @@ export default defineConfig({
       starlightHeadingBadges(),
     ],
     title: {
-      en: "Junxuan Bao",
-      "zh-CN": "鲍俊轩",
+      en: "Junxuan Bao Solutions Inc.",
+      "zh-CN": "Junxuan Bao Solutions Inc.",
     },
     lastUpdated: true,
     credits: true,
@@ -59,12 +59,12 @@ export default defineConfig({
         },
         items: [
           {
-            label: "About Me",
+            label: "About Us",
             translations: {
-              en: "About Me",
-              "zh-CN": "关于我",
+              en: "About Us",
+              "zh-CN": "关于我们",
             },
-            slug: "myself",
+            slug: "about-us",
           },
           {
             label: "Full Stack Tutorial",
