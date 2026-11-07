@@ -11,6 +11,8 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   site: "https://junxuanb.com/",
+  // Keep whitespace between inline elements (Astro 7 defaults to "jsx").
+  compressHTML: true,
 
   integrations: [starlight({
     plugins: [
@@ -24,11 +26,11 @@ export default defineConfig({
     // The site has its own 404 page (src/pages/404.astro).
     disable404Route: true,
     credits: true,
-    social: {
-      linkedin: "https://www.linkedin.com/in/junxuanb/",
-      email: "mailto:Junxuan.Bao@Gmail.com",
-      github: "https://github.com/JunxuanB",
-    },
+    social: [
+      { icon: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/junxuanb/" },
+      { icon: "email", label: "Email", href: "mailto:Junxuan.Bao@Gmail.com" },
+      { icon: "github", label: "GitHub", href: "https://github.com/JunxuanB" },
+    ],
     editLink: {
       baseUrl:
         "https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/edit/main/",
@@ -66,7 +68,7 @@ export default defineConfig({
               en: "TypeScript Quick Start",
               "zh-CN": "TypeScript 快速上手",
             },
-            autogenerate: { directory: "full-stack-tutorial/basic" },
+            items: [{ autogenerate: { directory: "full-stack-tutorial/basic" } }],
           },
           {
             label: "React + Ant Design Quick Start",
@@ -74,7 +76,7 @@ export default defineConfig({
               en: "React + Ant Design Quick Start",
               "zh-CN": "React + Ant Design 前端快速上手",
             },
-            autogenerate: { directory: "full-stack-tutorial/frontend" },
+            items: [{ autogenerate: { directory: "full-stack-tutorial/frontend" } }],
           },
         ],
       },

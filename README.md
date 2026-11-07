@@ -15,8 +15,11 @@ Source code for [junxuanb.com](https://junxuanb.com), built with [Astro](https:/
 - Business page copy: `src/data/business.ts`
 - Images: `src/assets/` (EaseCation images are reused from easecation.net, mapped in `src/data/images.ts`)
 - Styles: `src/styles/site.css`
+- Inquiry form: set `PUBLIC_WEB3FORMS_KEY` (from web3forms.com) to enable it; see `.env.example`
 
 ## Development
+
+Requires Node.js 22.23.4 or later (see `.nvmrc`). Built with Astro 7 and Starlight 0.42.
 
 ```bash
 npm install
