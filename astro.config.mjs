@@ -21,6 +21,8 @@ export default defineConfig({
       "zh-CN": "鲍俊轩 · 教程",
     },
     lastUpdated: true,
+    // The site has its own 404 page (src/pages/404.astro).
+    disable404Route: true,
     credits: true,
     social: {
       linkedin: "https://www.linkedin.com/in/junxuanb/",
@@ -31,11 +33,13 @@ export default defineConfig({
       baseUrl:
         "https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/edit/main/",
     },
-    defaultLocale: "zh-cn",
+    // Tutorials live under /zh-cn/. The (empty) English root locale
+    // keeps Astro from requiring a locale prefix, so the custom
+    // pages at /, /business/ and /zh/ also work with `astro dev`.
     locales: {
-      // English docs in `src/content/docs/en/`
-      en: {
+      root: {
         label: "English",
+        lang: "en",
       },
       // Simplified Chinese docs in `src/content/docs/zh-cn/`
       "zh-cn": {
@@ -44,11 +48,6 @@ export default defineConfig({
       },
     },
     sidebar: [
-      {
-        label: "Home",
-        translations: { en: "Home", "zh-CN": "返回主页" },
-        link: "/zh/",
-      },
       {
         label: "Full Stack Tutorial",
         translations: {
@@ -100,6 +99,7 @@ export default defineConfig({
   }), mdx(), sitemap(), react()],
   redirects: {
     "/en": "/",
+    "/en/privacy-notice": "/privacy-notice/",
     "/en/myself": "/",
     "/en/about-us": "/business/",
     "/zh-cn": "/zh/",
