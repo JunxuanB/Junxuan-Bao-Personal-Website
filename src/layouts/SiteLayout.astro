@@ -9,15 +9,17 @@ interface Props {
   mode: 'personal' | 'business';
   title: string;
   description: string;
+  /** Whether the page has a counterpart in the other language. */
+  alternates?: boolean;
 }
 
-const { lang, mode, title, description } = Astro.props;
+const { lang, mode, title, description, alternates = true } = Astro.props;
 const paths = {
   en: { personal: '/', business: '/business/' },
   zh: { personal: '/zh/', business: '/zh/business/' }
 };
 const other = lang === 'en' ? 'zh' : 'en';
-const canonical = new URL(paths[lang][mode], Astro.site);
+const canonical = new URL(Astro.url.pathname, Astro.site);
 const alternateEn = new URL(paths.en[mode], Astro.site);
 const alternateZh = new URL(paths.zh[mode], Astro.site);
 const ogImage = await getImage({ src: photo, width: 1200, format: 'jpg' });
@@ -30,9 +32,9 @@ const ogImage = await getImage({ src: photo, width: 1200, format: 'jpg' });
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang="en" href={alternateEn} />
-    <link rel="alternate" hreflang="zh-CN" href={alternateZh} />
-    <link rel="alternate" hreflang="x-default" href={alternateEn} />
+    {alternates && <link rel="alternate" hreflang="en" href={alternateEn} />}
+    {alternates && <link rel="alternate" hreflang="zh-CN" href={alternateZh} />}
+    {alternates && <link rel="alternate" hreflang="x-default" href={alternateEn} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content="website" />

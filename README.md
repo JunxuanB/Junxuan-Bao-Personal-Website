@@ -7,7 +7,7 @@ Source code for [junxuanb.com](https://junxuanb.com), built with [Astro](https:/
 | `/` · `/zh/` | Personal page (English / 简体中文) |
 | `/business/` · `/zh/business/` | JUNXUAN BAO SOLUTIONS INC. |
 | `/zh-cn/full-stack-tutorial/` | Free tutorials (Starlight): TypeScript Quick Start, React + Ant Design Quick Start |
-| `/en/privacy-notice/` | Privacy notice |
+| `/privacy-notice/` | Privacy notice |
 
 ## Editing content
 

@@ -504,3 +504,31 @@ dialog.modal::backdrop { background: rgba(10, 15, 30, 0.55); }
   .p-main { gap: 20px; }
   .exp, .edu { break-inside: avoid; }
 }
+
+/* inquiry form status and email-only fallback */
+.form-status { flex: 1 1 100%; margin: 0; font-size: 15px; font-weight: 500; }
+.form-status:empty { display: none; }
+.form-status[data-state='ok'] { color: #1b7f4b; }
+.form-status[data-state='error'] { color: #b42318; }
+:root[data-theme='dark'] .form-status[data-state='ok'] { color: #6fd39f; }
+:root[data-theme='dark'] .form-status[data-state='error'] { color: #ff8a80; }
+.form button[disabled] { opacity: 0.7; cursor: progress; }
+.contact-include { flex: 1 1 100%; font-weight: 600; }
+.contact-list { flex: 1 1 100%; display: flex; flex-direction: column; gap: 8px; color: var(--muted); }
+.contact-list li { display: flex; align-items: center; gap: 10px; }
+
+/* legal pages */
+.legal { max-width: 820px; margin: 0 auto; padding: 48px 32px 96px; }
+.legal h2 { margin: 40px 0 12px; font-size: 24px; font-weight: 600; letter-spacing: -0.01em; }
+.legal h3 { margin: 24px 0 8px; font-size: 18px; font-weight: 600; }
+.legal p, .legal ul, .legal ol { margin: 0 0 14px; }
+.legal ul, .legal ol { padding-left: 22px; list-style: disc; }
+.legal ol { list-style: decimal; }
+.legal li { margin: 4px 0; }
+.legal hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
+.legal a { color: var(--primary-text); }
+.legal .company-info { padding: 20px 24px; border-radius: 20px; background: var(--soft); }
+.legal .company-info p { margin: 4px 0; }
+.legal table { width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: 15px; }
+.legal th, .legal td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+@media (max-width: 1023px) { .legal { padding: 24px 16px 64px; } }

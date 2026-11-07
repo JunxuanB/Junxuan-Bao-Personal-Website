@@ -188,9 +188,14 @@ export function getBusiness(lang: Lang) {
       msg: T('What is the problem?', '目前遇到了什么问题？'), msgPh: T('For example: approvals go through email and take a week.', '例如：审批依赖邮件，一次需要一周。'),
       budget: T('Budget', '预算'), timeline: T('Timeline', '期望周期'),
       times: [T('As soon as possible', '越快越好'), T('1–3 months', '1–3 个月'), T('Flexible', '时间灵活')],
-      send: T('Send by email', '通过邮件发送'),
-      privacy: T('Sending opens your email app with these details filled in. We only use them to reply to you.', '点击发送将打开你的邮件应用并自动填写以上内容，我们仅将其用于回复你。'),
-      subject: T('Project inquiry', '项目咨询')
+      send: T('Send', '发送'), sending: T('Sending…', '发送中…'),
+      sent: T("Thanks. Your message has been sent, and we'll reply within 2 business days.", '已收到你的信息，我们会在 2 个工作日内回复。'),
+      failed: T('Something went wrong. Please email Junxuan.Bao@Gmail.com instead.', '发送失败，请直接发送邮件至 Junxuan.Bao@Gmail.com。'),
+      privacy: T('We only use your details to reply to you. See our privacy notice.', '你的信息仅用于回复你，详见隐私声明。'),
+      subject: T('New project inquiry', '新的项目咨询'),
+      emailUs: T('Email us', '发送邮件'),
+      include: T('To get a faster reply, tell us:', '为了更快回复，邮件中可以包含：'),
+      includeItems: [T('Your company and what it does', '你的公司及主营业务'), T('The problem you want to solve', '你希望解决的问题'), T('Your timeline, and budget if you have one', '期望周期，以及预算（如有）')]
     }
   };
 }
