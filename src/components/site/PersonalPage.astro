@@ -149,7 +149,7 @@ const counts = Object.fromEntries(cats.map((c) => [c, d.projects.filter((p) => p
       <h2 id="h-writing" class="h2">{d.ui.writing}<span class="period">.</span></h2>
       <p class="muted" style="margin-top: 4px; font-size: 15px">{d.ui.writingSub}</p>
       <ul class="writing">
-        {d.writing.map((w) => <li><a href={w.href} lang="zh-CN"><span><b>{w.title}</b><small>{w.sub}</small></span><span class="arrow-dot" aria-hidden="true">→</span></a></li>)}
+        {d.writing.map((w) => <li><a href={w.href}><span><b>{w.title}</b><small>{w.sub}</small></span><span class="arrow-dot" aria-hidden="true">→</span></a></li>)}
       </ul>
     </section>
 

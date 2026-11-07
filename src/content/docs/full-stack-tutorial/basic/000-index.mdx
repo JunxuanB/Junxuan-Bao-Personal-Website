@@ -1,0 +1,49 @@
+---
+title: Introduction
+description: TypeScript language basics
+---
+As a reminder, this course assumes you have basic JavaScript (JS) skills, or at least a foundation in any programming language. **This language section is far from complete or rigorous.** It exists to help you quickly review the key basics with practical use in mind, not to explain the principles and logic behind them.
+If you are looking for a TypeScript job, this quick start **cannot** replace a proper TypeScript course. Here I only teach the essentials we will actually use, rather than every piece of TS syntax.
+
+## What is TypeScript?
+Before introducing TypeScript, you need to know what JavaScript (JS) is. JS, HTML and CSS are the three core languages of the frontend; almost every piece of frontend software is written with them. HTML and CSS display content, while JS makes it interactive.
+However, JS lacks an important feature of modern programming languages: types. In JS, data doesn't follow types, so `'0'` and `0` are treated as if they were the same kind of value. This simplifies defining complex data, but it also makes code less rigorous and adds friction to normal development. TS is an extension of JS that adds `data types` on top of it. This makes development clearer and removes some hidden risks.
+
+## Syntax
+In TS, line breaks, indentation and semicolons don't matter. All of the following are valid:
+```typescript
+export enum TrafficLight {
+    "red", 
+    "green", 
+    "yellow"
+};
+export enum TrafficLight {
+    "red", 
+    "green", 
+    "yellow"
+}
+export enum TrafficLight { "red", "green", "yellow", };
+export enum TrafficLight { "red", "green", "yellow" }
+```
+**Even though TS syntax is flexible, you should still indent properly, break lines sensibly and add semicolons!**
+
+## Naming
+TS usually uses camel case: in a string of English words, each word starts with a capital letter and the rest are lowercase. When defining a type, the first word also starts with a capital letter; when defining a variable or function, the first word starts with a lowercase letter.
+
+## Comments
+```typescript
+// Single-line comment
+ 
+/* 
+    Multi-line comment 
+    Multi-line comment 
+    Multi-line comment 
+*/
+```
+
+## Creating and running TS files
+TS files use the `.ts` extension. They can't run directly; they need to be compiled to JS first.
+
+In this tutorial, we build directly on React, which (like Express.js) compiles and runs TS automatically through npm. So we won't cover compiling and running TS files by hand, and we'll skip that part.
+
+You can create a TS file now and take notes as you follow along. You don't need to run anything yet; later chapters explain how the code actually runs.

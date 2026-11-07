@@ -1,0 +1,290 @@
+---
+title: Routing
+description: Use React Router to add page routing
+---
+import { Notice, Template } from '/src/components/full-stack-tutorial/frontend.tsx'
+
+<Aside type="danger" title="Challenging content">
+This part is harder, so set aside more time for it. With challenging content, try to work through the whole section in one go instead of stopping halfway.
+If you get stuck, check the [frontend course on GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) and search for the code by keyword.
+</Aside>
+
+You may have noticed a problem: our app only has one page, which clearly isn't enough. In this lesson, we use `React Router` to add page routing.
+
+## What is routing?
+`Routing` means showing different content for different `URL`s. For example:
+```
+https://example.com/ -> home page
+https://example.com/about -> about page
+https://example.com/contact -> contact page
+```
+Each `URL` maps to a different page. That's `routing`.
+
+## React Router
+In `React`, we can use `React Router` to add routing quickly. Open a terminal in `VS Code` and run this command to install `React Router`:
+```bash
+npm install react-router-dom
+```
+
+## Create a page
+First, create a `pages` folder in `src`, then create a `HelloWorld.tsx` file inside it to hold what we previously wrote in `main`. Try this step yourself; if you get stuck, see the example below.
+```typescript
+import Notice from "../components/Notice"
+
+const HelloWorld = () => {
+    return (
+        <>
+            <Notice title="This is a title" content="This is the content" />
+            <p>
+                Hello world!
+            </p>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+Now we have a page. Next, let's set up routing.
+
+## Set up main.tsx
+Before we start, back up the current `main.tsx` file by renaming it to `main-helloWorld.tsx`. Then create a new `main.tsx` file with this code:
+```typescript
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HelloWorld from "./pages/HelloWorld";
+
+createRoot(document.getElementById('root')!).render(
+    <BrowserRouter>
+        <Routes>
+            <Route index element={<HelloWorld />} />
+            <Route path="/hello" element={<HelloWorld />} />
+            <Route path="/hello/*" element={<HelloWorld />} />
+            <Route path="/hello/:id" element={<HelloWorld />} />
+        </Routes>
+    </BrowserRouter>
+);
+```
+Let's go through it line by line:
+- `BrowserRouter` and `Routes` are components provided by `React Router` that wrap the whole app. Here we simply use them.
+- `Route` sets up a route: `index` is the default route, `path` is the path, and `element` is the component to show.
+- There are a few special forms here:
+    - `index` is the default route
+    - `path="/hello"` matches the path `/hello`
+    - `path="/hello/*"` matches every path that starts with `/hello`. The `*` is a wildcard that matches anything.
+    - `path="/hello/:id"` matches paths that start with `/hello` followed by one segment. `:id` is a parameter you can read in the component with `useParams`.
+
+Now open your browser and try these links:
+- `http://localhost:5173/`
+- `http://localhost:5173/hello`
+- `http://localhost:5173/hello/123`
+- `http://localhost:5173/hello/abc/a`
+
+All of them show our `HelloWorld` page.
+
+## Path parameters
+Above, we added the route `path="/hello/:id"`. It accepts a parameter that we can read in the component with `useParams`. Say we want `id` to set the number shown in the notice: visiting the page with `id` `1` shows `Notice #1`, visiting `id` `2` shows `Notice #2`, and so on. Let's build that.
+
+First, open `HelloWorld.tsx`. Like any other function, a page can do other work before it returns. Add `const { id } = useParams();` before the `return` so we can read the path parameter as `id`. Note that `useParams` is a `hook` (a special kind of function) provided by `React Router`, so we need to import it first by adding `import { useParams } from "react-router-dom";` at the top of the file.
+
+We can now use `{ id }` to read the path parameter `id` and show a different notice for each one. Here's the full code:
+```typescript
+import { useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    return (
+        <>
+            <Notice title={ "Notice #" + id } content="This is the content" />
+            <p>
+                Hello world!
+            </p>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+Now visit `http://localhost:5173/hello/2`, and you should see:
+<Notice title="Notice #2" content="This is the content" lang="en" />
+
+## Layout templates
+Look at a typical website, such as this tutorial page. No matter which part of the tutorial you're reading, the overall layout stays the same and only the content changes. That's a layout template, and in this section we'll build a simple one, like this:
+<Template lang="en">
+    <p>Page 1</p>
+</Template>
+<Template lang="en">
+    <p>Page 2</p>
+</Template>
+<Template lang="en">
+    <p>Page 3</p>
+</Template>
+Suppose we have three pages, and we want all of them to share a shadowed background and a "Test page" heading. Let's build it!
+### With routing (recommended)
+First, create a `Template.tsx` file in the `pages` folder to hold our layout. Write this code in it:
+```typescript
+import { Outlet } from "react-router-dom"
+
+const Template = () => {
+    return (
+        <div
+            style={{
+                width: '100%',
+                padding: '10px',
+                backgroundColor: '#f9f9f9',
+                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+            }}
+        >
+            <h3>Test page</h3>
+            <Outlet />
+        </div>
+    )
+}
+
+export default Template
+```
+You can probably read everything here except `Outlet`. `Outlet` is a component provided by `React Router` that shows the content of child routes. You'll see what it does in a moment.
+
+Next, create three pages to show the layout. Create a `temp` folder inside `pages`, and add three files to it: `Page1.tsx`, `Page2.tsx` and `Page3.tsx`. In each file, use the `rafce` shortcut we covered earlier to generate a page quickly.
+
+Then open `main.tsx`. We want a new `temp/` route that shows our three pages. Add this code below `<Route path="/hello/:id" element={<HelloWorld />} />`:
+```typescript
+<Route path="/temp/" element={<Template />} >
+    <Route index element={<Page1 />} />
+    <Route path="1" element={<Page1 />} />
+    <Route path="2" element={<Page2 />} />
+    <Route path="3" element={<Page3 />} />
+</Route>
+```
+Here, one `Route` wraps three others, so our three pages are shown under `/temp/`. We reuse `Page1` as both the default page and page `1`.
+
+Now when you visit `http://localhost:5173/temp/` or `http://localhost:5173/temp/1`, you should see:
+<Template lang="en">
+    <p>Page1</p>
+</Template>
+When you visit `http://localhost:5173/temp/2`, you should see:
+<Template lang="en">
+    <p>Page2</p>
+</Template>
+When you visit `http://localhost:5173/temp/3`, you should see:
+<Template lang="en">
+    <p>Page3</p>
+</Template>
+And that's a simple layout template.
+
+### With a component
+You can also build a layout template as a component. Compared with routing, you have to add it to every page yourself, so it's less convenient, but it's still good to know. Create a `TemplateComponent.tsx` file in the `components` folder with this code:
+```typescript
+const TemplateComponent = ( props: { children: JSX.Element } ) => {
+    return (
+      <div
+        style={{
+          width: '100%',
+          padding: '10px',
+          backgroundColor: '#f9f9f9',
+          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <h3>Test page</h3>
+        {props.children}
+      </div>
+    );
+  }
+
+export default TemplateComponent
+```
+Look at this file. Since there's only one prop, `children`, we declare its type inline with `:` instead of using an `interface` as before. It's a shorter way to write it; use whichever you prefer. If you'd still like an `interface`, write:
+```typescript
+interface Props {
+    children: JSX.Element
+}
+const TemplateComponent = ( props: Props ) => {...}
+```
+`JSX.Element` is a special type that represents a `React` element, and `children` is a special prop that holds a component's child elements. What does that mean? You might expect to pass `children` like this:
+```typescript
+<TemplateComponent children={<p>Test page</p>} />
+```
+That works, but `React` offers a simpler way: write the child elements directly between the component's tags:
+```typescript
+<TemplateComponent>
+    <p>Test page</p>
+</TemplateComponent>
+```
+That's the special syntax for `children`. Inside the component, we read the child elements with `{props.children}`.
+Now go back to `HelloWorld.tsx` and add the `TemplateComponent` to apply the layout. Wrap what you wrote earlier in `TemplateComponent` and try it yourself! This is the result you're aiming for:
+<Template lang="en">
+    <Notice title="Notice #{id}" content="This is the content" lang="en" />
+    <p>
+        Hello world!
+    </p>
+</Template>
+
+Here's how I did it:
+<Blur isEnglish={true} client:visible>
+```typescript
+import { useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+import TemplateComponent from "../components/TemplateComponent";
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    return (
+        <>
+            <TemplateComponent>
+                <>
+                    <Notice title={"Notice #" + id} content="This is the content" />
+                    <p>
+                        Hello world!
+                    </p>
+                </>
+            </TemplateComponent>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+</Blur>
+
+## Navigating between pages
+On traditional HTML websites, we use `<a href="...">` tags to move between pages. In `React`, that's not recommended, because it reloads the page, loses its state and makes the experience worse. Instead, we use the `useNavigate` function. For example, to go to `/temp/1` when a button is clicked:
+```typescript
+import { useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate();
+<button onClick={() => navigate('/temp/1')}>Go to /temp/1</button>
+```
+First, we import `useNavigate` and assign it to the `navigate` variable. Then, in the button's `onClick` event (when the user clicks it), we call `navigate` with the path we want to go to. That's all it takes to navigate between pages.
+
+Now it's your turn! In `HelloWorld.tsx`, add a button that goes to `/temp/1` when clicked. Here's my answer:
+<Blur isEnglish={true} client:visible>
+```typescript
+import { useNavigate, useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+import TemplateComponent from "../components/TemplateComponent";
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    return (
+        <>
+            <button onClick={() => navigate('/temp/1')}>Go to /temp/1</button>
+            <TemplateComponent>
+                <>
+                    <Notice title={"Notice #" + id} content="This is the content" />
+                    <p>
+                        Hello world!
+                    </p>
+                </>
+            </TemplateComponent>
+        </>
+    )
+}
+
+export default HelloWorld
+```
+</Blur>
+Now try clicking the button and see what happens!
+
+## Summary
+Routing covers a lot, and the concept may be new to you. If you're unsure about any part, read it a few more times, and remember you can always find the code in the [frontend course on GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend).

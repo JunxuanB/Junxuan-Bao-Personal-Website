@@ -47,8 +47,8 @@ export function getPersonal(lang: Lang) {
       role: T('Company Founder & Head of Operations', '公司创始人、运营负责人'),
       summary: T('Finance, HR, taxation, compliance and partnerships for a community with 100K+ daily players.', '统筹日活 10 万以上社区的财务、人事、税务、合规与对外合作。'),
       what: T(
-        'EaseCation is a Minecraft mini-game community with 100K+ daily active players. As founder of its operating company and Head of Operations, Junxuan formalized how the team works, turning the real needs of collaboration and business growth into organizational structures and management processes.',
-        'EaseCation 是一个日活超过 10 万的 Minecraft 小游戏社区。作为其运营公司的创始人与运营负责人，鲍俊轩推动了 EaseCation 多项企业化管理建设，将团队协作与业务发展中的实际需求落实为组织机制和管理流程。'
+        'EaseCation is a Minecraft mini-game community with 100K+ daily active players. As founder of its operating company and Head of Operations, I formalized how the team works, turning the real needs of collaboration and business growth into organizational structures and management processes.',
+        'EaseCation 是一个日活超过 10 万的 Minecraft 小游戏社区。作为其运营公司的创始人与运营负责人，我推动了 EaseCation 多项企业化管理建设，将团队协作与业务发展中的实际需求落实为组织机制和管理流程。'
       ),
       did: [
         T('Restructured a student group into a formal company with three branches, growing it from early operations to $400,000 in annual revenue.', '将学生社团改组为设有三个分支的正式企业，推动其从早期运营成长至年营收 $400,000。'),
@@ -297,7 +297,7 @@ export function getPersonal(lang: Lang) {
       ],
       results: [{ n: '2', l: T('published parts', '个已发布章节') }],
       stack: ['TypeScript', 'React', 'Ant Design'],
-      links: [{ l: T('Read the course', '阅读课程'), h: '/zh-cn/full-stack-tutorial/000-index/' }]
+      links: [{ l: T('Read the course', '阅读课程'), h: T('/full-stack-tutorial/000-index/', '/zh-cn/full-stack-tutorial/000-index/') }]
     },
     {
       id: 'easetree', cat: 'ec', org: 'EaseCation', year: '2022',
@@ -315,24 +315,6 @@ export function getPersonal(lang: Lang) {
       ],
       results: [{ n: '1,000+', l: T('trees planted worldwide', '棵树，种植于全球') }],
       stack: [T('Game design', '玩法设计'), T('Charity', '公益')]
-    },
-    {
-      id: 'steam', cat: 'other', org: 'China World Academy', year: '2020.09 – 2021.06',
-      title: T('STEAM Laboratory Management', 'STEAM 实验室建设与管理'),
-      headline: T("Setting up a school's STEAM labs and student projects", '建设学校 STEAM 实验室，并组织学生项目'),
-      role: T('STEAM Laboratory Leader', 'STEAM 实验室负责人'),
-      summary: T('Science and creativity labs for drones, robotics and multimedia projects.', '面向无人机、机器人与多媒体项目的科学与创意实验室。'),
-      what: T(
-        'As the first Student Council President and STEAM Laboratory Leader at China World Academy, Junxuan established the school\'s science and creativity labs.',
-        '作为 China World Academy 首任学生会主席与 STEAM 实验室负责人，鲍俊轩建立了学校的科学与创意实验室。'
-      ),
-      did: [
-        T('Established and managed multiple science and creativity laboratories.', '建立并管理多个科学与创意实验室。'),
-        T('Organized and supervised student projects in drones, robotics and multimedia.', '组织并指导无人机、机器人与多媒体等学生项目。'),
-        T('Fostered a collaborative environment that encouraged innovation and problem-solving.', '营造鼓励创新与解决问题的协作氛围。')
-      ],
-      results: [{ n: '1st', l: T('student council at the school', '学校首届学生会') }],
-      stack: [T('STEM education', 'STEM 教育'), T('Robotics', '机器人'), T('Drones', '无人机')]
     },
     {
       id: 'mahjong', cat: 'other', org: 'McMaster University', year: '2023 – 2024',
@@ -421,28 +403,13 @@ export function getPersonal(lang: Lang) {
       tags: [T('Operations', '企业经营'), T('Finance & tax', '财务与税务'), T('HR', '人事'), T('Product', '产品')]
     },
     {
-      span: '2017 — 2018', org: T('Minecraft survival servers', 'Minecraft 生存服务器'), loc: T('Online', '线上'),
-      roles: [{ title: T('Server Owner', '服主'), dates: '2017 – 2018' }],
-      points: [T('Ran several Minecraft survival servers, some of them profitable.', '运营多个 Minecraft 生存服务器，其中部分实现盈利。')],
+      span: T('Elementary school — 2018', '小学 — 2018'), org: T('Minecraft survival servers', 'Minecraft 生存服务器'), loc: T('Online', '线上'),
+      roles: [{ title: T('Server Owner', '服主'), dates: T('Elementary school – 2018', '小学 – 2018') }],
+      points: [
+        T('Started running my own Minecraft survival servers in elementary school, handling setup, plugins, community rules and player support myself.', '从小学开始运营自己的 Minecraft 生存服务器，从搭建、插件配置到社区规则与玩家服务都亲自负责。'),
+        T('Grew several of them into profitable communities, which led me to join EaseCation in 2018.', '其中多个服务器实现盈利，也因此在 2018 年加入 EaseCation。')
+      ],
       tags: [T('Community', '社区运营')]
-    },
-    {
-      span: '2022 — 2023', org: 'Steveston-London Secondary School', loc: 'Richmond, BC',
-      roles: [{ title: T('Mathematics Teacher Assistant', '数学助教'), dates: T('Sep 2022 – Feb 2023', '2022.09 – 2023.02') }],
-      points: [
-        T('Assisted Mathematics 10 teachers with classroom instruction, assignment grading, student assessment and learning support.', '协助十年级数学教师开展课堂教学、作业批改、学生评估与学习辅导。'),
-        T('Provided one-on-one and small-group tutoring, and supported classroom supervision and substitute teaching.', '提供一对一与小组辅导，并协助课堂管理与代课。')
-      ],
-      tags: [T('Teaching', '教学'), T('Tutoring', '辅导')]
-    },
-    {
-      span: '2020 — 2021', org: 'China World Academy', loc: T('Changshu, Jiangsu', '江苏常熟'),
-      roles: [{ title: T('First Student Council President / STEAM Laboratory Leader', '首任学生会主席 / STEAM 实验室负责人'), dates: T('Sep 2020 – Jun 2021', '2020.09 – 2021.06') }],
-      points: [
-        T("Founded and led the school's first student council, organizing school-wide activities.", '创立并领导学校首届学生会，组织全校性活动。'),
-        T('Managed STEAM programs and mentored student volunteers to promote leadership and engagement.', '管理 STEAM 项目，指导学生志愿者，推动学生领导力与参与度的提升。')
-      ],
-      tags: [T('Leadership', '领导力'), 'STEAM']
     }
   ];
 
@@ -450,8 +417,8 @@ export function getPersonal(lang: Lang) {
     meta: {
       title: T('Junxuan Bao · Full Stack Engineer & Founder', '鲍俊轩 · 全栈工程师、创业者'),
       description: T(
-        'Junxuan Bao is a full stack engineer in the Greater Toronto Area, founder and Head of Operations of EaseCation, and founder of Junxuan Bao Solutions Inc.',
-        '鲍俊轩，大多伦多地区全栈工程师，EaseCation 公司创始人、运营负责人，Junxuan Bao Solutions Inc. 创始人。'
+        "I'm Junxuan Bao, a full stack engineer in the Greater Toronto Area, founder and Head of Operations of EaseCation, and founder of Junxuan Bao Solutions Inc.",
+        '我是鲍俊轩，大多伦多地区的全栈工程师，EaseCation 公司创始人、运营负责人，Junxuan Bao Solutions Inc. 创始人。'
       )
     },
     ui: {
@@ -467,11 +434,11 @@ export function getPersonal(lang: Lang) {
       now: T('Now', '现在'), updated: T('Updated November 2026', '2026 年 11 月更新'),
       projects: T('Projects', '项目'), projectsSub: T('Select a project to read more.', '点击项目查看详情。'),
       filterLabel: T('Filter projects', '筛选项目'), all: T('All', '全部'),
-      cats: { ec: 'EaseCation', work: T('Employment', '受雇工作'), company: T('My company', '我的公司'), other: T('Education & more', '教育与其他') },
+      cats: { ec: 'EaseCation', work: T('Employment', '受雇工作'), company: T('My company', '我的公司'), other: T('Other', '其他') },
       showAll: T('Show all projects', '显示全部项目'), showLess: T('Show fewer', '收起'),
       experience: T('Experience', '工作经历'), story: T('Timeline', '时间线'), education: T('Education', '教育背景'), awards: T('Awards & certifications', '荣誉与认证'),
       skills: T('Skills', '技能'), writing: T('Writing', '教程'),
-      writingSub: T('Free tutorials for students starting their first web project. In Chinese, CC BY-NC-SA 4.0.', '写给第一次做 Web 项目的同学的免费教程。中文撰写，CC BY-NC-SA 4.0 协议。'),
+      writingSub: T('Free tutorials for students starting their first web project. In English and Chinese, CC BY-NC-SA 4.0.', '写给第一次做 Web 项目的同学的免费教程，提供中英文版本，CC BY-NC-SA 4.0 协议。'),
       close: T('Close', '关闭'), myRole: T('Role', '角色'), whatIDid: T('What I did', '主要工作'), results: T('Results', '成果'), tools: T('Tools', '技术与方法'),
       prev: T('Previous', '上一个'), next: T('Next', '下一个'), courses: T('Courses', '课程'),
       business: T('Junxuan Bao Solutions Inc.', 'Junxuan Bao Solutions Inc.')
@@ -483,27 +450,27 @@ export function getPersonal(lang: Lang) {
       role: T('Full Stack Engineer · Founder', '全栈工程师 · 创业者'),
       where: T('Greater Toronto Area, Canada', '加拿大 · 大多伦多地区'),
       bio: T(
-        'Full stack engineer, founder and Head of Operations of EaseCation, and founder of Junxuan Bao Solutions Inc.',
-        '全栈工程师，EaseCation 公司创始人、运营负责人，Junxuan Bao Solutions Inc. 创始人。'
+        "I'm a full stack engineer, founder and Head of Operations of EaseCation, and founder of Junxuan Bao Solutions Inc.",
+        '我是一名全栈工程师，EaseCation 公司创始人、运营负责人，Junxuan Bao Solutions Inc. 创始人。'
       ),
       leadA: T('Turning the real needs of teams into', '把团队协作与业务发展中的实际需求，落实为'),
       leadB: T('systems that keep running', '能够长期运转的系统'),
       leadC: T('.', '。'),
       about: [
         T(
-          'Junxuan Bao is a certified full-stack developer with 9+ years of experience, working across software engineering and business operations. He began running Minecraft servers in 2017 and joined EaseCation on February 16, 2018, where he built its first web services outside the game. He went on to found the company behind EaseCation and lead its operations, turning a student group into a company with three branches, $400,000 in annual revenue, 100K+ daily active players and a team of about 200.',
-          '鲍俊轩是一名拥有 9 年以上经验的全栈开发者，工作横跨技术开发与企业经营。他自 2017 年起运营 Minecraft 服务器，2018 年 2 月 16 日加入 EaseCation，承担了最初的服外 Web 开发工作，为游戏之外的业务承载与服务拓展奠定基础。此后，他创办 EaseCation 的运营公司并担任运营负责人，推动团队从学生社团发展为设有三个分支的正式企业，年营收达 $400,000，社区日活超过 10 万，团队规模约 200 人。'
+          "I'm a certified full-stack developer with 9+ years of experience, and my work spans software engineering and business operations. I started running my own Minecraft servers in elementary school, and on February 16, 2018 I joined EaseCation, a Minecraft mini-game community, where I built its first web services outside the game. I went on to found the company behind EaseCation and lead its operations, turning a student group into a company with three branches, $400,000 in annual revenue, 100K+ daily active players and a team of about 200.",
+          '我是一名拥有 9 年以上经验的全栈开发者，工作横跨技术开发与企业经营。我从小学开始运营自己的 Minecraft 服务器，2018 年 2 月 16 日加入 Minecraft 小游戏社区 EaseCation，承担了最初的服外 Web 开发工作，为游戏之外的业务承载与服务拓展打下基础。此后，我创办了 EaseCation 的运营公司并担任运营负责人，推动团队从学生社团发展为设有三个分支的正式企业，年营收达 $400,000，社区日活超过 10 万，团队规模约 200 人。'
         ),
         T(
-          'In Canada, he studies Honours Computer Science at McMaster University with a 3.93 GPA, works as a Full Stack Engineer at Resiliocs Intelligence and a Process Optimization Analyst at McMaster, and runs Junxuan Bao Solutions Inc., which delivered $80,000 CAD in contracts within its first five months. Moving from hands-on development to running a company has taught him to understand a team\'s needs from both the technical and the business side.',
-          '在加拿大，他就读于麦克马斯特大学计算机科学荣誉学位（GPA 3.93），现任 Resiliocs Intelligence 全栈工程师与麦克马斯特大学流程优化分析师，并经营 Junxuan Bao Solutions Inc.，公司成立五个月内交付 8 万加元合同。从亲自开发到统筹管理的经历，让他能够从技术实现与业务经营两个层面理解团队发展的需求。'
+          "In Canada, I study Honours Computer Science at McMaster University with a 3.93 GPA. I work as a Full Stack Engineer at Resiliocs Intelligence and a Process Optimization Analyst at McMaster, and I run Junxuan Bao Solutions Inc., which delivered $80,000 CAD in contracts within its first five months. Moving from hands-on development to running a company has taught me to understand a team's needs from both the technical and the business side.",
+          '在加拿大，我就读于麦克马斯特大学计算机科学荣誉学位（GPA 3.93），现任 Resiliocs Intelligence 全栈工程师与麦克马斯特大学流程优化分析师，同时经营 Junxuan Bao Solutions Inc.，公司成立五个月内交付 8 万加元合同。从亲自开发到统筹管理的经历，让我能够从技术实现与业务经营两个层面理解团队的需求。'
         )
       ]
     },
     stats: [
-      { num: '9+', label: T('years of full-stack and operations experience', '年全栈开发与企业经营经验') },
-      { num: '100K+', label: T('daily active players at EaseCation', 'EaseCation 日活玩家') },
-      { num: '~200', label: T('people on the EaseCation team', '人的 EaseCation 团队') },
+      { num: '9+', label: T('years building and running online platforms', '年在线平台开发与运营经验') },
+      { num: '~200', label: T('people on teams I have led', '人的团队，由我带领管理') },
+      { num: '100K+', label: T('daily active users on platforms I run', '日活用户，来自我负责运营的平台') },
       { num: '95%', label: T('lower operational costs through automation', '自动化带来的运营成本降幅') },
       { num: '3.93', label: T('GPA, Honours Computer Science', '计算机科学荣誉学位 GPA') }
     ],
@@ -522,10 +489,7 @@ export function getPersonal(lang: Lang) {
         dates: T('Aug 2023 – May 2028 (expected)', '2023.08 – 2028.05（预计）'),
         badges: ['GPA 3.93 / 4.00', T("Dean's Honour List", '院长荣誉榜'), T('Co-op Global Experience Scholarship', 'Co-op 全球经历奖学金')],
         courses: T('Core: Data Structures & Algorithms, Software Design, Databases. Electives: Economics, Physics, Sustainability.', '核心课程：数据结构与算法、软件设计、数据库。选修：经济学、物理、可持续发展。')
-      },
-      { school: 'Steveston-London Secondary School', loc: 'Richmond, BC', degree: T('BC High School Diploma · 95%', 'BC 省高中文凭 · 95%'), dates: T('Sep 2021 – Jan 2023', '2021.09 – 2023.01'), badges: [], courses: '' },
-      { school: 'China World Academy', loc: T('Changshu, Jiangsu', '江苏常熟'), degree: 'IB Program FP-1', dates: T('Sep 2020 – Jun 2021', '2020.09 – 2021.06'), badges: [], courses: '' },
-      { school: 'Kang Chiao International School', loc: T('Kunshan, Jiangsu', '江苏昆山'), degree: T('US High School Diploma program', '美国高中文凭课程'), dates: T('Feb 2019 – Jun 2020', '2019.02 – 2020.06'), badges: [], courses: '' }
+      }
     ],
     awards: [
       T('Top Prize (First Prize), China Education Bureau National Primary and Middle School Computer Production Competition', '中国教育部全国中小学电脑制作活动 一等奖'),
@@ -542,23 +506,22 @@ export function getPersonal(lang: Lang) {
       { h: T('Frameworks & tools', '框架与工具'), items: ['React', 'Express.js', 'Next.js', 'Vue.js', 'Astro', 'Spring Boot', 'Redis', 'tsoa', 'OpenAPI / Swagger', 'RESTful API', 'Serverless', 'Azure', 'AWS', 'Docker', 'Linux', 'Git', 'CI/CD', 'Monorepo', 'Power Automate', 'WordPress', 'Swift', 'ESP32 / Arduino', 'Unreal Engine 5'] },
       { h: T('Technical', '技术能力'), items: [T('UX design', 'UX 设计'), T('UML modeling', 'UML 建模'), 'Figma', T('SDLC frameworks', 'SDLC 框架'), T('Agile development', '敏捷开发'), T('Game design', '游戏设计'), T('Client communication', '客户沟通'), T('Microsoft Office (expert)', 'Microsoft Office（精通）')] },
       { h: T('Business & administration', '经营与管理'), items: [T('Team leadership', '团队管理'), T('Financial management', '财务管理'), T('HR management', '人力资源管理'), T('Project management', '项目管理'), T('Tax compliance', '税务合规'), T('Legal compliance', '法律合规'), T('Event planning', '活动策划'), T('Vendor management', '供应商管理'), T('Workflow optimization', '流程优化'), T('Process automation', '流程自动化'), T('Customer service', '客户服务')] },
-      { h: T('Education', '教育'), items: [T('Teaching', '教学'), T('Mentoring', '指导'), T('Tutoring', '辅导'), T('STEM education', 'STEM 教育'), T('Student leadership', '学生领导力'), T('Program delivery', '项目执行')] },
+      { h: T('Teaching', '教学'), items: [T('Teaching', '教学'), T('Mentoring', '指导'), T('Tutoring', '辅导'), T('Course design', '课程设计')] },
       { h: T('Languages & other', '语言与其他'), items: [T('Chinese (native)', '中文（母语）'), T('English (fluent, professional)', '英语（流利，可用于工作）'), T('Licensed driver (Canada)', '加拿大驾照')] }
     ],
     story: [
-      ['2017', T('Ran several Minecraft survival servers, some of them profitable.', '运营多个 Minecraft 生存服务器，其中部分实现盈利。')],
+      [T('Early', '小学起'), T('Started running my own Minecraft survival servers in elementary school; several became profitable.', '从小学开始运营自己的 Minecraft 生存服务器，其中多个实现盈利。')],
       ['2018', T('Joined EaseCation on February 16 and built its first web services outside the game.', '2 月 16 日加入 EaseCation，承担最初的服外 Web 开发工作。')],
-      ['2020', T("Became the first Student Council President at China World Academy and set up the school's STEAM labs.", '担任 China World Academy 首任学生会主席，建立学校 STEAM 实验室。')],
-      ['2021', T("Began EaseCation's office automation system. Led its first offline exhibition at ChinaJoy. Moved to Canada.", '启动 EaseCation 办公自动化系统建设，带队首次参加 ChinaJoy，同年赴加拿大求学。')],
-      ['2022', T('Mathematics Teacher Assistant at Steveston-London Secondary. EaseTree launched.', '担任 Steveston-London Secondary 数学助教。易什森林上线。')],
+      ['2021', T("Began EaseCation's office automation system. Led its first offline exhibition at ChinaJoy. Moved to Canada.", '启动 EaseCation 办公自动化系统建设，带队首次参加 ChinaJoy，同年来到加拿大。')],
+      ['2022', T('Launched EaseTree, linking in-game teamwork to real tree planting.', '易什森林上线，将游戏内协作与现实植树联系起来。')],
       ['2023', T("Started Honours Computer Science at McMaster. Began building EaseCation's IAM.", '进入麦克马斯特大学攻读计算机科学荣誉学位，启动 EaseCation 统一身份认证建设。')],
       ['2024', T('Built MyEC. Founded Junxuan Bao Solutions Inc. and delivered $80,000 CAD in contracts within five months.', '建设 MyEC。创办 Junxuan Bao Solutions Inc.，五个月内交付 8 万加元合同。')],
       ['2025', T('Joined Resiliocs and Symcor. Automated research funding approvals at McMaster.', '加入 Resiliocs 与 Symcor，在麦克马斯特大学实现科研经费审批自动化。')],
       ['2026', T('Organized the Genshin Impact North America Creator Challenge. Presented at the McMaster Operational Excellence Forum. Became Full Stack Engineer at Resiliocs.', '主办原神北美创作者挑战赛，在 McMaster Operational Excellence Forum 分享，并成为 Resiliocs 全栈工程师。')]
     ],
     writing: [
-      { title: T('TypeScript Quick Start', 'TypeScript 快速上手'), sub: T('Data types, logic, functions and async: what you need before React.', '数据类型、逻辑、函数与异步：编写 React 之前需要的基础。'), href: '/zh-cn/full-stack-tutorial/basic/000-index/' },
-      { title: T('React + Ant Design Quick Start', 'React + Ant Design 前端快速上手'), sub: T('Set up a project, write components, add routing, manage state and call APIs.', '搭建项目、编写组件、添加路由、管理状态、调用接口。'), href: '/zh-cn/full-stack-tutorial/frontend/000-index/' }
+      { title: T('TypeScript Quick Start', 'TypeScript 快速上手'), sub: T('Data types, logic, functions and async: what you need before React.', '数据类型、逻辑、函数与异步：编写 React 之前需要的基础。'), href: T('/full-stack-tutorial/basic/000-index/', '/zh-cn/full-stack-tutorial/basic/000-index/') },
+      { title: T('React + Ant Design Quick Start', 'React + Ant Design 前端快速上手'), sub: T('Set up a project, write components, add routing, manage state and call APIs.', '搭建项目、编写组件、添加路由、管理状态、调用接口。'), href: T('/full-stack-tutorial/frontend/000-index/', '/zh-cn/full-stack-tutorial/frontend/000-index/') }
     ]
   };
 }

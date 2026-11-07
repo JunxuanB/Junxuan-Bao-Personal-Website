@@ -1,0 +1,62 @@
+---
+title: Tools and Concepts
+description: npm / git / Lorem Ipsum / JSON
+---
+## VS Code
+As mentioned in part one, this tutorial uses `Visual Studio Code` as the code editor (IDE). In my experience it has the best TypeScript support. Download it from the [VS Code website](https://code.visualstudio.com/) and follow the installer.
+
+## Node.js
+`Node.js` is a JavaScript runtime. It makes it quick and easy to run JavaScript code. TypeScript, the JavaScript variant we use in this course, also runs on Node.js.
+
+First, install Node.js. Download the installer from the [Node.js website](https://nodejs.org/en/download/package-manager) and follow the prompts.
+
+This tutorial was written with Node.js `v23.1.0`. I recommend installing the same version or the latest LTS version (LTS means long-term support; these releases are usually more stable, and you'll see "LTS" next to the version number). On macOS, I recommend installing Node.js with [Homebrew](https://brew.sh/).
+
+## npm
+`npm` is the package manager for Node.js. When you build a project, you usually don't start from scratch; you build on existing code, and these pieces of existing code are called `packages`. `npm` is the tool that manages them.
+
+`npm` is installed together with Node.js. Run `npm -v` in a terminal to see which version you have. This tutorial uses `npm` `10.9.0`. Other versions will work, but the same or the latest version is recommended.
+
+<Aside type="danger" title="If you are in mainland China">
+`npm` downloads packages from servers outside mainland China, so downloads are often slow or fail. In that case, use a mirror, which is a copy of the `npm` registry hosted in mainland China. I recommend [npmmirror](https://npmmirror.com/), provided by Alibaba Cloud.
+Run the command below to switch to `npmmirror` and download packages faster.
+```
+npm install -g cnpm --registry=https://registry.npmmirror.com
+```
+</Aside>
+
+## git
+`git` is a version control tool for code. While developing, you'll often need to keep different versions of your code or work with other people, and `git` helps you manage that. This tutorial uses `GitHub` to host code. If you can't access `GitHub` from mainland China, you can use an alternative such as `Gitee`.
+
+Download the installer from the [git website](https://git-scm.com/) and follow the prompts. Run `git -v` in a terminal to see which version you have. This tutorial uses `git version 2.47.0`. Other versions will work, but the same or the latest version is recommended. On macOS, I recommend installing `git` with [Homebrew](https://brew.sh/). You may also need to accept the `Xcode` license with the following command (if Xcode is installed):
+```
+sudo xcodebuild -license accept
+```
+
+## Lorem Ipsum
+A quick concept: when building frontend pages, we usually want to show full content for demos and testing, and that's where `placeholder text` comes in. `Lorem Ipsum` is the most common placeholder text. You can generate some on the [Lorem Ipsum website](https://www.lipsum.com/), or use a VS Code extension to generate it.
+
+## JSON
+Another important concept is `JSON`, a data format used to exchange data between the frontend and backend. Its main feature is that it can represent almost any kind of data as text, which makes it a very convenient format. For example, say we have a `People` type:
+```typescript
+type People = {
+  name: string;
+  age: number   
+}
+```
+and a value of type `People`:
+```typescript
+const people: People = {
+  name: "Alice",
+  age: 18
+}
+```
+We can use `JSON.stringify` to turn the `people` object into a JSON string:
+```typescript
+const peopleJSON = JSON.stringify(people);
+console.log(peopleJSON);
+// prints: {"name":"Alice","age":18}
+```
+The output `{"name":"Alice","age":18}` is a `JSON` string.
+
+For now, you only need to understand the basic format and idea of `JSON`. Later chapters cover it in more detail.

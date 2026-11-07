@@ -103,10 +103,10 @@ export function getBusiness(lang: Lang) {
 
   return {
     meta: {
-      title: T('Junxuan Bao Solutions Inc. · Business software for Canadian teams', 'Junxuan Bao Solutions Inc. · 为加拿大企业开发业务系统'),
+      title: T('Junxuan Bao Solutions Inc. · Business software for growing teams', 'Junxuan Bao Solutions Inc. · 为成长中的企业开发业务系统'),
       description: T(
-        'Junxuan Bao Solutions Inc. designs and builds internal tools, customer platforms and workflow automation for businesses in Canada.',
-        'Junxuan Bao Solutions Inc. 为加拿大企业设计和开发内部管理工具、客户业务平台与流程自动化系统。'
+        'Junxuan Bao Solutions Inc. designs and builds internal tools, customer platforms and workflow automation for businesses around the world.',
+        'Junxuan Bao Solutions Inc. 为全球企业设计和开发内部管理工具、客户业务平台与流程自动化系统。'
       )
     },
     ui: {
@@ -117,9 +117,9 @@ export function getBusiness(lang: Lang) {
     },
     cases,
     t: {
-      chip: T('Junxuan Bao Solutions Inc. · Ontario, Canada', 'Junxuan Bao Solutions Inc. · 加拿大安大略省'),
+      chip: T('Junxuan Bao Solutions Inc. · Serving clients worldwide', 'Junxuan Bao Solutions Inc. · 服务全球客户'),
       h1a: T('Business software for teams that have', '当表格和群聊已经不够用，'), h1b: T('outgrown spreadsheets.', '是时候拥有一套自己的系统。'),
-      intro: T('We design and build internal tools, customer platforms and workflow automation for businesses in Canada.', '我们为加拿大企业设计和开发内部管理工具、客户业务平台与流程自动化系统。'),
+      intro: T('We design and build internal tools, customer platforms and workflow automation for businesses around the world.', '我们为全球企业设计和开发内部管理工具、客户业务平台与流程自动化系统。'),
       cta1: T('Start a project', '开始一个项目'), cta2: T('See our work', '查看案例'),
       proofKicker: T('Running every day', '每天都在运行'),
       proofH: T('Our founder built and runs the systems behind a gaming community with 100K+ daily players.', '一个日活 10 万以上的游戏社区，其背后的系统由我们的创始人开发并持续运营。'),
@@ -164,7 +164,7 @@ export function getBusiness(lang: Lang) {
         { q: T('How much does it cost?', '费用是多少？'), a: T("It depends on how many features and users you need. After a free consultation, we'll give you a fixed quote.", '取决于功能与用户规模。免费咨询之后，我们会给出固定报价。') },
         { q: T('Who owns the code?', '代码归谁所有？'), a: T('You do. Once the project is paid in full, the code and your data belong to you.', '归你所有。项目款项结清后，代码与数据均属于你。') },
         { q: T('Can you work with our existing systems?', '能否接入我们现有的系统？'), a: T('Yes, including Microsoft 365, Google Workspace and most tools with an API.', '可以，包括 Microsoft 365、Google Workspace，以及大多数提供 API 的工具。') },
-        { q: T('Do you only work in Ontario?', '只服务安大略省吗？'), a: T('No. We work remotely with clients across Canada.', '不是，我们可以远程服务全加拿大的客户。') },
+        { q: T('Where are your clients?', '你们服务哪些地区的客户？'), a: T('Anywhere. We are based in the Greater Toronto Area and work remotely with clients around the world, across time zones.', '不限地区。我们位于大多伦多地区，可以远程服务全球客户，并配合不同时区协作。') },
         { q: T('Can we talk in Chinese?', '可以用中文沟通吗？'), a: T('Yes. We work in English and Mandarin.', '可以，中英文均可。') }
       ],
       aboutH: T('About the company', '关于公司'),
@@ -173,9 +173,9 @@ export function getBusiness(lang: Lang) {
       founderAlt: T('Portrait of Junxuan Bao', '鲍俊轩的职业照'), founderName: T('Junxuan Bao, Founder', '鲍俊轩，创始人'), founderLink: T('Personal site', '个人主页'),
       facts: [
         { k: T('Legal name', '公司全称'), v: 'JUNXUAN BAO SOLUTIONS INC.' },
-        { k: T('Business Number', '商业编号'), v: '1746537-8' },
         { k: T('Incorporated', '注册'), v: T('Ontario, November 2024', '安大略省，2024 年 11 月') },
         { k: T('Based in', '所在地'), v: T('Greater Toronto Area, Canada', '加拿大 · 大多伦多地区') },
+        { k: T('Clients', '服务范围'), v: T('Worldwide, remote', '全球，远程协作') },
         { k: T('Contact', '联系方式'), v: 'Junxuan.Bao@Gmail.com' }
       ],
       contactH: T('Tell us what is slowing your team down.', '告诉我们，是什么在拖慢你的团队。'),
