@@ -1,7 +1,25 @@
-# Junxuan Bao's Personal Website
+# Junxuan Bao · Personal & Business Website
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Source code for [junxuanb.com](https://junxuanb.com), built with [Astro](https://astro.build).
 
-This is the source code for my personal website, you can visit it at [junxuanb.com](https://junxuanb.com).
+| Path | Page |
+| --- | --- |
+| `/` · `/zh/` | Personal page (English / 简体中文) |
+| `/business/` · `/zh/business/` | JUNXUAN BAO SOLUTIONS INC. |
+| `/zh-cn/full-stack-tutorial/` | Free tutorials (Starlight): TypeScript Quick Start, React + Ant Design Quick Start |
+| `/en/privacy-notice/` | Privacy notice |
 
-There is also a free full-stack tutorial on my website, check it out and see if it helps you!
+## Editing content
+
+- Personal page copy: `src/data/personal.ts`
+- Business page copy: `src/data/business.ts`
+- Images: `src/assets/` (EaseCation images are reused from easecation.net, mapped in `src/data/images.ts`)
+- Styles: `src/styles/site.css`
+
+## Development
+
+```bash
+npm install
+npm run dev
+npm run build
+```

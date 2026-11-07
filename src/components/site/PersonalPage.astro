@@ -1,0 +1,264 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../../assets/junxuan-bao.jpg';
+import { getPersonal, type Lang } from '../../data/personal';
+import { images, imageAlt } from '../../data/images';
+
+interface Props { lang: Lang; businessHref: string }
+const { lang, businessHref } = Astro.props;
+const d = getPersonal(lang);
+const zh = lang === 'zh';
+const cats = ['ec', 'work', 'company', 'other'] as const;
+const counts = Object.fromEntries(cats.map((c) => [c, d.projects.filter((p) => p.cat === c).length]));
+---
+<div class="p-wrap">
+  <aside class="p-aside" aria-label={zh ? '个人资料' : 'Profile'}>
+    <div class="p-aside-top">
+      <span class="p-aside-circle" aria-hidden="true"></span>
+      <div class="p-id">
+        <Image class="p-photo" src={photo} alt={d.profile.photoAlt} width={320} quality={85} loading="eager" />
+        <div>
+          <h1 class="p-name">{d.profile.name}</h1>
+          <p class="p-alt" lang={zh ? 'en' : 'zh-CN'}>{d.profile.altName}</p>
+          <p class="p-role">{d.profile.role}</p>
+        </div>
+      </div>
+    </div>
+    <p class="p-where"><span class="dot" aria-hidden="true"></span>{d.profile.where} <strong>· <span data-clock>ET</span></strong></p>
+    <p class="p-bio">{d.profile.bio}</p>
+    <nav class="p-nav" aria-label={d.ui.onThisPage}>
+      <ul>
+        {d.ui.sections.map((s, i) => <li><a href={`#${s.id}`} data-spy={s.id} aria-current={i === 0 ? 'true' : 'false'}>{s.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="p-actions">
+      <button class="btn btn-primary" type="button" data-print>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"></path></svg>
+        {d.ui.resume}
+      </button>
+      <a class="round-btn" href="mailto:Junxuan.Bao@Gmail.com" aria-label={d.ui.email}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3zM3 6l9 7 9-7"></path></svg></a>
+      <a class="round-btn" href="https://www.linkedin.com/in/junxuanb/" aria-label="LinkedIn"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4v11H4zM6 3.5a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4zM10 9h3.8v1.6c.6-1 1.9-1.9 3.7-1.9 3.2 0 3.8 2.1 3.8 4.8V20h-4v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V20H10z"></path></svg></a>
+      <a class="round-btn" href="https://github.com/JunxuanB" aria-label="GitHub"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4 1.3-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"></path></svg></a>
+    </div>
+  </aside>
+
+  <main class="p-main">
+    <section id="overview" aria-label={d.ui.sections[0].label}>
+      <p class="p-lead">{d.profile.leadA} <span class="mark">{d.profile.leadB}</span>{d.profile.leadC}</p>
+      {d.profile.about.map((para) => <p class="p-about">{para}</p>)}
+      <div class="p-stats">
+        {d.stats.map((s) => <div><div class="stat-num">{s.num}</div><div class="stat-label">{s.label}</div></div>)}
+      </div>
+    </section>
+
+    <section aria-labelledby="h-now">
+      <div class="sec-head">
+        <h2 id="h-now" class="h2">{d.ui.now}<span class="period">.</span></h2>
+        <span class="muted" style="font-size: 14px">{d.ui.updated}</span>
+      </div>
+      <ul class="now-list">
+        {d.now.map((n) => <li><span class="dot" aria-hidden="true"></span><span><b>{n.a}</b><span class="muted">{n.b}</span></span></li>)}
+      </ul>
+    </section>
+
+    <section id="projects" aria-labelledby="h-projects">
+      <div class="sec-head">
+        <h2 id="h-projects" class="h2">{d.ui.projects}<span class="period">.</span></h2>
+        <span class="muted" style="font-size: 14px">{d.ui.projectsSub}</span>
+      </div>
+      <div class="filters" role="group" aria-label={d.ui.filterLabel}>
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">{d.ui.all} <span>{d.projects.length}</span></button>
+        {cats.map((c) => <button class="filter" type="button" data-filter={c} aria-pressed="false">{d.ui.cats[c]} <span>{counts[c]}</span></button>)}
+      </div>
+      <ul class="masonry" data-projects>
+        {d.projects.map((p) => {
+          const r0 = p.results[0];
+          return (
+            <li data-cat={p.cat}>
+              <button class="pcard" type="button" data-look={p.cat} data-open={`project-${p.id}`} aria-haspopup="dialog">
+                {p.img && (
+                  <span class="pcard-shot"><Image src={images[p.img]} alt="" width={720} quality={80} /></span>
+                )}
+                <span class="pcard-body">
+                  <span class="pcard-meta"><span class="dot" aria-hidden="true"></span>{p.org} · {p.year}</span>
+                  <span class="pcard-title">{p.headline}</span>
+                  <span class="pcard-sum">{p.summary}</span>
+                  {r0 && <span class="pcard-metric"><b>{r0.n}</b><span>{r0.l}</span></span>}
+                  <span class="pcard-tags">{p.stack.slice(0, 3).map((s) => <span>{s}</span>)}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      <button class="btn btn-soft more-btn" type="button" data-more data-label-more={d.ui.showAll} data-label-less={d.ui.showLess} aria-expanded="false">{d.ui.showAll}</button>
+    </section>
+
+    <section id="experience" aria-labelledby="h-exp">
+      <h2 id="h-exp" class="h2" style="margin-bottom: 12px">{d.ui.experience}<span class="period">.</span></h2>
+      {d.experience.map((e) => (
+        <article class="exp">
+          <div class="exp-span kicker">{e.span}</div>
+          <div class="exp-body">
+            <h3 class="exp-org">{e.org} <small>· {e.loc}</small></h3>
+            {e.unit && <p class="exp-unit">{e.unit}</p>}
+            <ul class="roles">
+              {e.roles.map((r) => <li><span><span class="role-dot" aria-hidden="true"></span><span class="role-title">{r.title}</span></span><span class="role-dates">{r.dates}</span></li>)}
+            </ul>
+            <ul class="points">{e.points.map((pt) => <li>{pt}</li>)}</ul>
+            <ul class="exp-tags">{e.tags.map((t) => <li class="tag">{t}</li>)}</ul>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section aria-labelledby="h-story">
+      <h2 id="h-story" class="h2" style="margin-bottom: 20px">{d.ui.story}<span class="period">.</span></h2>
+      <ol class="timeline">
+        {d.story.map(([year, text]) => <li><div class="tl-rail" aria-hidden="true"><i></i><b></b></div><div class="tl-body"><span class="tl-year">{year}</span><span class="tl-text">{text}</span></div></li>)}
+      </ol>
+    </section>
+
+    <section id="education" class="two-col" aria-labelledby="h-edu">
+      <div>
+        <h2 id="h-edu" class="h2" style="margin-bottom: 8px">{d.ui.education}<span class="period">.</span></h2>
+        {d.education.map((e) => (
+          <div class="edu">
+            <div class="edu-head"><h3>{e.school}</h3><span class="muted" style="font-size: 14px">{e.loc}</span></div>
+            <p>{e.degree}</p>
+            <p class="muted" style="font-size: 15px">{e.dates}</p>
+            {e.badges.length > 0 && <ul class="badges">{e.badges.map((b) => <li>{b}</li>)}</ul>}
+            {e.courses && <p class="muted" style="margin-top: 10px; font-size: 15px">{e.courses}</p>}
+          </div>
+        ))}
+      </div>
+      <div>
+        <h2 class="h2" style="margin-bottom: 16px">{d.ui.awards}<span class="period">.</span></h2>
+        <ul class="awards">{d.awards.map((a) => <li><span class="dot" aria-hidden="true"></span><span>{a}</span></li>)}</ul>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="h-skills">
+      <h2 id="h-skills" class="h2" style="margin-bottom: 18px">{d.ui.skills}<span class="period">.</span></h2>
+      <div class="skills">
+        {d.skills.map((s) => <div class="skill-row"><h3>{s.h}</h3><ul>{s.items.map((i) => <li class="chip">{i}</li>)}</ul></div>)}
+      </div>
+    </section>
+
+    <section id="writing" aria-labelledby="h-writing">
+      <h2 id="h-writing" class="h2">{d.ui.writing}<span class="period">.</span></h2>
+      <p class="muted" style="margin-top: 4px; font-size: 15px">{d.ui.writingSub}</p>
+      <ul class="writing">
+        {d.writing.map((w) => <li><a href={w.href} lang="zh-CN"><span><b>{w.title}</b><small>{w.sub}</small></span><span class="arrow-dot" aria-hidden="true">→</span></a></li>)}
+      </ul>
+    </section>
+
+    <footer class="p-footer"><span>© 2026 Junxuan Bao</span><a href={businessHref}>{d.ui.business} →</a></footer>
+  </main>
+</div>
+
+<div class="action-bar">
+  <div>
+    <a href="mailto:Junxuan.Bao@Gmail.com">{d.ui.email}</a>
+    <a href="https://www.linkedin.com/in/junxuanb/">LinkedIn</a>
+  </div>
+</div>
+
+{d.projects.map((p, i) => {
+  const prev = d.projects[(i - 1 + d.projects.length) % d.projects.length];
+  const next = d.projects[(i + 1) % d.projects.length];
+  const gallery = p.img ? [p.img, ...(p.gallery ?? [])] : [];
+  return (
+    <dialog class="modal" id={`project-${p.id}`} aria-labelledby={`project-${p.id}-title`}>
+      <div class="modal-head" data-look={p.cat}>
+        <span class="modal-circle" aria-hidden="true"></span>
+        <button class="modal-close" type="button" data-close aria-label={d.ui.close}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        <div class="modal-chips"><span>{d.ui.cats[p.cat]}</span><span>{p.org} · {p.year}</span></div>
+        <p class="modal-name">{p.title}</p>
+        <h2 class="modal-title" id={`project-${p.id}-title`}>{p.headline}</h2>
+        {gallery.length > 0 && (
+          <div class="modal-gallery">
+            {gallery.map((k) => <Image src={images[k]} alt={imageAlt[k][lang]} width={1400} quality={80} loading="lazy" />)}
+          </div>
+        )}
+      </div>
+      <div class="modal-body">
+        <p class="muted" style="font-size: 15px">{d.ui.myRole}: <span style="color: var(--fg); font-weight: 500">{p.role}</span></p>
+        <p class="modal-what">{p.what}</p>
+        {p.results.length > 0 && <ul class="modal-results">{p.results.map((r) => <li><b>{r.n}</b><span>{r.l}</span></li>)}</ul>}
+        <div class="modal-cols">
+          <div>
+            <h3 class="modal-h3">{d.ui.whatIDid}</h3>
+            <ul class="modal-did">{p.did.map((x) => <li><span class="dot" aria-hidden="true"></span><span>{x}</span></li>)}</ul>
+            {p.note && <p class="modal-note">{p.note}</p>}
+          </div>
+          <div>
+            <h3 class="modal-h3">{d.ui.tools}</h3>
+            <ul class="modal-stack">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+            {p.links && <ul class="modal-links">{p.links.map((l) => <li><a href={l.h}>{l.l} ↗</a></li>)}</ul>}
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-soft" type="button" data-goto={`project-${prev.id}`}>← {prev.title}</button>
+          <button class="btn btn-soft" type="button" data-goto={`project-${next.id}`}>{next.title} →</button>
+        </div>
+      </div>
+    </dialog>
+  );
+})}
+
+<script>
+  // Project filter and "show more"
+  const list = document.querySelector<HTMLElement>('[data-projects]');
+  const moreBtn = document.querySelector<HTMLButtonElement>('[data-more]');
+  const filterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  let current = 'all';
+  let expanded = false;
+  const limit = () => (matchMedia('(max-width: 1023px)').matches ? 5 : 8);
+  const render = () => {
+    if (!list || !moreBtn) return;
+    const items = Array.from(list.children) as HTMLElement[];
+    const matching = items.filter((li) => current === 'all' || li.dataset.cat === current);
+    items.forEach((li) => { li.hidden = true; });
+    matching.forEach((li, i) => { li.hidden = !expanded && i >= limit(); });
+    moreBtn.hidden = matching.length <= limit();
+    moreBtn.setAttribute('aria-expanded', String(expanded));
+    moreBtn.textContent = expanded ? moreBtn.dataset.labelLess ?? '' : `${moreBtn.dataset.labelMore} (${matching.length})`;
+  };
+  filterBtns.forEach((btn) => btn.addEventListener('click', () => {
+    current = btn.dataset.filter ?? 'all';
+    expanded = false;
+    filterBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    render();
+  }));
+  moreBtn?.addEventListener('click', () => { expanded = !expanded; render(); });
+  render();
+
+  // Project dialogs
+  const openDialog = (id: string) => {
+    const dlg = document.getElementById(id) as HTMLDialogElement | null;
+    if (!dlg) return;
+    dlg.showModal();
+    dlg.scrollTop = 0;
+  };
+  document.querySelectorAll<HTMLElement>('[data-open]').forEach((el) => el.addEventListener('click', () => openDialog(el.dataset.open ?? '')));
+  document.querySelectorAll<HTMLDialogElement>('dialog.modal').forEach((dlg) => {
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => dlg.close()));
+    dlg.querySelectorAll<HTMLElement>('[data-goto]').forEach((b) => b.addEventListener('click', () => { dlg.close(); openDialog(b.dataset.goto ?? ''); }));
+  });
+
+  // Section highlight in the sticky sidebar
+  const spyLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-spy]'));
+  const sections = spyLinks.map((a) => document.getElementById(a.dataset.spy ?? '')).filter((s): s is HTMLElement => !!s);
+  const setActive = () => {
+    let active = sections[0]?.id;
+    sections.forEach((s) => { if (s.getBoundingClientRect().top < 160) active = s.id; });
+    spyLinks.forEach((a) => a.setAttribute('aria-current', String(a.dataset.spy === active)));
+  };
+  addEventListener('scroll', setActive, { passive: true });
+  setActive();
+
+  // Print-friendly résumé
+  document.querySelectorAll('[data-print]').forEach((b) => b.addEventListener('click', () => window.print()));
+</script>

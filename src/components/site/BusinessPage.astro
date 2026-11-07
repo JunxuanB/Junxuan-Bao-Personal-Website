@@ -1,0 +1,263 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../../assets/junxuan-bao.jpg';
+import { getBusiness } from '../../data/business';
+import type { Lang } from '../../data/personal';
+import { images, imageAlt } from '../../data/images';
+
+interface Props { lang: Lang; personalHref: string }
+const { lang, personalHref } = Astro.props;
+const d = getBusiness(lang);
+const t = d.t;
+const byId = (id: string) => d.cases.find((c) => c.id === id)!;
+const tones: Record<string, string> = { myec: 'tint', oa: 'warm', iam: 'tint', creator: 'soft', ue5: 'soft', halfbiz: 'warm', envoy: 'soft' };
+const featured = t.featuredIds.map(byId);
+const rest = d.cases.filter((c) => !t.featuredIds.includes(c.id));
+const shortName = (title: string) => title.split(/[:：]/)[0];
+---
+<main class="b-main" id="top">
+  <section class="b-hero">
+    <p class="b-chip"><span class="dot" aria-hidden="true"></span>{t.chip}</p>
+    <h1 class="b-h1">{t.h1a} <span>{t.h1b}</span></h1>
+    <p class="b-intro">{t.intro}</p>
+    <div class="b-ctas">
+      <a class="btn btn-primary btn-lg" href="#contact">{t.cta1}</a>
+      <a class="btn btn-soft btn-lg" href="#work">{t.cta2} →</a>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-proof">
+    <div class="b-panel">
+      <span class="b-panel-c1" aria-hidden="true"></span>
+      <span class="b-panel-c2" aria-hidden="true"></span>
+      <div class="b-panel-in">
+        <div>
+          <p class="kicker">{t.proofKicker}</p>
+          <h2 id="h-proof">{t.proofH}</h2>
+          <p>{t.proofP}</p>
+        </div>
+        <ul class="b-systems">
+          {t.systems.map((s) => (
+            <li>
+              <button class="b-system" type="button" data-open={`case-${s.id}`} aria-haspopup="dialog">
+                <span class="b-system-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon}></path></svg></span>
+                <span class="b-system-text"><b>{s.name}</b><small>{s.what}</small></span>
+                <span class="b-system-metric">{s.metric}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="b-stats" role="list" aria-label={d.ui.highlights}>
+      {t.stats.map((s) => <div role="listitem"><div class="stat-num">{s.num}</div><div class="stat-label">{s.label}</div></div>)}
+    </div>
+  </section>
+
+  <section class="b-sec b-sec-first" aria-labelledby="h-why">
+    <h2 id="h-why" class="b-h2">{t.whyH}<span class="period">.</span></h2>
+    <ul class="why">
+      {t.why.map((w) => <li><span class="why-n">{w.n}</span><h3>{w.h}</h3><p>{w.p}</p></li>)}
+    </ul>
+  </section>
+
+  <section id="services" class="b-sec" aria-labelledby="h-services">
+    <div class="b-sec-head">
+      <h2 id="h-services" class="b-h2">{t.servH}<span class="period">.</span></h2>
+      <p>{t.servP}</p>
+    </div>
+    <ul class="services">
+      {t.services.map((s) => (
+        <li class="service">
+          <span class="service-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon}></path></svg></span>
+          <h3>{s.h}</h3>
+          <p>{s.p}</p>
+          {s.caseId && <button class="link-btn" type="button" data-open={`case-${s.caseId}`} aria-haspopup="dialog">{d.ui.example}: {shortName(byId(s.caseId).title)} →</button>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="work" class="b-sec" aria-labelledby="h-work">
+    <div class="b-sec-head">
+      <h2 id="h-work" class="b-h2">{t.workH}<span class="period">.</span></h2>
+      <p>{d.ui.clickCase}</p>
+    </div>
+    <ul class="featured">
+      {featured.map((c) => (
+        <li>
+          <button class="fcard" type="button" data-open={`case-${c.id}`} aria-haspopup="dialog">
+            <span class="fcard-cover" data-tone={tones[c.id]}>
+              {c.img ? (
+                <>
+                  <Image src={images[c.img]} alt="" width={1000} quality={80} />
+                  <span class="pill fcard-badge"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
+                </>
+              ) : (
+                <>
+                  <span class="fcard-circle" aria-hidden="true"></span>
+                  <span class="fcard-in">
+                    <span class="kicker">{c.client}</span>
+                    <span class="fcard-mono">{c.mono}</span>
+                    <span class="pill"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
+                  </span>
+                </>
+              )}
+            </span>
+            <span class="fcard-meta">{c.client} · {c.industry}</span>
+            <span class="fcard-title">{c.title}</span>
+            <span class="fcard-sum">{c.summary}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+    <ul class="case-rows">
+      {rest.map((c) => (
+        <li>
+          <button class="case-row" type="button" data-open={`case-${c.id}`} aria-haspopup="dialog">
+            <span class="case-mono" data-tone={tones[c.id]} aria-hidden="true">{c.mono}</span>
+            <span class="case-text"><b>{c.title}</b><small>{c.client} · {c.industry}</small></span>
+            <span class="case-metric"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
+            <span class="arrow-dot" aria-hidden="true">→</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="process" class="b-sec" aria-labelledby="h-process">
+    <h2 id="h-process" class="b-h2">{t.procH}<span class="period">.</span></h2>
+    <ol class="steps">
+      {t.steps.map((s, i) => <li><div class="step-rail" aria-hidden="true"><span class="step-n">0{i + 1}</span><span class="step-line"></span></div><h3>{s.h}</h3><p>{s.p}</p></li>)}
+    </ol>
+  </section>
+
+  <section class="b-sec faq-wrap" aria-labelledby="h-faq">
+    <h2 id="h-faq" class="b-h2">{t.faqH}<span class="period">.</span></h2>
+    <div class="faq">
+      {t.faq.map((q, i) => <details open={i === 0}><summary>{q.q}</summary><p>{q.a}</p></details>)}
+    </div>
+  </section>
+
+  <section id="about" class="b-sec about-wrap" aria-labelledby="h-about">
+    <div>
+      <h2 id="h-about" class="b-h2">{t.aboutH}<span class="period">.</span></h2>
+      <p class="about-1">{t.about1}</p>
+      <p class="about-2">{t.about2}</p>
+      <a class="founder" href={personalHref}>
+        <Image src={photo} alt={t.founderAlt} width={120} quality={85} />
+        <span><b>{t.founderName}</b><small>{t.founderLink} →</small></span>
+      </a>
+    </div>
+    <dl class="facts">
+      {t.facts.map((f) => <div><dt>{f.k}</dt><dd>{f.v}</dd></div>)}
+    </dl>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="h-contact">
+    <span class="contact-circle" aria-hidden="true"></span>
+    <div class="contact-text">
+      <h2 id="h-contact">{t.contactH}</h2>
+      <p>{t.contactP}</p>
+      <p class="small">{d.ui.orEmail}</p>
+      <a href="mailto:Junxuan.Bao@Gmail.com">Junxuan.Bao@Gmail.com</a>
+    </div>
+    <form class="form" data-inquiry data-subject={d.form.subject}>
+      <div class="field"><label for="f-name">{d.form.name}</label><input id="f-name" name="name" type="text" autocomplete="name" required /></div>
+      <div class="field"><label for="f-email">{d.form.email}</label><input id="f-email" name="email" type="email" autocomplete="email" required /></div>
+      <div class="field full"><label for="f-company">{d.form.company} <small>{d.form.optional}</small></label><input id="f-company" name="company" type="text" autocomplete="organization" /></div>
+      <fieldset>
+        <legend>{d.form.need}</legend>
+        <div class="needs">
+          {d.form.needs.map((n) => <label><input type="checkbox" name="need" value={n} /><span>{n}</span></label>)}
+        </div>
+      </fieldset>
+      <div class="field full"><label for="f-msg">{d.form.msg}</label><textarea id="f-msg" name="message" rows="4" placeholder={d.form.msgPh} required></textarea></div>
+      <div class="field"><label for="f-budget">{d.form.budget} <small>{d.form.optional}</small></label><input id="f-budget" name="budget" type="text" /></div>
+      <div class="field"><label for="f-time">{d.form.timeline}</label><select id="f-time" name="timeline">{d.form.times.map((x) => <option>{x}</option>)}</select></div>
+      <button class="btn btn-primary" type="submit">{d.form.send}</button>
+      <p class="fine">{d.form.privacy}</p>
+    </form>
+  </section>
+</main>
+
+<footer class="b-footer">
+  <span>© 2026 JUNXUAN BAO SOLUTIONS INC. · BN 1746537-8</span>
+  <nav aria-label={lang === 'zh' ? '页脚' : 'Footer'}><a href="/en/privacy-notice/">{d.ui.privacy}</a><a href={personalHref}>{d.ui.founder}</a></nav>
+</footer>
+
+<div class="b-action"><a href="#contact">{t.cta1}</a></div>
+
+{d.cases.map((c, i) => {
+  const prev = d.cases[(i - 1 + d.cases.length) % d.cases.length];
+  const next = d.cases[(i + 1) % d.cases.length];
+  const look = tones[c.id] === 'warm' ? 'company' : tones[c.id] === 'tint' ? 'ec' : 'other';
+  return (
+    <dialog class="modal" id={`case-${c.id}`} aria-labelledby={`case-${c.id}-title`}>
+      <div class="modal-head" data-look={look}>
+        <span class="modal-circle" aria-hidden="true"></span>
+        <button class="modal-close" type="button" data-close aria-label={d.ui.close}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        <div class="modal-chips"><span>{c.industry}</span><span>{c.year}</span></div>
+        <p class="modal-name">{c.client}</p>
+        <h2 class="modal-title" id={`case-${c.id}-title`}>{c.title}</h2>
+        {c.img && <div class="case-modal-cover"><Image src={images[c.img]} alt={imageAlt[c.img][lang]} width={1400} quality={80} loading="lazy" /></div>}
+      </div>
+      <div class="modal-body">
+        <ul class="modal-results">{c.results.map((r) => <li><b>{r.n}</b><span>{r.l}</span></li>)}</ul>
+        <div class="modal-cols">
+          <div>
+            <h3 class="modal-h3">{c.problemLabel}</h3>
+            <p>{c.problem}</p>
+            <h3 class="modal-h3" style="margin-top: 22px">{d.ui.built}</h3>
+            <p>{c.built}</p>
+            {c.note && <p class="modal-note">{c.note}</p>}
+          </div>
+          <div>
+            <h3 class="modal-h3">{d.ui.stack}</h3>
+            <ul class="modal-stack">{c.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+            {c.link && <ul class="modal-links"><li><a href={c.link.h}>{c.link.l} ↗</a></li></ul>}
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-soft" type="button" data-goto={`case-${prev.id}`}>← {prev.mono}</button>
+          <a class="btn btn-primary" href="#contact" data-close>{d.ui.similar}</a>
+          <button class="btn btn-soft" type="button" data-goto={`case-${next.id}`}>{next.mono} →</button>
+        </div>
+      </div>
+    </dialog>
+  );
+})}
+
+<script>
+  const openDialog = (id: string) => {
+    const dlg = document.getElementById(id) as HTMLDialogElement | null;
+    if (!dlg) return;
+    dlg.showModal();
+    dlg.scrollTop = 0;
+  };
+  document.querySelectorAll<HTMLElement>('[data-open]').forEach((el) => el.addEventListener('click', () => openDialog(el.dataset.open ?? '')));
+  document.querySelectorAll<HTMLDialogElement>('dialog.modal').forEach((dlg) => {
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => dlg.close()));
+    dlg.querySelectorAll<HTMLElement>('[data-goto]').forEach((b) => b.addEventListener('click', () => { dlg.close(); openDialog(b.dataset.goto ?? ''); }));
+  });
+
+  // The inquiry form opens the visitor's email app with the details filled in.
+  const form = document.querySelector<HTMLFormElement>('[data-inquiry]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const lines = [
+      `${form.querySelector('label[for="f-name"]')?.textContent}: ${data.get('name')}`,
+      `${form.querySelector('label[for="f-email"]')?.textContent}: ${data.get('email')}`,
+      `${form.querySelector('label[for="f-company"]')?.childNodes[0]?.textContent?.trim()}: ${data.get('company') || '-'}`,
+      `${form.querySelector('legend')?.textContent}: ${data.getAll('need').join(', ') || '-'}`,
+      `${form.querySelector('label[for="f-budget"]')?.childNodes[0]?.textContent?.trim()}: ${data.get('budget') || '-'}`,
+      `${form.querySelector('label[for="f-time"]')?.textContent}: ${data.get('timeline')}`,
+      '',
+      String(data.get('message') ?? '')
+    ];
+    const subject = `${form.dataset.subject} · ${data.get('company') || data.get('name')}`;
+    window.location.href = `mailto:Junxuan.Bao@Gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+  });
+</script>

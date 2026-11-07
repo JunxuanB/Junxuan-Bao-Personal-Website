@@ -2,7 +2,6 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import AutoImport from "astro-auto-import";
-import starlightUtils from "@lorenzo_lewis/starlight-utils";
 import starlightHeadingBadges from "starlight-heading-badges";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -15,21 +14,16 @@ export default defineConfig({
 
   integrations: [starlight({
     plugins: [
-      starlightUtils({
-        multiSidebar: {
-          switcherStyle: "horizontalList",
-        },
-      }),
       starlightHeadingBadges(),
     ],
     title: {
-      en: "Junxuan Bao Solutions Inc.",
-      "zh-CN": "Junxuan Bao Solutions Inc.",
+      en: "Junxuan Bao · Tutorials",
+      "zh-CN": "鲍俊轩 · 教程",
     },
     lastUpdated: true,
     credits: true,
     social: {
-      instagram: "https://unsplash.com/@junxuanb",
+      linkedin: "https://www.linkedin.com/in/junxuanb/",
       email: "mailto:Junxuan.Bao@Gmail.com",
       github: "https://github.com/JunxuanB",
     },
@@ -37,7 +31,6 @@ export default defineConfig({
       baseUrl:
         "https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/edit/main/",
     },
-    // Set English as the default language for this site.
     defaultLocale: "zh-cn",
     locales: {
       // English docs in `src/content/docs/en/`
@@ -52,108 +45,39 @@ export default defineConfig({
     },
     sidebar: [
       {
-        label: "Main",
+        label: "Home",
+        translations: { en: "Home", "zh-CN": "返回主页" },
+        link: "/zh/",
+      },
+      {
+        label: "Full Stack Tutorial",
         translations: {
-          en: "Main",
-          "zh-CN": "主页",
+          en: "Full Stack Tutorial",
+          "zh-CN": "全栈教程",
         },
         items: [
           {
-            label: "About Us",
-            translations: {
-              en: "About Us",
-              "zh-CN": "关于我们",
-            },
-            slug: "about-us",
+            label: "Welcome",
+            translations: { en: "Welcome", "zh-CN": "欢迎" },
+            slug: "full-stack-tutorial/000-index",
           },
           {
-            label: "Full Stack Tutorial",
+            label: "TypeScript Quick Start",
             translations: {
-              en: "Full Stack Tutorial",
-              "zh-CN": "全栈教程",
+              en: "TypeScript Quick Start",
+              "zh-CN": "TypeScript 快速上手",
             },
-            items: [
-              {
-                label: "Welcome",
-                translations: {
-                  en: "Welcome",
-                  "zh-CN": "欢迎",
-                },
-                slug: "full-stack-tutorial/000-index",
-              },
-              {
-                label: "Language Basics",
-                translations: {
-                  en: "Language Basics",
-                  "zh-CN": "语言基础",
-                },
-                badge: {
-                  text: {
-                    en: "Completed",
-                    "zh-CN": "已完结",
-                  },
-                  variant: "success",
-                },
-                autogenerate: { directory: "full-stack-tutorial/basic" },
-              },
-              {
-                label: "Frontend",
-                translations: {
-                  en: "Frontend",
-                  "zh-CN": "前端",
-                },
-                badge: {
-                  text: {
-                    en: "Completed",
-                    "zh-CN": "已完结",
-                  },
-                  variant: "success",
-                },
-                autogenerate: { directory: "full-stack-tutorial/frontend" },
-              },
-              {
-                label: "Backend",
-                translations: {
-                  en: "Backend",
-                  "zh-CN": "后端",
-                },
-                badge: {
-                  text: {
-                    en: "In Progress",
-                    "zh-CN": "未完成",
-                  },
-                  variant: "tip",
-                },
-                autogenerate: { directory: "full-stack-tutorial/backend" },
-              },
-              {
-                label: "Project: E-Fridge",
-                translations: {
-                  en: "Project: E-Fridge",
-                  "zh-CN": "项目：赛博冰箱",
-                },
-                badge: {
-                  text: {
-                    en: "In Progress",
-                    "zh-CN": "未完成",
-                  },
-                  variant: "tip",
-                },
-                autogenerate: {
-                  directory: "full-stack-tutorial/project-e-fridge",
-                },
-              },
-            ],
+            autogenerate: { directory: "full-stack-tutorial/basic" },
+          },
+          {
+            label: "React + Ant Design Quick Start",
+            translations: {
+              en: "React + Ant Design Quick Start",
+              "zh-CN": "React + Ant Design 前端快速上手",
+            },
+            autogenerate: { directory: "full-stack-tutorial/frontend" },
           },
         ],
-      },
-      {
-        label: "Blog",
-        translations: {
-          en: "Blog",
-          "zh-CN": "博客",
-        },
-        autogenerate: { directory: "blog" },
       },
     ],
   }), // Make sure the MDX integration is included AFTER astro-auto-import
@@ -175,6 +99,11 @@ export default defineConfig({
     ],
   }), mdx(), sitemap(), react()],
   redirects: {
-    "/": "/en",
+    "/en": "/",
+    "/en/myself": "/",
+    "/en/about-us": "/business/",
+    "/zh-cn": "/zh/",
+    "/zh-cn/myself": "/zh/",
+    "/zh-cn/about-us": "/zh/business/",
   },
 });
