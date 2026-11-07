@@ -14,10 +14,12 @@
 | 语言 | 中英双语，以英文为主。中文要通顺、口语化，不用"赋能、打造、助力、极致"这类词 |
 | 语气 | 客观陈述做了什么，不写心路历程，不写私人故事 |
 | 主要客户 | 加拿大的企业和机构 |
-| 起步价 | Starting from CAD $1,000 |
+| 价格 | 网站上不写任何价格 |
 | 对外名称 | ESH Group / 宁波易什网络科技有限公司 / EaseCation 统一写 **EaseCation** |
 | 营收口径 | 只写 EaseCation 一家，不提任何海外公司收入 |
 | 用户规模口径 | 只写 **100K+ 日活**，不写注册用户数 |
+| 团队规模口径 | 约 **200 人** |
+| 从业年限口径 | 从 2017 年算起，**9+ 年** |
 | 所在地 | Greater Toronto Area, Canada |
 | 联系邮箱 | Junxuan.Bao@Gmail.com |
 | 电话 | 网站上不出现 |
@@ -85,32 +87,28 @@
 - 2024 年 11 月正式注册。Business Number 1746537-8
 - 具体项目见第 3 节案例表
 
-**EaseCation** · Remote
+**EaseCation** · Remote · 官网 https://www.easecation.net/
 
 | 头衔 | 时间 |
 |---|---|
 | Company Founder & Head of Operations | Feb 16, 2018 – Present |
-
-`【待确认】` LinkedIn 在这一段下面还列了 Product Owner（Apr–Aug 2026）和 Project Manager（Dec 2025–Apr 2026）。这两个是 EaseCation 的角色吗？是不是和 2026 年 7 月 31 日 Java 版上线有关？如果是，可以写成一条很好的经历。
+| Project Manager → Product Owner（一个内部平台项目，未上线） | Dec 2025 – Aug 2026 |
 
 - 创办 EaseCation 的运营公司，负责公司经营、财务、人事、税务和合作伙伴关系
 - 早期亲自开发了 EaseCation 游戏之外的第一批 Web 服务，打下后来整个 Web 平台的基础
 - 把一个学生团队改组成正式公司，设三个分支，年营收 **$400,000**
-- 开发内部系统：CRM、工单、财务、统一登录。团队效率提升 6 倍，平均响应时间从 7 天缩短到 24 小时，生产力提升 40%
+- 亲手开发的系统：**MyEC 玩家服务中心（工单）**、**人事中心（办公自动化）**、**IAM 统一身份认证**。EC 官网的技术页有介绍，可以引用
+- 内部系统整体效果：团队效率提升 6 倍，平均响应时间从 7 天缩短到 24 小时，生产力提升 40%
+- 团队规模约 **200 人**
 - 社区规模：**100K+ 日活**
 - 2021 年带队参加 ChinaJoy，这是 EaseCation 第一次线下参展
 - 与网易游戏等企业建立合作
 
-`【待确认】`
-- 团队规模用哪个数？95+（5 全职 + 90+ 兼职）还是别的？
-- LinkedIn 里写的 "$1M in partner earnings"（合作伙伴收益 $1M）要不要放？
-- 三个分支分别是什么？
+`【待确认】` 三个分支分别是什么？（不写也可以）
 
-**Minecraft 生存服务器 Owner** · 2018 年以前
+**Minecraft Server Owner** · 2017 – 2018
 
-- 运营几个 Minecraft 生存服务器，并且实现盈利
-
-`【待确认】` 最早从哪一年开始？服务器叫什么名字？大概多少玩家？这一段决定首页能不能写 "10 years of experience"。
+- 运营几个 Minecraft 生存服务器，并且实现盈利。简单一句带过
 
 **早期经历**
 
@@ -124,7 +122,6 @@
 
 - **McMaster University** · Honours B.A.Sc., Computer Science (Co-op) · Aug 2023 – May 2028
   - GPA 3.93 / 4.00 · Dean's Honour List · Co-op Global Experience Scholarship
-  - `【待确认】` 毕业时间：简历写 2027，LinkedIn 写 2028。GPA 现在还是 3.93 吗？
 - Steveston-London Secondary School · Richmond, BC · BC High School Diploma · Sep 2021 – Jan 2023
 - China World Academy · Changshu, Jiangsu · IB FP-1 · Sep 2020 – Jun 2021
 - Kang Chiao International School · Kunshan, Jiangsu · Feb 2019 – Jun 2020
@@ -166,12 +163,12 @@
 | # | 案例 | 现在状态 | 数字性质 | 能不能写名字 | 放在哪 |
 |---|---|---|---|---|---|
 | 1 | **Envoy Hamilton** · 24 小时智能包裹柜 | 已交付，客户后续没有持续运营 | $10,000/站/年 是**预期** | `【待确认】` 能写 Envoy Hamilton 吗？ | Business |
-| 2 | **HalfBiz** · 餐厅经营平台（会员、自配送、在线点单） | JBS 自有产品，内测中，不计划正式上线 | $2,760/年节省是**测算**（$3,000 → $240） | 可以 | Business |
-| 3 | **Genshin Impact North America Creator Challenge** | 已举办，独立完成全部工作，上百名参赛者 | 参赛人数是**实际** | 可以，原赛事页公开写了 "Supported by Genshin Impact (HoYoverse)" | Business |
-| 4 | **UE5 游戏内容制作** | 已完成 | $80,000 CAD / 5 个月是**实际** | 不写合作方，只写金额 | Business |
+| 2 | **HalfBiz** · 餐厅经营平台（会员、自配送、在线点单） | JBS 自有产品，按"做过并上线"来写，不提内测 | 上线第一周十几家商家采用；每年节省约 $2,760（$3,000 → $240） | 可以 | Business |
+| 3 | **Genshin Impact North America Creator Challenge** | 2026 年 5 月，独立完成全部工作 | **100 名**参赛者，实际 | 可以，原赛事页公开写了 "Supported by Genshin Impact (HoYoverse)" | Business |
+| 4 | **原神 UE5 内容制作**（Genshin Creator Team） | 已完成 | $80,000 CAD / 5 个月，实际 | 可以写原神 / HoYoverse | Business |
 | 5 | **EaseCation IAM** · 统一身份认证 | 运行中 | **实际** | 可以 | Business |
-| 6 | **EaseCation 用户服务 / 工单系统** | 运行中 | **实际** | 可以 | Business |
-| 7 | **EaseCation 办公自动化（OA）** | 运行中 | **实际** | 可以 | Business |
+| 6 | **EaseCation MyEC 玩家服务中心（工单）** | 运行中 | **实际**；官网数据：累计工单 19 万+，近一个月 4,400+ 账号新建 1 万+ 张工单 | 可以，引用官网 | Business |
+| 7 | **EaseCation 人事中心（办公自动化）** | 运行中 | **实际** | 可以，引用官网 | Business |
 | 8 | McMaster 科研经费审批自动化 | 运行中 | 实际 | 雇主项目 | Personal |
 | 9 | Symcor AI 工单自动化 | 已交付 | 实际 | 雇主项目 | Personal |
 | 10 | Resiliocs 风险平台和官网 | 运行中 | 实际 | 雇主项目 | Personal |
@@ -179,21 +176,11 @@
 | 12 | 多人在线日麻（Elm，一年级课程项目） | 已完成 | — | 可以 | Personal（Projects） |
 | 13 | NexaGate OAuth 登录系统（PHP） | `【待确认】` 是 IAM 的前身吗？ | — | 可以 | 合并进 IAM 案例，作为"第一代" |
 
-**每个案例还需要的信息** `【待确认】`
+**还缺的案例信息** `【待确认】`（都不是必须的，有就更好）
 
-- **Envoy**：项目时间、做了几个柜子 / 几个格口、现场照片
-- **HalfBiz**：旧简历写"一周内十几家商家采用"。现在说是内测，这句话还成立吗？是内测商家吗？Innovation Factory 支持了什么？
-- **Creator Challenge**：
-  - 起止时间
-  - 具体参赛人数和作品数
-  - 奖金池多少
-  - 评审怎么做的
-  - 获奖结果
-  - 你一个人做了哪些部分（网站、报名、提交平台、Discord 社区、宣传、评审、发奖）
-  - 原赛事网站以后还会保留吗？
-- **UE5 内容**：做了几个作品？对外怎么描述比较安全？比如 "UE5 game content for a global game publisher"
-- **EaseCation 系统**：EC 官网上列了 MyEC、Console、IAM、莫比乌斯、人事中心、EaseCation API。哪些是你亲手做的，哪些是你主导、别人开发的？案例只写你做过的部分
-- **工单数据**：EC 官网写"平台累计工单超过 19 万，近一个月 4,400 多个账号新建 1 万多张工单"。这是你做的系统吗？可以引用吗？
+- **Envoy**：能写客户名 Envoy Hamilton 吗？有现场照片吗？
+- **Creator Challenge**：原赛事网站 creator.junxuanb.com 以后还保留吗？如果不保留，案例里就不放链接
+- **原神 UE5**：有没有能公开的作品链接或截图
 
 ---
 

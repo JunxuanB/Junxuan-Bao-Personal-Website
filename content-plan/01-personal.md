@@ -45,11 +45,11 @@
 
 | EN | 中文 |
 |---|---|
-| **8+ years** running EaseCation, a Minecraft community with 100K+ daily active players | **8 年多**参与经营 EaseCation，一个日活 10 万以上的 Minecraft 社区 |
+| **9+ years** running online communities, including EaseCation, a Minecraft network with 100K+ daily active players | **9 年多**经营线上社区，其中 EaseCation 是一个日活 10 万以上的 Minecraft 社区 |
 | **$400K** annual revenue at EaseCation | EaseCation 年营收 **40 万美元** |
 | **3.93 GPA**, Honours Computer Science at McMaster | McMaster 计算机科学荣誉学位，**GPA 3.93** |
 
-`【待确认】` 如果 2018 年以前的服务器经历能算进去，第一条可以改成"10 years"。年营收的币种是美元还是加元？
+`【待确认】` 年营收的币种是美元还是加元？
 
 ### Now（现在在做什么）
 
@@ -88,7 +88,7 @@
 
 | 年份 | EN | 中文 |
 |---|---|---|
-| `【待确认】`–2018 | Ran several Minecraft survival servers, some of them profitable. | 运营过几个 Minecraft 生存服务器，其中有的实现了盈利。 |
+| 2017 | Ran several Minecraft survival servers, some of them profitable. | 运营过几个 Minecraft 生存服务器，其中有的实现了盈利。 |
 | 2018 | Joined EaseCation on February 16. Built its first web services outside the game. | 2 月 16 日加入 EaseCation，开发了游戏之外的第一批 Web 服务。 |
 | `【待确认】` | Founded the company that operates EaseCation and became Head of Operations. | 创办 EaseCation 的运营公司，担任运营负责人。 |
 | 2019 `【待确认】` | First Prize, National Primary and Middle School Computer Production. Awards at the Global Educational Robotics Competition. | 获得全国中小学电脑制作活动一等奖，以及全球教育机器人大赛的奖项。 |
@@ -96,11 +96,11 @@
 | 2021 | Started EaseCation's office automation system. Led EaseCation's first offline exhibition at ChinaJoy. Moved to Canada. | 开始开发 EaseCation 办公自动化系统。带队参加 ChinaJoy，这是 EaseCation 第一次线下参展。同年搬到加拿大。 |
 | 2022 | Math Teacher Assistant at Steveston-London Secondary. Launched EaseTree, which has planted 1,000+ real trees. | 在 Steveston-London Secondary 担任数学助教。上线易什森林，在现实中种下了 1,000 多棵树。 |
 | 2023 | Started Computer Science at McMaster University. Began building EaseCation's identity and access system (IAM). | 进入 McMaster 大学读计算机科学。开始开发 EaseCation 统一身份认证系统（IAM）。 |
-| 2024 | Built EaseCation's user service and ticket system. Founded Junxuan Bao Solutions Inc. (incorporated in November). Delivered a smart parcel locker system and $80K in game content contracts. Published a free web development course. | 开发 EaseCation 用户服务与工单系统。创办 Junxuan Bao Solutions Inc.（11 月注册）。交付智能包裹柜系统，以及 8 万加元的游戏内容合同。发布免费的 Web 开发教程。 |
-| 2025 | Joined Resiliocs as a software intern, then software developer. Software Engineer Intern at Symcor. Automated research funding approvals at McMaster. Organized the Genshin Impact North America Creator Challenge. | 加入 Resiliocs，先做实习生，后转为软件开发。在 Symcor 做软件工程实习。在 McMaster 把科研经费审批流程自动化。举办原神北美创作者挑战赛。 |
-| 2026 | Presented at McMaster Operational Excellence Forum. Became Full Stack Engineer at Resiliocs and Process Optimization Analyst at McMaster. `【待确认】` EaseCation Java Edition launched on July 31. | 在 McMaster Operational Excellence Forum 做分享。成为 Resiliocs 全栈工程师和 McMaster 流程优化分析师。`【待确认】` 7 月 31 日 EaseCation Java 版正式上线。 |
+| 2024 | Built MyEC, EaseCation's player service and ticket system. Founded Junxuan Bao Solutions Inc. (incorporated in November). Delivered a smart parcel locker system and $80K in Genshin Impact content contracts. Published a free web development course. | 开发 EaseCation 的玩家服务中心 MyEC（工单系统）。创办 Junxuan Bao Solutions Inc.（11 月注册）。交付智能包裹柜系统，以及 8 万加元的原神内容合同。发布免费的 Web 开发教程。 |
+| 2025 | Joined Resiliocs as a software intern, then software developer. Software Engineer Intern at Symcor. Automated research funding approvals at McMaster. | 加入 Resiliocs，先做实习生，后转为软件开发。在 Symcor 做软件工程实习。在 McMaster 把科研经费审批流程自动化。 |
+| 2026 | Organized the Genshin Impact North America Creator Challenge (May) with 100 participants. Presented at McMaster Operational Excellence Forum. Became Full Stack Engineer at Resiliocs and Process Optimization Analyst at McMaster. | 5 月举办原神北美创作者挑战赛，100 名选手参赛。在 McMaster Operational Excellence Forum 做分享。成为 Resiliocs 全栈工程师和 McMaster 流程优化分析师。 |
 
-`【待确认】` 时间线里的日期需要你逐条核对，特别是奖项年份、Creator Challenge 的举办时间、搬到加拿大的时间。
+`【待确认】` 奖项年份需要你核对。
 
 ---
 
@@ -139,7 +139,7 @@
 | Symcor AI Service Desk Automation | Serverless AI system that automatically handles 70% of client service tickets. | 一套 serverless AI 系统，自动处理 70% 的客户服务工单。 |
 | Resiliocs Risk Platform | Full-stack SaaS for real-time climate risk analysis, connected to in-house ML models. | 全栈 SaaS 平台，接入公司内部机器学习模型，做实时气候风险分析。 |
 | McMaster Funding Approval Automation | Power Automate workflow that cut manual processing of research funding approvals by 90%. | 用 Power Automate 做的审批流程，科研经费审批的人工处理减少 90%。 |
-| EaseCation IAM / User Service / OA | Internal platforms behind a 100K+ DAU community. See Business case studies → | 支撑日活 10 万以上社区的内部系统。详见公司案例 → |
+| EaseCation MyEC / IAM / 人事中心 | Internal platforms behind a 100K+ DAU community. See Business case studies → | 支撑日活 10 万以上社区的内部系统。详见公司案例 → |
 | EaseTree | Players team up in-game; each completed tree plants a real one. 1,000+ trees planted. | 玩家在游戏里组队种树，每完成一棵，就在现实中种下一棵。已种下 1,000 多棵。 |
 | Multiplayer Riichi Mahjong | Online multiplayer Japanese Mahjong written in Elm, first-year project at McMaster. | 用 Elm 写的多人在线日本麻将，McMaster 一年级课程项目。 |
 
