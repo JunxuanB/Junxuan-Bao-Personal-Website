@@ -1,0 +1,9 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PersonalPage from '../components/site/PersonalPage.astro';
+import { getPersonal } from '../data/personal';
+const { meta } = getPersonal('en');
+---
+<SiteLayout lang="en" mode="personal" title={meta.title} description={meta.description}>
+  <PersonalPage lang="en" businessHref="/business/" />
+</SiteLayout>

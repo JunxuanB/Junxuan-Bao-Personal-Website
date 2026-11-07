@@ -1,0 +1,80 @@
+---
+import '../styles/site.css';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import photo from '../assets/junxuan-bao.jpg';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  lang: 'en' | 'zh';
+  mode: 'personal' | 'business';
+  title: string;
+  description: string;
+}
+
+const { lang, mode, title, description } = Astro.props;
+const paths = {
+  en: { personal: '/', business: '/business/' },
+  zh: { personal: '/zh/', business: '/zh/business/' }
+};
+const other = lang === 'en' ? 'zh' : 'en';
+const canonical = new URL(paths[lang][mode], Astro.site);
+const alternateEn = new URL(paths.en[mode], Astro.site);
+const alternateZh = new URL(paths.zh[mode], Astro.site);
+const ogImage = await getImage({ src: photo, width: 1200, format: 'jpg' });
+---
+<!doctype html>
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={alternateEn} />
+    <link rel="alternate" hreflang="zh-CN" href={alternateZh} />
+    <link rel="alternate" hreflang="x-default" href={alternateEn} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage.src, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f3b73" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <SiteHeader lang={lang} mode={mode} personalHref={paths[lang].personal} businessHref={paths[lang].business} langHref={paths[other][mode]} />
+    <slot />
+    <script>
+      const root = document.documentElement;
+      const isDark = () => root.dataset.theme === 'dark' || (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const next = isDark() ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try { localStorage.setItem('theme', next); } catch (e) { /* storage unavailable */ }
+        });
+      });
+
+      const clocks = document.querySelectorAll<HTMLElement>('[data-clock]');
+      if (clocks.length) {
+        const fmt = new Intl.DateTimeFormat('en-CA', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Toronto' });
+        const tick = () => clocks.forEach((el) => { el.textContent = fmt.format(new Date()) + ' ET'; });
+        tick();
+        setInterval(tick, 30000);
+      }
+    </script>
+  </body>
+</html>
