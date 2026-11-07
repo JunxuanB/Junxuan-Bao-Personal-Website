@@ -1,0 +1,73 @@
+---
+title: Sync / Async
+description: Handling synchronous and asynchronous operations in TypeScript
+---
+In my opinion, one of TypeScript's biggest strengths is how easy it makes asynchronous code. In this part, I'll explain two very useful ideas in detail. First, let's understand what synchronous and asynchronous operations are.
+
+## Synchronous operations
+A `synchronous operation` runs code in order: each line waits for the previous line to finish. This is the most common and the easiest to understand. It's simply the code we usually write, running line by line, so we won't dwell on it.
+
+## Asynchronous operations
+An `asynchronous operation` doesn't run strictly in order, which lets several operations happen at the same time. This saves the program from waiting around.
+
+A simple example: we need the phone numbers of Ming, Hong and Gang, so we look each of them up in a phone book. Done synchronously, we would find Ming's number first, then Hong's, then Gang's, which takes a long time. Done asynchronously, we look up all three at once and save a lot of time.
+
+## When to use asynchronous operations
+Asynchronous operations save time, but remember: when one piece of data depends on another, the steps must happen in order. For example, if we need Ming's phone number and then use it to look up his address, we must do it synchronously, because the address depends on the phone number.
+
+## Writing asynchronous code
+To write asynchronous code, we need three concepts: `async`, `await` and `Promise`. Together, they are the core of asynchronous code in TypeScript.
+
+### async
+`async` is a modifier that marks a function as asynchronous. For example, if `getPhone` is asynchronous, we can define it like this:
+```typescript
+async function getPhone() {
+    // some slow operation
+}
+
+getPhone();
+console.log('This line runs right after getPhone is called');
+```
+Here, `async` tells TypeScript the function runs asynchronously. When we call it, `getPhone` runs in the background, and the next line runs without waiting for it to finish.
+
+### Promise
+You may have spotted a problem: if `getPhone` hasn't finished, how do we know what type of value it will return? A regular `: number` annotation no longer works here. That's where `Promise` comes in.
+
+A `Promise` is an object that represents the eventual success or failure of an asynchronous operation. Think of it as a closed box: from its outline you know what type of thing is inside, but the box might turn out to be empty.
+
+Sounds confusing? No problem. Let's update the example above:
+```typescript
+async function getPhone(): Promise<string> {
+    // some slow operation
+    return '123456789';
+}
+```
+Now `getPhone` has the return type `Promise<string>`, which means it will return a `string`.
+
+### await
+Sometimes our asynchronous operations depend on each other, and that's when we use the `await` keyword. `await` makes TypeScript wait for the result of an asynchronous operation; in other words, it turns an asynchronous step into a synchronous one. Here we add a new function, `getAddress`, which takes a phone number and returns an address:
+```typescript
+async function getAddress(phone: string): Promise<string> {
+    // some slow operation
+    return 'Shanghai';
+}
+```
+Now we can use `await` to wait for the value returned by `getPhone`:
+```typescript
+const phone = await getPhone();
+const address = await getAddress(phone);
+console.log(address); // 'Shanghai'
+```
+Here, we first wait for `getPhone` to finish and store its result in `phone`. Then we wait for `getAddress` to finish and store its result in `address`. Finally, we print `address`.
+
+<Aside type="tip" title="🎉 Congratulations on your first step! 🎉">
+You now know all the most basic TypeScript syntax. In the next part, we'll skip some of TypeScript's inner workings and jump straight into the most popular frameworks to build something fun.
+
+You've finished the driest but most important part of this course. I hope you keep that motivation for the rest of it!
+</Aside>
+
+<Aside type="tip" title="If you like this course...">
+If you like this course, please give [my website](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website) a `⭐️ Star` on GitHub. It means a lot to me!
+
+You can also open an [issue](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/issues) to share feedback and suggestions to help me improve the course.
+</Aside>

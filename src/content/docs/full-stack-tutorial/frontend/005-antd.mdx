@@ -1,0 +1,72 @@
+---
+title: UI Library Ant Design
+description: Use Ant Design to build the page UI
+---
+import { Button } from 'antd';
+
+In this lesson, we reach a classic moment in learning to code: realizing you studied something "for nothing".
+
+In most personal projects, the requirements are fairly simple, but we still want the project to look good. That's when we use a ready-made UI library, so we can focus on the logic of the project instead of spending lots of time on styling. Put simply, for personal projects you don't need to write most of the CSS and HTML yourself, so all that CSS and HTML you learned was **for nothing!**
+
+Just kidding, of course. Real projects still need some CSS and HTML, and JSX itself is based on HTML. Large companies also often need custom UI components, and those we have to build ourselves.
+
+## UI libraries
+First, what is a UI library? In the introduction to the frontend course, we showed this button:
+```typescript
+import { Button } from 'antd'
+<Button type="dashed" loading>Loading...</Button>
+```
+> Result: <Button type="dashed" loading client:visible >Loading...</Button>
+
+Here we used a button from a UI library and got a dashed button with a loading animation with almost no effort.
+
+## Ant Design
+In the example above, we used the [antd](https://ant.design/) (Ant Design) UI library. `Ant Design` is an enterprise-grade design language and React component library for admin and back-office interfaces, developed by `Alimama`, part of `Alibaba`. It offers a rich set of components that help us build pages quickly.
+
+Let's add `antd` to the project. First, install it with `npm`. In the project terminal in `VS Code`, run:
+```bash
+npm install antd --save
+```
+Once it's installed, we can use `antd` in the project.
+
+## Components
+Open `HelloWorld.tsx` and add an `antd` button:
+```typescript
+import { Button } from 'antd'
+<Button type="primary">Hello World</Button>
+```
+Notice that `Button` has a `type` prop. Most `antd` components have props like this. You can browse every component and its props in the [component overview](https://ant.design/components/overview/). The antd documentation is very detailed and even includes examples.
+
+## Layout components
+There are also components for layout, such as [Flex](https://ant.design/components/flex). Try reading its documentation, then use it in `HelloWorld.tsx` to stack every element on the page neatly from top to bottom. Here's how I did it:
+<Blur isEnglish={true} client:visible>
+```typescript
+import { useNavigate, useParams } from "react-router-dom";
+import Notice from "../components/Notice"
+import TemplateComponent from "../components/TemplateComponent";
+import { Button, Flex } from "antd";
+
+const HelloWorld = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    return (
+        <Flex vertical gap={'middle'}>
+            <Button type="primary">Hello World</Button>
+            <button onClick={() => navigate('/temp/1')}>Go to /temp/1</button>
+            <TemplateComponent>
+                <>
+                    <Notice title={"Notice #" + id} content="This is the content" />
+                    <p>
+                        Hello world!
+                    </p>
+                </>
+            </TemplateComponent>
+        </Flex>
+    )
+}
+
+export default HelloWorld;
+```
+</Blur>
+
+Here I replaced the empty tag with `Flex` to get a simple layout.

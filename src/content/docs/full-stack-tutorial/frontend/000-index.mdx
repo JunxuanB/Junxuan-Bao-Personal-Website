@@ -1,0 +1,38 @@
+---
+title: Introduction
+description: Part two of the course, the frontend
+---
+Next, we'll learn the frontend. First, make sure you've finished part one on TypeScript basics.
+
+Before we start, let's understand what the frontend and backend are.
+Imagine you are writing a calculator program. To support addition, you write a function like this:
+```typescript
+function add(a: number, b: number): number {
+  return a + b;
+}
+```
+Now you can wrap it in a bit of simple code so users can use it directly:
+```typescript
+// get user input
+const a = parseInt(prompt("Enter the first number"));
+const b = parseInt(prompt("Enter the second number"));
+// calculate the result
+const result = add(a, b);
+// show the result
+alert(`The result is: ${result}`);
+```
+This gives you a simple calculator program:
+```
+Enter the first number: 1
+Enter the second number: 2
+The result is: 3
+```
+In this example, the `add` function is the `backend`, and the part where users enter and see values is the `frontend`. The `backend` processes data, and the `frontend` interacts with the user. In practice, though, a `frontend` rarely makes users type into a command line (apart from some very old systems). It uses a friendlier interface, like this:
+
+import calculator from '/src/assets/calculator.png';
+
+<img src={calculator.src} width="300" height="200" alt="A calculator interface" />
+
+In this part of the course, I'll show you how to build modern frontend pages like this with TypeScript.
+
+**Note: if you're not familiar with TypeScript yet, complete [TypeScript Quick Start](/full-stack-tutorial/basic/000-index/) first.**

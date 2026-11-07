@@ -1,0 +1,194 @@
+---
+title: HTTP API Requests
+description: Use Axios to make API requests
+---
+
+<Aside type="danger" title="Challenging content">
+This part is harder, so set aside more time for it. With challenging content, try to work through the whole section in one go instead of stopping halfway.
+If you get stuck, check the [frontend course on GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend) and search for the code by keyword.
+</Aside>
+
+## API
+`API` stands for `Application Programming Interface`. The term is broad: the interface of a library, such as the `React` interface we've been using, can be called an `API`. Here, though, we'll focus on one particular kind: the `HTTP API`.
+
+An `HTTP API` is an interface that provides a service over the `HTTP` protocol. You can think of `HTTP` as the protocol your browser uses when it opens web pages. An `HTTP API` is then a special kind of web page: instead of being shown to users, it provides data for programs to use.
+
+For example, say I have an `HTTP API` at `https://api.example.com`. I can get data by visiting addresses on it: `https://api.example.com/user` returns user information, and `https://api.example.com/post` returns posts. These addresses are the API's `endpoints`, and by visiting them we get the matching data.
+
+When we use an `HTTP API`, we use different `request methods`: `GET` to fetch data, `POST` to submit data, `PUT` to update data and `DELETE` to delete data. These methods are how we interact with the `API`. You could build every feature with `GET`, but your `API` would be inconsistent and unclear. So when using an `API`, we should use the method that matches the `HTTP` conventions, and this set of conventions is called a `REST API`.
+
+Let's recap. To make an `HTTP API` request, we need to know:
+- the address of the `API`, called the `endpoint`, such as `https://api.example.com/user`
+- the request method, such as `GET`, `POST`, `PUT` or `DELETE`
+- the request body, such as `name = 'John'`
+
+After making the request, we get a `response` that contains the data we asked for. In this example, it might be user information such as `age = 18`.
+
+You may notice that `name = 'John'` and `age = 18` in the example above are just strings with no clear format. As data grows, that kind of format becomes hard to maintain. We need a more consistent data format, and that's `JSON`. You'll find the concept of `JSON` in the `Tools and Concepts` part of this course. Here, the request body becomes `{"name": "John"}` and the response becomes `{"age": 18}`, which is clearer and easier to maintain.
+
+For now, let's focus on using an `HTTP API`. Building one is the job of the backend and is outside the scope of this course.
+
+## Make a request
+The simplest `GET` request is typing an address into your browser and pressing Enter. For example, open the demo API for this course, [https://junxuanb.com/api/products.json](https://junxuanb.com/api/products.json). You've just made a `GET` request and received data in `JSON` format. For more complex requests, such as `POST`, `PUT` and `DELETE`, you need a tool to help you send them.
+
+There are many such tools, for example [Postman](https://www.postman.com/) and [Apifox](https://www.apifox.com/). Try them out, pick one that suits you, and send a `POST` request to `https://jsonplaceholder.typicode.com/posts`.
+
+Note that this is a `POST` request. You should see:
+```json
+{
+    "id": 101
+}
+```
+If you got this result, congratulations: you've made a `POST` request! If not, you probably sent a `GET` request. Next, we'll learn how to use an `HTTP API` in our own app.
+
+## useEffect
+First, we need something called `useEffect`. `useEffect` is a `hook` provided by `React` that lets us run side effects in a `React` component, such as making an `HTTP API` request. In other words, when we need to do something that takes a while and doesn't affect the overall layout the user sees, we run it in `useEffect`. For example, to show the balance of a user's wallet: fetching the balance takes time and doesn't change the page layout, so we can fetch it in `useEffect`.
+
+Back in `HelloWorld.tsx`, add a `useEffect` inside the HelloWorld component, before the `return`:
+```tsx
+useEffect(() => {
+    // fetch data
+}, []);
+```
+Let me explain. `useEffect` takes two arguments. The first is a function containing the work we want to do. The second is an array called the dependency array: whenever a value in it changes, `useEffect` runs again. Here we pass an empty array, which means `useEffect` runs only once, when the component mounts. As an example of the second argument: if a page has one text box for a bank card number and another field showing the card's balance, we can put the card number in the dependency array. Then, whenever the card number changes, `useEffect` runs again and fetches the matching balance.
+
+## Make requests with Axios in TS
+Now let's fill in the `// fetch data` part. Our goal is to show a list of fruit, which we can get from `https://junxuanb.com/api/products.json`. Let's build it step by step.
+
+First, we need `Axios`, a library for making `HTTP API` requests in a simple way. Install `Axios` with `npm`:
+```bash
+npm install axios
+```
+
+Next, create an empty `state` to store the fruit list we fetch. Remember `useState`? Let's use it to create the `state`:
+```tsx
+const [products, setProducts] = useState<
+    {
+        id: number,
+        name: string,
+        price: number
+    }[]
+>([]);
+```
+`products` is our fruit list, and `setProducts` is the function that updates it. The type inside `<>` describes the shape of the fruit list. Now we can use `Axios` to fetch the fruit list:
+```tsx
+axios.get('https://junxuanb.com/api/products.json')
+    .then(response => {
+        setProducts(response.data.products);
+    });
+```
+Remember to import `Axios` with `import axios from 'axios';`. In this code, `axios.get` makes a `GET` request, and `.then` holds what to do once the data arrives. `response.data` contains the data. If you look at `https://junxuanb.com/api/products.json`, you'll see that `products` is an array, so we can read the fruit list directly from `response.data.products`. Finally, `setProducts` updates the value of `products`.
+
+Now we have the data! We want to show the fruit list in the format `#[id] - [name] - $[price]`, so we need to process `products`:
+```tsx
+<div>
+    {products.map(product => (
+        <div key={product.id}>
+            {product.id} - {product.name} - ${product.price}
+        </div>
+    ))}
+</div>
+```
+Here, `products.map` goes through `products`, and we use `product.id`, `product.name` and `product.price` to show each fruit. `key={product.id}` helps `React` tell each fruit apart, which improves performance. You should now see this on your page:
+```
+1 - Apple - $1.99
+2 - Banana - $0.99
+3 - Cherry - $2.99
+```
+
+If you run into problems, compare with my `HelloWorld.tsx`:
+<Blur isEnglish={true} client:visible>
+```tsx
+// ...
+import axios from "axios";
+
+const HelloWorld = () => {
+    // ...
+    const [products, setProducts] = useState<
+        {
+            id: number,
+            name: string,
+            price: number
+        }[]
+    >([]);
+
+    useEffect(() => {
+        axios.get('https://junxuanb.com/api/products.json')
+            .then(response => {
+                setProducts(response.data.products);
+            });
+    }, []);
+
+    return (
+        <Flex vertical gap={'middle'}>
+            <div>
+                {products.map(product => (
+                    <div key={product.id}>
+                        {product.id} - {product.name} - ${product.price}
+                    </div>
+                ))}
+            </div>
+            {/* ... */}
+        </Flex>
+    )
+}
+
+export default HelloWorld
+```
+</Blur>
+
+## Going further
+You now know how to make `HTTP API` requests with `Axios`, but that's just the tip of the iceberg. Let's look at a few more advanced techniques.
+
+### Make a POST request
+Similarly, we can use `axios.post` to make a `POST` request with a simple JSON body. Let's send a `POST` request to `https://jsonplaceholder.typicode.com/posts`:
+```tsx
+useEffect(() => {
+    axios.post('https://jsonplaceholder.typicode.com/posts', {
+        name: 'Orange',
+        price: 1.49
+    })
+        .then(response => {
+            console.log(response.data);
+        });
+}, []);
+```
+
+Now open your browser console (right-click anywhere on the page, choose `Inspect` to open the developer tools, and find the `Console` tab). You should see the result of the `POST` request:
+```json
+{
+    "name": "Orange",
+    "price": 1.49,
+    "id": 101
+}
+```
+
+### A base URL for axios
+In real projects, we mostly call our own backend API, so part of the URL is always the same, such as `https://junxuanb.com/api/`. We can use `axios.create` to create an `axios` instance so we don't have to write `https://junxuanb.com/api/` in every request.
+
+Create an `axios.ts` file in the `src` folder:
+```tsx
+import axios from "axios";
+
+const myAPI = axios.create({
+    baseURL: "https://junxuanb.com/api/",
+});
+
+export default myAPI;
+```
+
+That creates an `axios` instance. Now we can write `myAPI.get('products.json')` instead of `axios.get('https://junxuanb.com/api/products.json')`. Let's update `HelloWorld.tsx`:
+```tsx
+import myAPI from "../axios";
+
+useEffect(() => {
+        myAPI.get('products.json')
+            .then(response => {
+                setProducts(response.data.products);
+            });
+    }, []);
+```
+The code is much cleaner now!
+
+### Wrapping up
+You've now learned the most basic frontend skills. Next, let's use `React` to build a simple shopping cart!

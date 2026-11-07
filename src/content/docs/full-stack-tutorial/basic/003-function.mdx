@@ -1,0 +1,36 @@
+---
+title: Methods / Functions
+description: Defining functions in TypeScript
+---
+To make code reusable, we can wrap commonly used snippets into functions. In TypeScript, we define a function with the `function` keyword. The basic syntax:
+```typescript
+function functionName(parameters) {
+  // function body
+}
+```
+Another way to define a function is the arrow function. The basic syntax:
+```typescript
+const functionName = (parameters) => {
+  // function body
+}
+```
+Both do the same job, but arrow functions have a few shortcuts: for example, you can leave out the `return` keyword and the curly braces. A simple example:
+```typescript
+const add = (a: number, b: number) => a + b;
+// is the same as
+function add(a: number, b: number) {
+  return a + b;
+}
+```
+In real projects, you can mix and match the two as you see fit.
+
+To make code easier to read, we can add type annotations to functions. For example:
+```typescript
+function equal(a: number, b: number): boolean {
+  return a === b;
+}
+const equal = (a: number, b: number): boolean => {
+  return a === b;
+}
+```
+Here we added type annotations to `equal`: it takes two `number` parameters and returns a `boolean`. Note that the return type `: boolean` is optional in TS, so leaving it out doesn't mean the function returns nothing. We **strongly recommend** adding type annotations to functions, because they make your code easier to read and maintain.

@@ -18,10 +18,7 @@ export default defineConfig({
     plugins: [
       starlightHeadingBadges(),
     ],
-    title: {
-      en: "Junxuan Bao · Tutorials",
-      "zh-CN": "鲍俊轩 · 教程",
-    },
+    title: "Junxuan Bao",
     lastUpdated: true,
     // The site has its own 404 page (src/pages/404.astro).
     disable404Route: true,

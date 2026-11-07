@@ -1,0 +1,117 @@
+---
+title: useState
+description: Use useState to manage state on a page
+---
+import { CounterA, CounterB, Notice } from '/src/components/full-stack-tutorial/frontend.tsx'
+
+Picture this: we're building a counter, and every time the user clicks a button, the number on screen goes up.
+That sounds easy! We just define a variable in the component and add one to it in the click handler, like this:
+```typescript
+export const Counter = () => {
+  let count = 0;
+  return (
+    <div>
+      Count: {count}
+      <a onClick={() => count++}> [click +1] </a>
+    </div>
+  );
+}
+```
+> Result:
+> <CounterA lang="en" client:visible />
+
+**Wait, why doesn't the number change when you click?** Because React doesn't know we changed `count`, so the `JSX` on the page doesn't update when the number changes.
+
+## useState
+To fix this, we use `useState`, a `Hook` provided by `React`. `useState` is a function that adds state to a function component. Here's the counter from above rewritten with `useState`:
+```typescript
+export const Counter = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      Count: {count}
+      <a onClick={() => setCount(count + 1)}> [click +1] </a>
+    </div>
+  );
+}
+```
+> Result:
+> <CounterB lang="en" client:visible />
+
+In this example, the basic usage of `useState` is `const [state, setState] = useState(initialState)`. `useState` takes one argument: the initial value of the state. It returns an array whose first element is the current value of the state, and whose second element is a function that updates it.
+
+Note that `useState` updates the state through the second element of the returned array. So even though we add one to `count` (changing its value), we still don't need to define `count` with `let`, because `count` is updated through `setCount`.
+
+## Exercise: a closable notice
+Your turn! In earlier lessons we built the `Notice` component. Now add a close button to it, so the content disappears when the button is clicked.
+
+<Notice title="Notice" content="This is the content" closable={true} lang="en" client:visible />
+
+Try it yourself! Hint: you can use `condition && <Component />` to show a component only when a condition is true, and you can use components from antd too. Here's my code:
+
+<Blur isEnglish={true} client:visible>
+```typescript
+import { Button } from "antd";
+import { useState } from "react";
+
+interface Props {
+  title: string;
+  content: string;
+}
+
+const Notice = (props: Props) => {
+  const [closed, setClosed] = useState(false);
+  return (
+    !closed && // hidden once closed is true
+    <div
+      style={{
+        width: '50%', // I changed this to 50% so it displays fully
+        border: '1px dotted #aaa',
+        borderRadius: '5px',
+        padding: '10px',
+        position: 'relative',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <h4
+        style={{
+          margin: 0,
+          paddingBottom: '5px',
+          fontSize: '16px',
+          color: '#333',
+          borderBottom: '1px solid #ddd',
+        }}
+      >
+        {props.title}
+
+        {/* add a right-aligned button using antd */}
+        <Button
+        type="link"
+        onClick={() => setClosed(!closed)}
+        style={{
+          position: 'absolute',
+          right: '0px',
+          top: '5px',
+          fontSize: '14px',
+        }}
+        >
+          Hide
+        </Button>
+      </h4>
+      <p
+        style={{
+          margin: '10px 0 0',
+          fontSize: '14px',
+          color: '#555',
+        }}
+      >
+        {props.content}
+      </p>
+    </div>
+  );
+};
+
+export default Notice
+```
+</Blur>

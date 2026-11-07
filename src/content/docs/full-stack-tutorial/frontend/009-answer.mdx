@@ -1,0 +1,327 @@
+---
+title: "Hands-on: Shopping Cart Answer"
+description: Now, let's try building the shopping cart ourselves.
+tableOfContents: false
+---
+<Aside>
+If you're comfortable learning on your own, you can find the code directly in the [frontend course on GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend).
+
+If you like this course, please give [it](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website) a star ⭐️. It means a lot to me!
+</Aside>
+
+### Setup
+1. Install `decimal.js` with `npm install decimal.js`.
+1. Create a `Cart.tsx` file in `src/pages`, and use `rafce` to generate a function component (page).
+2. Import the `Cart` component in `src/main.tsx` and register its route.
+```tsx
+import Cart from "./pages/Cart";
+
+createRoot(document.getElementById('root')!).render(
+    <BrowserRouter>
+        <Routes>
+            <Route path="/cart" element={<Cart />} />
+            { /* ... other routes */ }
+        </Routes>
+    </BrowserRouter>
+);
+```
+3. Add a button in `src/pages/HelloWorld.tsx` that goes to `/cart`.
+```tsx
+<button onClick={() => navigate('/cart')}>Cart</button>
+```
+
+### Define the variables
+From here on, everything happens inside the `Cart` function component in `Cart.tsx`.
+1. Set up the `hooks` we need. This step is needed because some `antd` components have to be set up with a bit of extra code, such as `message` and `Typography`.
+```tsx
+const { Title, Text } = Typography;
+const [messageApi, contextHolder] = message.useMessage();
+```
+2. Define the data structure.
+```tsx
+type Product = {
+    id: number,
+    name: string,
+    price: number,
+    discount: number,
+    stock: number,
+    image: string,
+    realPrice: number
+}
+```
+3. Define the product list and the cart
+```tsx
+const [products, setProducts] = useState<Product[]>([]);
+
+const [cart, setCart] = useState<
+    {
+        id: number,
+        quantity: number
+    }[]
+>([]);
+```
+4. Fetch the data
+```tsx
+useEffect(() => {
+    myAPI.get('products.json')
+        .then(response => {
+            const newProducts = response.data.products as Product[];
+            newProducts.forEach(product => {
+                product.realPrice = new Decimal(product.price).minus(product.discount).toDecimalPlaces(2).toNumber();
+
+            });
+            setProducts(newProducts);
+        });
+}, []);
+```
+
+### Helper functions
+1. We need a `total()` function to calculate the total price of the cart.
+```tsx
+const total = () => {
+    let sum = new Decimal(0);
+    cart.forEach(item => {
+        const product = products.find(product => product.id === item.id);
+        if (product) {
+            sum = sum.plus(new Decimal(product.realPrice).times(item.quantity));
+        }
+    });
+    return sum.toDecimalPlaces(2).toNumber();
+}
+```
+2. We also need an `updateCart(id, quantity)` function to update the quantity of an item in the cart, where `quantity` is the amount to add. Don't forget to update the stock as well!
+```tsx
+const updateCart = (id: number, quantity: number) => {
+    const product = products.find(product => product.id === id);
+    if (!product || product.stock < quantity) {
+        return;
+    }
+    let newCart = [...cart];
+    let found = false;
+    newCart.forEach(item => {
+        if (item.id === id) {
+            item.quantity += quantity;
+            found = true;
+            if (item.quantity <= 0) {
+                newCart = newCart.filter(item => item.id !== id);
+            }
+        }
+    });
+    if (!found && quantity > 0) {
+        newCart.push({ id, quantity });
+    }
+    setCart(newCart);
+    const updateProducts = [...products];
+    updateProducts.forEach(product => {
+        if (product.id === id) {
+            product.stock -= quantity;
+        }
+    });
+    setProducts(updateProducts);
+}
+```
+
+### The page
+1. First, let's build the frame.
+```tsx
+<Card>
+    {contextHolder} { /* code from the antd docs that displays messages */ }
+    <Row>
+        <Col span={16}>
+            <Title level={3} style={{ marginTop: 0 }}>Fruit Store 🍎</Title>
+            <Flex gap={5} wrap>
+                { /* product list */ }
+            </Flex>
+        </Col>
+        <Col span={8}>
+            <Card title="Cart">
+                <Flex gap={5} vertical>
+                    { /* cart items */ }
+                    <Title level={5}>Total: ${total()}</Title>
+                    { /* checkout button; note how onClick is written */ }
+                    <Button type="primary" onClick={() => { messageApi.success('Checked out'); setCart([]) }}>Check out</Button>
+                </Flex>
+            </Card>
+        </Col>
+    </Row>
+</Card>
+```
+2. The product list
+```tsx
+{products.map(product => (
+    <Card key={product.id}>
+        <Flex gap={1} vertical>
+            <Title level={5} style={{ marginTop: -10 }}>
+                <Tag color="cyan">#{product.id}</Tag>
+                {product.name}
+            </Title>
+            <Text delete={product.discount > 0}>Price: ${product.price}</Text>
+            {product.discount > 0 && <Text mark>Sale price: ${product.realPrice}</Text>}
+            <Text type="secondary">Stock: {product.stock}</Text>
+            <Image
+                width={100}
+                src={product.image}
+            />
+            <Button style={{ marginTop: 10 }} onClick={() => updateCart(product.id, 1)} disabled={product.stock <= 0}>Add to cart</Button>
+        </Flex>
+    </Card>
+))}
+```
+3. The cart items
+```tsx
+{cart.map(item => (
+    <Card key={item.id} size="small" style={{ marginBottom: 10 }}>
+        <DeleteOutlined style={{ marginRight: 10, color: 'red' }} onClick={() => updateCart(item.id, -item.quantity)} />
+        {products.find(product => product.id === item.id)?.name} - ${products.find(product => product.id === item.id)?.realPrice} |
+        Qty: <MinusCircleOutlined onClick={() => updateCart(item.id, -1)} /> {item.quantity} <PlusCircleOutlined onClick={() => updateCart(item.id, +1)} />
+    </Card>
+))}
+```
+
+### Full code
+<Blur isEnglish={true} client:visible>
+```tsx
+import { Card, Col, Flex, Row, Typography, Image, Tag, Button, message } from "antd"
+import { useEffect, useState } from "react";
+import myAPI from "../axios";
+import { DeleteOutlined, MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import Decimal from 'decimal.js';
+
+const Cart = () => {
+    const { Title, Text } = Typography;
+    const [messageApi, contextHolder] = message.useMessage();
+
+    type Product = {
+        id: number,
+        name: string,
+        price: number,
+        discount: number,
+        stock: number,
+        image: string,
+        realPrice: number
+    }
+
+    const [products, setProducts] = useState<Product[]>([]);
+
+    const [cart, setCart] = useState<
+        {
+            id: number,
+            quantity: number
+        }[]
+    >([]);
+
+    useEffect(() => {
+        myAPI.get('products.json')
+            .then(response => {
+                const newProducts = response.data.products as Product[];
+                newProducts.forEach(product => {
+                    product.realPrice = new Decimal(product.price).minus(product.discount).toDecimalPlaces(2).toNumber();
+
+                });
+                setProducts(newProducts);
+            });
+    }, []);
+
+    const total = () => {
+        let sum = new Decimal(0);
+        cart.forEach(item => {
+            const product = products.find(product => product.id === item.id);
+            if (product) {
+                sum = sum.plus(new Decimal(product.realPrice).times(item.quantity));
+            }
+        });
+        return sum.toDecimalPlaces(2).toNumber();
+    }
+
+    const updateCart = (id: number, quantity: number) => {
+        const product = products.find(product => product.id === id);
+        if (!product || product.stock < quantity) {
+            return;
+        }
+        let newCart = [...cart];
+        let found = false;
+        newCart.forEach(item => {
+            if (item.id === id) {
+                item.quantity += quantity;
+                found = true;
+                if (item.quantity <= 0) {
+                    newCart = newCart.filter(item => item.id !== id);
+                }
+            }
+        });
+        if (!found && quantity > 0) {
+            newCart.push({ id, quantity });
+        }
+        setCart(newCart);
+        const updateProducts = [...products];
+        updateProducts.forEach(product => {
+            if (product.id === id) {
+                product.stock -= quantity;
+            }
+        });
+        setProducts(updateProducts);
+    }
+
+    return (
+        <Card>
+            {contextHolder}
+            <Row>
+                <Col span={16}>
+                    <Title level={3} style={{ marginTop: 0 }}>Fruit Store 🍎</Title>
+                    <Flex gap={5} wrap>
+                        {products.map(product => (
+                            <Card key={product.id}>
+                                <Flex gap={1} vertical>
+                                    <Title level={5} style={{ marginTop: -10 }}>
+                                        <Tag color="cyan">#{product.id}</Tag>
+                                        {product.name}
+                                    </Title>
+                                    <Text delete={product.discount > 0}>Price: ${product.price}</Text>
+                                    {product.discount > 0 && <Text mark>Sale price: ${product.realPrice}</Text>}
+                                    <Text type="secondary">Stock: {product.stock}</Text>
+                                    <Image
+                                        width={100}
+                                        src={product.image}
+                                    />
+                                    <Button style={{ marginTop: 10 }} onClick={() => updateCart(product.id, 1)} disabled={product.stock <= 0}>Add to cart</Button>
+                                </Flex>
+                            </Card>
+                        ))}
+                    </Flex>
+                </Col>
+                <Col span={8}>
+                    <Card title="Cart">
+                        <Flex gap={5} vertical>
+                            {cart.map(item => (
+                                <Card key={item.id} size="small" style={{ marginBottom: 10 }}>
+                                    <DeleteOutlined style={{ marginRight: 10, color: 'red' }} onClick={() => updateCart(item.id, -item.quantity)} />
+                                    {products.find(product => product.id === item.id)?.name} - ${products.find(product => product.id === item.id)?.realPrice} |
+                                    Qty: <MinusCircleOutlined onClick={() => updateCart(item.id, -1)} /> {item.quantity} <PlusCircleOutlined onClick={() => updateCart(item.id, +1)} />
+                                </Card>
+                            ))}
+                            <Title level={5}>Total: ${total()}</Title>
+                            <Button type="primary" onClick={() => { messageApi.success('Checked out'); setCart([]) }}>Check out</Button>
+                        </Flex>
+                    </Card>
+                </Col>
+            </Row>
+        </Card>
+    )
+}
+
+export default Cart
+```
+</Blur>
+
+<Aside type="tip" title="🎉 Congratulations 🎉">
+You've built the shopping cart! This wraps up the frontend part of the course. If you got this working, you have the basic skills of frontend development. Next, try building a project of your own with what you've learned.
+
+You can also read the What's Next page of this chapter to learn about where the frontend is heading and what else you can learn.
+
+As a reminder, you can find the code in the [frontend course on GitHub](https://github.com/JunxuanB/full-stack-tutorial-frontend).
+</Aside>
+<Aside type="tip" title="If you like this course...">
+If you like this course, please give [my website](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website) a `⭐️ Star` on GitHub. It means a lot to me!
+
+You can also open an [issue](https://github.com/JunxuanB/Junxuan-Bao-Personal-Website/issues) to share feedback and suggestions to help me improve the course.
+</Aside>

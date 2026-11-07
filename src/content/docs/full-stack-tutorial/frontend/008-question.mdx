@@ -1,0 +1,64 @@
+---
+title: "Hands-on: Shopping Cart Exercise"
+description: Now, let's try building the shopping cart ourselves.
+tableOfContents: false
+---
+import { Cart } from '/src/components/full-stack-tutorial/frontend.tsx'
+
+<Aside type="note" title="Hands-on">
+Each unit of this course ends with a hands-on exercise, where you get to put what you've learned into practice. We encourage you to try these exercises on your own to understand the material better.
+
+These exercises are harder and may involve a few new concepts. We suggest searching online or asking an AI assistant to help you work through problems yourself.
+</Aside>
+
+**You've now learned the basics of React. Let's build a `shopping cart` component together.**
+
+## Goal
+Your goal is to recreate the `shopping cart` component below exactly.
+
+<Cart lang="en" client:visible />
+
+## Requirements
+- Create a new React page and bind it to the `/cart` route
+- Add a button on the home page that goes to `/cart`
+
+#### The /cart page
+- `GET` the `products` data from `https://junxuanb.com/api/products.json`
+- Show the data for each product, where `discount` is the amount taken off the price
+- For products without a discount, simply show `price`
+- For discounted products, first strike through the original price, then highlight the real price. Calculate the real price as `price` minus `discount`.
+- Each product has an `Add to cart` button. Clicking it adds the product to the cart and reduces its stock
+- Each item in the cart has three buttons, `+`, `-` and `Delete`, to increase the quantity, decrease it and remove the item. Each action should update the stock accordingly
+- The bottom of the cart shows the total price, updated in real time
+- The bottom of the cart has a `Check out` button. Clicking it checks out the items in the cart and shows a message
+
+## Hints
+- Use [Card](https://ant.design/components/card) for the layout, for each product and for the items in the cart
+- Use [Flex](https://ant.design/components/flex) so the product area wraps automatically
+- Use [Typography](https://ant.design/components/typography) for the strikethrough and the highlight
+- antd has many built-in [Icons](https://ant.design/components/icon) you can use for the `+`, `-` and `Delete` buttons
+- Use [Message](https://ant.design/components/message#message-demo-hooks) for the message shown at checkout
+
+#### Floating-point precision
+For `Cherry`, the real price should be `2.99 - 0.3 = 2.69`. If you get `2.6900000000000004`, that's a floating-point precision issue in TypeScript. You can install `decimal.js` with `npm install decimal.js` and use it for decimal math, for example `new Decimal(2.99).minus(0.3).toNumber()`
+
+#### Copying arrays
+When you change an array stored in `useState`, you may need to work on the array first and then save it. In that case, you need to make a copy first. For example:
+```tsx
+const [cart, setCart] = useState<Product[]>([]);
+const newCart = cart;
+// ... do something with newCart, such as .forEach() or .push()
+setCart(newCart); 
+```
+**This causes problems!** `newCart` is only a reference to `cart`, so changing `newCart` really means trying to change `cart` directly, which isn't allowed. Instead, we need:
+```tsx
+const [cart, setCart] = useState<Product[]>([]);
+const newCart = [...cart]; // make a new array instead of referencing the old one
+// ... do something with newCart, such as .forEach() or .push()
+setCart(newCart); 
+```
+This avoids changing `cart` directly in a way that isn't allowed.
+
+<Aside type="caution" title="Try it yourself!">
+Before you scroll down to the answer, try to finish this exercise on your own! Doing it yourself is the best way to understand what you've learned!
+</Aside>

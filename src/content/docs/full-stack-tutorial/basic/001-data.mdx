@@ -1,0 +1,100 @@
+---
+title: Data / Variables
+description: TypeScript data types, variables, enum, interface and type quick start
+---
+At its core, a programming language displays and works with data. In TypeScript (TS), data has a "type". Let's look at the types and how to use them.
+## Basic data types
+TypeScript has these basic data types:
+- `string`: text. Unlike Java, a string in TS is a built-in basic type rather than a special object.
+- `number`: a number. Unlike many common languages, TS represents both decimals and integers as `number`. It has no fixed precision and can store any decimal or integer.
+- `boolean`: `true` or `false`.
+- `array`: a list, usually written as `type[]`. For example, an array of numbers is `number[]`. Arrays in TS grow and shrink automatically, so you don't need to set their length.
+- `enum`: a set of named constants, covered in detail below.
+
+A few special types:
+- `null`: an empty value. It usually means something was retrieved successfully but is empty.
+- `undefined`: not defined. It usually means something could not be retrieved.
+- `unknown`: a value of uncertain type that must be checked before use.
+- `any`: any type at all. Often used when defining functions to accept any type.
+- `void`: returns nothing. Used for functions that only perform an action and `return` nothing.
+- `never`: never returns. Used for functions that, for example, only throw an error and never return normally.
+
+Some less common types:
+- `tuple`: an array with a fixed length and fixed types
+- `union`: a value that can be one of several types
+
+Last but most important is `object`, which we will cover in detail below.
+
+## Variables
+Now that we know the types, let's define variables. TS has two main ways to do this: `const` and `let`. `const` is for values that won't change, and `let` is for values that will. If a value won't be changed (it's read-only), `const` is strongly recommended. It makes your code easier to read and prevents accidental changes. Historically, `let` also caused some strange bugs in certain JavaScript versions (these seem to be fixed now).
+
+`const` and `let` are used the same way:
+```typescript
+const constantA: number = 15;
+let constantB: number = 15;
+constantB = 20; // change a variable defined with let
+```
+The `: number` part can be left out, because TS can infer the type (if it can't, the type becomes `unknown`). For example, these two lines do the same thing:
+```typescript
+const constantA: number[] = [15,16];
+const constantB = [15,16];
+```
+
+## enum
+An enum is a common but slightly more complex type. Think of it as a multiple-choice question: if a value can only be one of a few fixed options, an enum is the perfect fit. You could do something similar, or even simpler, with a string, but enums make your code much more readable and consistent.
+
+For example, to store the state of a traffic light, we can define this enum:
+```typescript
+export enum TrafficLight {
+    "red", 
+    "green", 
+    "yellow", 
+}
+```
+Here we defined three members: red, green and yellow. This makes the code simpler and clearer. For example, to define a variable for a red light, we can write:
+```typescript
+const redLight: TrafficLight = TrafficLight.red;
+```
+The code is much more readable and consistent, and it prevents passing in a value that doesn't exist.
+In the example above, `TrafficLight.red` is treated as `'red'` when used. If we don't want `red` to map directly to `'red'`, we can set the values ourselves. For example, to turn the traffic light signals into numbers:
+```typescript
+export enum TrafficLight {
+    red = 0, 
+    green = 1, 
+    yellow = 2, 
+}
+```
+Now `TrafficLight.red` is treated as `0`.
+
+## object
+For more complex work, we define objects, which combine several types into one.
+
+For example, to define a `People` type:
+```typescript
+type People = {
+    name: string;
+    age: number;
+    telephone?: string;
+};
+```
+Notice the `?` after `telephone`. It means the field is optional, so it can be empty. Once the type is defined, we can use it:
+```typescript
+const alex: People = {
+    name: "Alex",
+    age: 18,
+    telephone: "123456789",
+};
+console.log(alex.name); // gets the name 'Alex'
+console.log(alex.telephone!); // gets the phone number '123456789'
+```
+This shows one more concept: when we read an optional field, we use an `assertion`. For a person `alex: People`, we read `telephone` with `alex.telephone!` instead of `alex.telephone`. The `!` tells the compiler we are sure the value exists here and is not empty.
+
+Besides `type`, there is another way to define your own types: `interface`. For basic use, the two work the same:
+```typescript
+interface People {
+    name: string;
+    age: number;
+    telephone?: string;
+};
+```
+In practice, `type` is often used to define data types, and `interface` to describe what a function receives. We won't go deeper here. There are a few other differences between `type` and `interface`; try finding them yourself!

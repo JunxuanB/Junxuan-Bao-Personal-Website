@@ -1,0 +1,240 @@
+---
+title: Components and Pages
+description: Write your first React component and page
+---
+import { Notice } from '/src/components/full-stack-tutorial/frontend.tsx'
+
+Imagine we're building a notification bar, and we want a notice box like this:
+<Notice title="Title" content="Content" lang="en" />
+
+Here is the `HTML` for this component:
+```html
+<div
+  style="
+    width: 100%;
+    border: 1px dotted #aaa;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  "
+>
+  <h4
+    style="
+      margin: 0;
+      padding-bottom: 5px;
+      font-size: 16px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+    "
+  >
+    Title
+  </h4>
+  <p
+    style="
+      margin: 10px 0 0;
+      font-size: 14px;
+      color: #555;
+    "
+  >
+    Content
+  </p>
+</div>
+```
+
+## Why do we need components?
+Now imagine you're building a notification center with lots of these notice bars. How would you do it? Would you copy and paste this `HTML` many times? If you did, every time you wanted to change the style of the notice bar, you would have to change it in many places. That gets painful fast.
+
+## How do you create a component?
+That's why we have `components`. A component is a reusable block of code. In `React`, we define one as a `function component`, which is as simple as defining any function or variable! Here is a simple `React` component:
+```typescript
+const Notice = () => {
+    return (
+        <div>This is a component</div>
+    )
+}
+```
+As you can see, the component is just a function that returns a `JSX` element. We can now use it directly with `<Notice />`!
+
+## Create a component in the project
+Let's try it in our project! First, create a `components` folder in `src`, then create a `Notice.tsx` file inside it for our notice component. **Note: in `React`, component file names must start with a capital letter to distinguish them from `HTML` tags.**
+
+Open the file and write the following code:
+```typescript
+import React from 'react'
+
+const Notice = () => {
+  return (
+    <div>Notice</div>
+  )
+}
+
+export default Notice
+```
+If you use `VS Code`, you can also type `rafce` in the file and press Enter, and `VS Code` will generate a function component for you. First, delete the first line, `import React from 'react'`, because we don't use the `React` variable. Then replace the `div` inside the `Notice` function with the code we just showed. Your `Notice.tsx` file should now look like this:
+```typescript
+const Notice = () => {
+    return (
+        <div>This is a component</div>
+    )
+}
+
+export default Notice
+```
+
+## Use the component
+Next, let's use the component. First, there are two important things to know.
+In React, each component can only return one element. What does that mean? Here's an example of what not to do:
+```typescript
+const Notice = () => {
+    return (
+        <div>This is a component</div>
+        <div>This is another component</div> // this causes an error
+    )
+}
+```
+But we can wrap both `div` elements in another `div`, and the error goes away:
+```typescript
+const Notice = () => {
+    return (
+        <div>
+            <div>This is a component</div>
+            <div>This is another component</div>
+        </div>
+    )
+}
+```
+Is there an easier way? Of course! In `React`, we can wrap several elements in an empty tag, `<></>`, so we don't need an extra `div`:
+```typescript
+const Notice = () => {
+    return (
+        <>
+            <div>This is a component</div>
+            <div>This is another component</div>
+        </>
+    )
+}
+```
+Now let's use this component in `main.tsx`. First, wrap the existing `Hello World` in an empty tag, then add our `Notice` component inside it. That way we won't get an error for returning multiple elements:
+<Blur isEnglish={true} client:visible>
+```typescript
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import Notice from './components/Notice'
+
+createRoot(document.getElementById('root')!).render(
+  <>
+    <Notice />
+    <p>
+      Hello world!
+    </p>
+  </>
+  ,
+)
+```
+</Blur>
+Modern IDEs fill in `import` statements for you, so you can type `Notice`, press Enter, and the editor will add the `import Notice from './components/Notice'` line.
+
+You've just made your first component! Next, let's fill in some content.
+
+## Add the template
+At the start of this lesson, we showed the `HTML` for the notice component. Now let's put it into our component. Note that in `React`, some of the `HTML` syntax changes: values need quotes `''`, and styles are written as objects separated by commas instead of `;`. Compare the `HTML` from the start of the lesson with the `JSX` below (`HTML` written in `React` is called `JSX`):
+```javascript
+<div
+    style={{
+        width: '100%',
+        border: '1px dotted #aaa',
+        borderRadius: '5px',
+        padding: '10px',
+        position: 'relative',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+    }}
+>
+    <h4
+        style={{
+            margin: 0,
+            paddingBottom: '5px',
+            fontSize: '16px',
+            color: '#333',
+            borderBottom: '1px solid #ddd',
+        }}
+    >
+        Title
+    </h4>
+    <p
+        style={{
+            margin: '10px 0 0',
+            fontSize: '14px',
+            color: '#555',
+        }}
+    >
+      Content
+    </p>
+</div>
+```
+Look closely at the differences. Don't worry: after writing it a few times, you'll get used to it. Now let's put this code into our component:
+```typescript
+const Notice = () => {
+    return (
+        // the code above
+    )
+}
+```
+Refresh the page, and you should see a notice bar!
+<Notice title="Title" content="Content" lang="en" />
+
+## Pass in props
+Pretty cool! But remember why we made a component in the first place? We want to reuse it, not edit its content by hand every time. Let's make the component more flexible so we can pass in values that change what the notice says.
+
+First, we define an `interface` that describes the component's props. In an earlier lesson we compared `interface` and `type`; for component props, we usually use `interface`.
+Our notice has two props, `title` and `content`. Define the `interface` like this at the top of `Notice.tsx`:
+```typescript
+interface Props {
+    title: string;
+    content: string;
+}
+```
+Since no other file uses these props, we can simply name the interface `Props`. You can also use a more specific name, such as `NoticeProps`. Note that names of an `interface`, a `type` and a `component` usually start with a capital letter.
+
+Next, tell the component to accept these props by replacing the `()` part:
+```typescript
+const Notice = (props: Props) => {
+    // props is the variable name; Props is the interface we defined
+    return (
+        // ...
+    )
+}
+```
+How do we use the props inside the component? In `JSX`, we use `{}` to insert a value, and it can be any `JS` expression. Here we use `{props.title}` for the `title` prop and `{props.content}` for the `content` prop. The component should now look like this:
+<Blur isEnglish={true} client:visible>
+```typescript
+interface Props {
+    title: string;
+    content: string;
+}
+
+const Notice = (props: Props) => {
+    return (
+      <div style={{...}} >
+        <h4 style={{...}} >
+            {props.title}
+        </h4>
+        <p style={{...}} >
+            {props.content}
+        </p>
+      </div>
+    );
+  };
+
+export default Notice
+```
+</Blur>
+And that's it: our component now accepts props! Update `main.tsx` to pass them in:
+```typescript
+<Notice title="This is a title" content="This is the content" />
+```
+
+## Pages
+You may have noticed "and Pages" in this lesson's title. In `React`, a page is just a component made of other components. In the next lesson, we'll learn what `routing` is and how to use it, and then we can start building our pages!

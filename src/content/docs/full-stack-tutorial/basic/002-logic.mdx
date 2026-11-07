@@ -1,0 +1,156 @@
+---
+title: Logic / Loops
+description: TypeScript if/else, switch/case and basic operators
+---
+In this part, we cover conditional statements and loops. Before that, let's review a few basic comparison and logical operators.
+## Operators
+The common ones are `==`, `===`, `!=`, `!==`, `&&`, `||` and `!`.
+### `==` and `===`
+`==` checks whether two values are equal, and `===` checks whether they are strictly equal (same value and same type).
+```typescript
+const a = 1;
+const b = '1';
+console.log(a == b); // true
+console.log(a === b); // false
+```
+### `!=` and `!==`
+`!=` checks whether two values are not equal, and `!==` checks whether they are not strictly equal.
+```typescript
+const a = 1;
+const b = '1';
+console.log(a != b); // false
+console.log(a !== b); // true
+```
+### `&&` and `||`
+`&&` is logical AND, and `||` is logical OR.
+```typescript
+const a = true;
+const b = false;
+console.log(a && b); // false
+console.log(a || b); // true
+```
+`&&` can also be used as a condition. For example, set `b` to `1` when `a` is true:
+```typescript
+const a = true;
+let b = 0;
+a && (b = 1);
+console.log(b); // 1
+```
+### `!`
+`!` is logical NOT.
+```typescript
+const a = true;
+console.log(!a); // false
+```
+
+## The ternary operator
+The ternary operator is a short conditional expression. Its syntax is `{condition} ? {value if true} : {value if false}`.
+In the example below, `b` is `1` if `a` is true, and `0` otherwise.
+```typescript
+const a = true;
+const b = a ? 1 : 0;
+console.log(b); // 1
+```
+
+## if ... else if ... else
+`if` is the most basic conditional statement. `else if` and `else` add more conditions on top of it. `if` is required; `else if` and `else` are optional. You can have several `else if` blocks but only one `else`. The basic syntax:
+```typescript
+if (condition1) {
+  // runs when condition1 is true
+} else if (condition2) {
+  // runs when condition1 is false and condition2 is true
+} else {
+  // runs when both condition1 and condition2 are false
+}
+```
+
+## switch ... case
+When you want to do different things depending on the result of one expression, use `switch`. It compares the value of an expression against each `case`, and runs the matching one. The basic syntax:
+```typescript
+switch (expression) {
+  case value1:
+    // runs when expression equals value1
+    break;
+  case value2:
+    // runs when expression equals value2
+    break;
+  default:
+    // runs when expression matches no case
+}
+```
+Notice the `break` statement under both `value1` and `value2`. It stops the `switch`. Without `break`, execution continues into the next `case`. In this example, if `expression` equals `value1` and there is no `break`, the code for both `case value1` and `case value2` will run.
+`default` has no `break` because it is the last block of the `switch`, so there is nothing left to stop.
+
+## The for loop
+`for` is a common loop that repeats a block of code until a condition becomes false. The basic syntax:
+```typescript
+for (initialization; condition; increment) {
+    // initialization sets up the counter
+    // condition decides whether to keep looping
+    // increment updates the counter
+}
+```
+For example, this runs `console.log(i)` 10 times:
+```typescript
+for (let i = 0; i < 10; i++) {
+    // i starts at 0, so this runs 10 times
+    console.log(i);
+}
+```
+
+## The for ... in loop
+`for ... in` builds on `for` to go through the properties of an object. The basic syntax:
+```typescript
+for (variable in object) {
+    // variable is the property name
+    // object is the object to iterate over
+}
+```
+For example, this goes through every element of an array:
+```typescript
+const arr = [1, 2, 3];
+for (const i in arr) {
+    console.log(arr[i]);
+}
+```
+
+## The forEach loop
+Like `for ... in`, `forEach` is used to go through a collection. The basic syntax:
+```typescript
+object.forEach((value, index) => {
+    // value is the element's value
+    // index is the element's index
+});
+```
+`index` can be left out. Again, here is an example that goes through an array:
+```typescript
+const arr = [1, 2, 3];
+arr.forEach(value => {
+    console.log(value);
+});
+```
+
+## The while loop
+`while` repeats a block of code while a condition is true. The basic syntax:
+```typescript
+while (condition) {
+    // condition decides whether to keep looping
+}
+```
+With this form, if `condition` is false from the start, the loop never runs. If you want the loop to run at least once, use `do ... while`, which checks the condition at the end:
+```typescript
+do {
+    // condition decides whether to keep looping
+} while (condition);
+```
+
+## break and continue
+`break` stops a loop, and `continue` skips the rest of the current iteration and moves on to the next one. We already saw `break` in the `switch` statement. Here is `continue`:
+```typescript
+for (let i = 0; i < 10; i++) {
+    if (i % 2 === 0) {
+        continue; // skip even numbers
+    }
+    console.log(i);
+}
+```

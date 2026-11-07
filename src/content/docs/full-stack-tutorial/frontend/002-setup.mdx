@@ -1,0 +1,129 @@
+---
+title: Project Setup & Hello World
+description: Set up a Vite + React project and write your first React page
+---
+import { Button } from 'antd';
+import { FileTree } from '@astrojs/starlight/components';
+
+Now we'll start building a real frontend project. In this section, we use `Vite` to set up a `React` project.
+
+## React
+As mentioned before, we use `React` as our frontend framework. A `framework` is a ready-made library of code. For example, if we want to show a button, we can write it in `HTML` like this:
+```html
+<button>Button</button>
+```
+> Result: <button>Button</button>
+
+Now we want the button to have a dashed border:
+```html
+<button style="border: 1px dashed #000;">Loading...</button>
+```
+> Result: <button style="border: 1px dashed #000;">Loading...</button>
+
+As you can see, even a simple button needs strong CSS and JS skills as soon as the requirements get complex. Complex requirements can take a lot of time, such as a button with a dashed border and a loading animation. `React` exists to solve exactly this. With `React`, we can build that button easily:
+```typescript
+import { Button } from 'antd'
+<Button type="dashed" loading>Loading...</Button>
+```
+> Result: <Button type="dashed" loading client:visible >Loading...</Button>
+
+Here we used `antd`, a React UI library that we'll cover in detail later. In short, `React` lets us focus on the logic of our product, and get more features and styles with less code!
+
+## Vite
+In frontend development, we often use scaffolding tools to set up projects. They take care of tedious configuration so we can start writing code right away. In this tutorial, we use `Vite` to set up our project.
+
+## Let's get started!
+### Create a project
+First, choose a suitable location and create a folder, for example `my-app`, then open it in VS Code. From the Terminal menu at the top, open a new terminal and run:
+```bash
+npm create vite@5.5.5 . 
+```
+`npm create` creates a project using the `npm` package manager, `vite` is the name of Vite's package on the `npm` registry, and `@5.5.5` is the Vite version. To keep things consistent with this tutorial, I recommend this version; if you want the latest, replace `@5.5.5` with `@latest`. The final `.` creates the project in the current folder instead of a new one.
+
+After running the command, you'll need to answer a few questions. You can use these answers:
+```bash
+# If the folder isn't empty, npm asks whether to remove the files; choose to remove them
+✔ Current directory is not empty. Please choose how to proceed: › Remove existing files and continue
+
+# Choose a framework; we choose React
+✔ Select a framework: › React
+
+# Choose a language; we choose TypeScript
+# There is also a TypeScript + SWC option. SWC is a faster compiler, but we won't use it here
+✔ Select a variant: › TypeScript
+```
+
+Then install the dependencies yourself with `npm install`. When it finishes, start the project with `npm run dev`. Open `http://localhost:5173/` in your browser (the default port may differ; the address is shown after you run the command), and you'll see a `React` welcome page.
+
+### Project structure
+Now the folder contains a structure like this:
+<FileTree>
+
+- node_modules/
+- public/
+- src
+  - assets/
+  - App.css
+  - App.tsx
+  - index.css
+  - main.tsx
+  - vite-env.d.ts
+- index.html
+- package.json
+- ...
+
+</FileTree>
+
+Here we only show the important files:
+- `node_modules` holds the dependencies downloaded by `npm`
+- `public` holds static assets such as images and fonts
+- `src` holds our `React` code
+- `index.html` is the entry `HTML` file
+- `package.json` is the `npm` configuration file
+
+### Remove the starter files
+Most of the starter files aren't needed, so let's remove them:
+1. Delete all files inside the `public` folder (keep the folder itself)
+2. Delete every file and folder in `src` except `main.tsx`, `index.css` and `vite-env.d.ts`
+3. Delete the `README.md` file in the root folder
+
+You'll now see an error on the page. That's expected: we deleted some files, so the project can't run. Let's fix it. Open `main.tsx` and delete the `import App from './App.tsx'` line and the `<App />` line.
+```typescript
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+  </StrictMode>,
+)
+```
+You should now see a blank page. The project is set up!
+
+### Hello World
+Now let's print `Hello World`. First, notice that the page title at the top of the browser, set by the `title` inside the `HTML` `head` tag, is currently `Vite + React + TS`. Let's change it. Open `index.html` (note that this file is in the root folder, not in `src`) and change `<title>Vite + React + TS</title>` to `<title>Hello World</title>`.
+
+The page title now reads `Hello World`. Next, look at `main.tsx`. For now, the only thing we care about is the `StrictMode` tag. `StrictMode` is a component provided by `React` that helps detect unsafe code, such as outdated APIs. It makes programs safer and more reliable, but it can also cause unnecessary warnings. We don't need it in this tutorial, so let's remove `StrictMode`. Be careful not to delete the `,` after it. Then put a `p` tag with `Hello World` where `StrictMode` used to be:
+```typescript
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+createRoot(document.getElementById('root')!).render(
+  <p>
+    Hello world!
+  </p>,
+)
+```
+Your editor may now flag an error on `import { StrictMode } from 'react'`. That's because we removed the `StrictMode` component, and we shouldn't import components we don't use, so delete that line too.
+
+Your page now shows `Hello World!`, but its position looks odd: it's centered vertically. That's because we import `index.css` at the top of the file, which contains starter styles that apply to the whole project. We don't need those styles in this tutorial, so delete everything in `index.css`, but keep the file.
+
+We've now removed all the extra starter content and printed `Hello World`!
+
+
+<Aside type="tip" title="Course source code">
+You can find the frontend code in [my GitHub project](https://github.com/JunxuanB/full-stack-tutorial-frontend). The project follows the whole course: once you finish, you'll have almost exactly the same project as mine, but until then the files change step by step.
+
+If you can't access GitHub, don't worry. The source code is optional; you can learn everything directly from this tutorial.
+</Aside>
