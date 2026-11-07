@@ -27,16 +27,12 @@
 **EN**
 > # Business software for teams that have outgrown spreadsheets.
 > We design and build internal tools, customer platforms and workflow automation for businesses in Canada.
->
-> Starting from CAD $1,000.
 
 按钮：`Start a project` · `See our work`
 
 **中文**
 > # 表格和群聊不够用了，就该有一套自己的系统。
 > 我们为加拿大的企业开发内部管理工具、面向客户的业务平台，以及流程自动化。
->
-> 起步价 1,000 加元。
 
 按钮：`开始一个项目` · `查看案例`
 
@@ -44,8 +40,8 @@
 
 | EN | 中文 |
 |---|---|
-| **We've run a business ourselves.** Our founder has spent 8+ years running a company, handling finance, HR and operations. We know what an internal system is supposed to save you. | **我们自己经营过公司。** 创始人经营公司 8 年多，管过财务、人事和运营，知道一套内部系统应该帮你省掉什么。 |
-| **Proven at scale.** Our systems run staff sign-in, player support tickets and internal approvals for a gaming community with 100K+ daily active players. | **经过大规模验证。** 我们做的系统，支撑着一个日活 10 万以上游戏社区的员工登录、玩家工单和内部审批。 |
+| **We've run a business ourselves.** Our founder has spent 9+ years running online communities and a company of about 200 people, handling finance, HR and operations. We know what an internal system is supposed to save you. | **我们自己经营过公司。** 创始人经营线上社区和公司 9 年多，带过约 200 人的团队，管过财务、人事和运营，知道一套内部系统应该帮你省掉什么。 |
+| **Proven at scale.** Our systems run staff sign-in, 190,000+ player support tickets and internal approvals for a gaming community with 100K+ daily active players. | **经过大规模验证。** 我们做的系统，支撑着一个日活 10 万以上游戏社区的员工登录、19 万多张玩家工单和内部审批。 |
 | **Small team, direct contact.** You talk to the person building your system, not an account manager. | **团队小，直接沟通。** 和你对接的就是开发系统的人，不是客户经理。 |
 
 ### 数字条
@@ -53,7 +49,7 @@
 | EN | 中文 |
 |---|---|
 | **90%** of approvals automated | **90%** 的审批实现自动化 |
-| **35%** of support tickets resolved automatically within a minute | **35%** 的工单在一分钟内自动解决 |
+| **190K+** support tickets handled | 累计处理 **19 万+** 张工单 |
 | **$80K** in contracts delivered in our first 5 months | 成立前 5 个月交付 **8 万加元**合同 |
 
 ### 首页底部
@@ -82,10 +78,7 @@
 | **Connected devices** 智能硬件接入 `【待确认】` | Web systems that control real hardware, such as smart locks and lockers. | 能控制真实硬件的 Web 系统，比如智能锁、智能柜。 | Envoy |
 | **Maintenance & hosting** 维护与托管 | We keep it running after launch: updates, backups, monitoring. | 上线以后我们继续维护：更新、备份、监控。 | — |
 
-`【待确认】`
-- 硬件接入这条还接吗？
-- 1,000 加元起步价对应的是什么？比如一个简单的企业官网，或者一个小工具。写清楚能减少无效询价
-- 要不要单列"企业官网"这一项？你做过 Resiliocs 官网重做，但那是雇主项目
+`【待确认】` 硬件接入这条还接吗？要不要单列"企业官网"这一项？
 
 ---
 
@@ -93,7 +86,7 @@
 
 **统一格式**：背景 → 问题 → 我们做了什么 → 结果 → 技术栈
 
-### 3.1 EaseCation Office Automation · 办公自动化
+### 3.1 EaseCation HR Center · 人事中心（办公自动化）
 
 **EN**
 > **Client:** EaseCation, a Minecraft community with 100K+ daily active players
@@ -101,6 +94,7 @@
 > **What we built:** An internal system with CRM, payroll and finance modules, plus automated approval rules.
 > **Result:** 90% of approvals and 70% of finance tasks are now automated. Review time went from 2–3 days to under 24 hours.
 > **Stack:** React, Express.js, MySQL
+> **Link:** easecation.net/technology
 
 **中文**
 > **客户：** EaseCation，日活 10 万以上的 Minecraft 社区
@@ -125,62 +119,64 @@
 > **结果：** 200 多名用户每人只用一个账号。重置密码的请求减少 95%，新成员上手时间缩短 80%。
 > **技术栈：** React、Express.js、PostgreSQL、Redis
 
-### 3.3 EaseCation User Service · 用户服务与工单
+### 3.3 MyEC · EaseCation 玩家服务中心（工单）
 
 **EN**
 > **Problem:** Only 25% of player requests got a response.
-> **What we built:** A serverless ticket system connected to the game's platform APIs, with AI auto-replies for common requests.
-> **Result:** Response rate went from 25% to 100%. 35% of tickets are resolved automatically within one minute. 99.99% uptime, serving tens of thousands of users.
+> **What we built:** MyEC, a serverless player service center: account linking, game data, feedback and support tickets, connected to the game's platform APIs, with AI auto-replies for common requests.
+> **Result:** Response rate went from 25% to 100%. 35% of tickets are resolved automatically within one minute. 99.99% uptime. 190,000+ tickets handled so far, with 10,000+ new tickets from 4,400+ accounts in a recent month. The full MyEC frontend is open source as OpenMyEC.
+> **Link:** easecation.net/technology
 > **Stack:** React, Express.js, MySQL, Serverless
 
 **中文**
 > **问题：** 玩家提交的请求只有 25% 能得到回复。
-> **我们做了什么：** 一套 serverless 工单系统，接入游戏平台接口，常见问题由 AI 自动回复。
-> **结果：** 回复率从 25% 提高到 100%，35% 的工单在一分钟内自动解决。可用性 99.99%，服务数万名用户。
+> **我们做了什么：** MyEC 玩家服务中心，基于 serverless 架构：账号绑定、游戏数据、反馈和工单都在这里，接入游戏平台接口，常见问题由 AI 自动回复。
+> **结果：** 回复率从 25% 提高到 100%，35% 的工单在一分钟内自动解决，可用性 99.99%。累计处理工单 19 万多张，近一个月有 4,400 多个账号新建了 1 万多张工单。MyEC 的完整前端以 OpenMyEC 开源。
+> **链接：** easecation.net/technology
 > **技术栈：** React、Express.js、MySQL、Serverless
 
-### 3.4 Genshin Impact North America Creator Challenge · 原神北美创作者挑战赛
+### 3.4 Genshin Impact North America Creator Challenge · 原神北美创作者挑战赛 · May 2026
 
 **EN**
 > **Background:** After Genshin Impact launched its Miliastra Wonderland UGC tools, we organized a creator competition for students across North America, supported by Genshin Impact (HoYoverse).
-> **What we did:** Everything, end to end: competition website, registration, submission platform, Discord community, promotion and participant support. `【待确认】` judging and prizes
-> **Result:** Hundreds of participants. `【待确认】` number of submissions, prize pool
-> **Link:** creator.junxuanb.com
+> **What we did:** Everything, end to end: competition website, registration, submission platform, Discord community, promotion and participant support.
+> **Result:** 100 participants, from high school students to recent graduates.
+> **Link:** creator.junxuanb.com `【待确认】` 是否保留
 
 **中文**
 > **背景：** 原神推出「千星奇域」UGC 创作功能后，我们为北美学生举办了一场创作者比赛，由原神（HoYoverse）提供支持。
-> **我们做了什么：** 全部由我们完成：比赛网站、报名、作品提交平台、Discord 社区、宣传推广和参赛者支持。`【待确认】` 评审、奖品
-> **结果：** 上百名选手参赛。`【待确认】` 作品数、奖金池
+> **我们做了什么：** 全部由我们完成：比赛网站、报名、作品提交平台、Discord 社区、宣传推广和参赛者支持。
+> **结果：** 100 名选手参赛，从高中生到应届毕业生都有。
 > **链接：** creator.junxuanb.com
 
 `【待确认】` "千星奇域"是 Miliastra Wonderland 的官方中文名吗？请核对。
 
-### 3.5 Game Content Production · 游戏内容制作
+### 3.5 Genshin Impact Content in UE5 · 原神 UE5 内容制作
 
 **EN**
-> **What we did:** Produced game content in Unreal Engine 5. Recruited and trained a team of 10 university students, for most of them their first paid professional work.
+> **What we did:** Produced Genshin Impact content in Unreal Engine 5, in collaboration with HoYoverse. Recruited and trained a team of 10 university students, for most of them their first paid professional work.
 > **Result:** $80,000 CAD in contracts delivered within 5 months.
 
 **中文**
-> **我们做了什么：** 用 Unreal Engine 5 制作游戏内容。招募并培训了 10 名大学生组成团队，对大多数人来说，这是他们第一份有报酬的专业工作。
+> **我们做了什么：** 与 HoYoverse 合作，用 Unreal Engine 5 制作原神相关内容。招募并培训了 10 名大学生组成团队，对大多数人来说，这是他们第一份有报酬的专业工作。
 > **结果：** 5 个月内交付 8 万加元合同。
 
-说明：按你的要求不写合作方。这个案例展示的是项目交付和团队管理能力，不是在推销游戏内容服务。
+说明：这个案例展示的是项目交付和团队管理能力，不是在推销游戏内容服务。
 
 ### 3.6 HalfBiz · 餐厅经营平台
 
 **EN**
-> **Background:** HalfBiz is our own product for family-owned restaurants, currently in private beta.
+> **Background:** HalfBiz is our own product for family-owned restaurants.
 > **Problem:** Small restaurants pay around $3,000 a year for separate ordering, delivery and loyalty software.
 > **What we built:** One platform with online ordering, self-delivery and a loyalty program.
-> **Result:** Brings software costs from $3,000 to $240 a year, saving each restaurant about $2,760 (projected). Supported by Innovation Factory.
+> **Result:** Adopted by over a dozen local businesses in its first week. Brings software costs from $3,000 to $240 a year, saving each restaurant about $2,760. Supported by Innovation Factory.
 > **Stack:** React, Express.js, PostgreSQL, Redis
 
 **中文**
-> **背景：** HalfBiz 是我们为家庭经营餐厅做的自有产品，目前在内测。
+> **背景：** HalfBiz 是我们为家庭经营餐厅做的自有产品。
 > **问题：** 小餐厅每年要花 3,000 加元左右，分别购买点单、配送和会员软件。
 > **我们做了什么：** 一个平台整合在线点单、自配送和会员积分。
-> **结果：** 软件成本从每年 3,000 加元降到 240 加元，每家餐厅预计每年节省约 2,760 加元。获得 Innovation Factory 支持。
+> **结果：** 上线第一周就有十几家本地商家开始使用。软件成本从每年 3,000 加元降到 240 加元，每家餐厅每年节省约 2,760 加元。获得 Innovation Factory 支持。
 > **技术栈：** React、Express.js、PostgreSQL、Redis
 
 ### 3.7 Envoy Hamilton · 24 小时智能包裹柜
@@ -223,7 +219,7 @@
 
 | EN | 中文 |
 |---|---|
-| **How much does it cost?** Projects start at CAD $1,000. Most quotes depend on how many features and users you need. We'll give you a fixed price after the consultation. | **大概多少钱？** 项目 1,000 加元起。具体价格取决于功能和用户数量，咨询后我们会给出固定报价。 |
+| **How much does it cost?** It depends on how many features and users you need. We'll give you a fixed quote after the consultation. | **大概多少钱？** 取决于功能和用户数量，咨询后我们会给出固定报价。 |
 | **Who owns the code?** `【待确认】` | **代码归谁？** `【待确认】` |
 | **Can you work with our existing systems?** Yes, including Microsoft 365, Google Workspace and most tools with an API. | **能接入我们现有的系统吗？** 可以，包括 Microsoft 365、Google Workspace，以及大多数提供 API 的工具。 |
 | **Do you work with clients outside Ontario?** Yes, we work remotely across Canada. | **只服务安大略省吗？** 不是，我们可以远程服务全加拿大。 |
@@ -235,14 +231,14 @@
 **EN**
 > Junxuan Bao Solutions Inc. is a software company based in the Greater Toronto Area. It was founded in September 2024 and incorporated in Ontario in November 2024.
 >
-> Our founder, Junxuan Bao, has spent 8+ years running EaseCation, a Minecraft community with 100K+ daily active players, where he built most of its internal systems himself. He is also a software engineer and studies Computer Science at McMaster University.
+> Our founder, Junxuan Bao, has spent 9+ years running online communities, including EaseCation, a Minecraft network with 100K+ daily active players and a team of about 200. He built its player service center, HR system and identity platform himself. He is also a software engineer and studies Computer Science at McMaster University.
 >
 > → About the founder (links to Personal)
 
 **中文**
 > Junxuan Bao Solutions Inc. 是一家位于大多伦多地区的软件公司，2024 年 9 月成立，同年 11 月在安大略省注册。
 >
-> 创始人鲍俊轩参与经营 EaseCation 8 年多。这是一个日活 10 万以上的 Minecraft 社区，它的大部分内部系统由他亲手开发。他同时是一名软件工程师，在 McMaster 大学读计算机科学。
+> 创始人鲍俊轩经营线上社区 9 年多，其中 EaseCation 是一个日活 10 万以上、团队约 200 人的 Minecraft 社区。它的玩家服务中心、人事系统和统一身份平台都由他亲手开发。他同时是一名软件工程师，在 McMaster 大学读计算机科学。
 >
 > → 了解创始人（链接到 Personal）
 
@@ -252,7 +248,6 @@
 - Email: Junxuan.Bao@Gmail.com
 - `【待确认】` 页脚放不放注册地址？隐私声明里已经有了
 
-`【待确认】` "大部分内部系统由他亲手开发"这句话是否准确？取决于第 3 节哪些系统是你做的。
 
 ---
 
@@ -275,12 +270,11 @@
 | Company | 公司名称 | 选填 |
 | What do you need? | 你需要什么？ | 多选：Internal tool / Customer platform / Automation / Login & access / Not sure |
 | Tell us about the problem | 现在遇到了什么问题？ | 必填，长文本 |
-| Budget | 预算 | 单选：$1K–5K / $5K–15K / $15K+ / Not sure |
+| Budget | 预算 | 选填，自由填写 |
 | Timeline | 希望多久完成 | 单选：ASAP / 1–3 months / Flexible |
 
 或者直接发邮件：Junxuan.Bao@Gmail.com
 
-`【待确认】` 预算区间这么分可以吗？
 
 ---
 
