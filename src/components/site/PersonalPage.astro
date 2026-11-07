@@ -9,6 +9,9 @@ const { lang, businessHref } = Astro.props;
 const d = getPersonal(lang);
 const zh = lang === 'zh';
 const cats = ['ec', 'work', 'company', 'other'] as const;
+// Set PUBLIC_WEB3FORMS_KEY (from web3forms.com) at build time to enable the contact form.
+const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
+const c = d.contact;
 const counts = Object.fromEntries(cats.map((c) => [c, d.projects.filter((p) => p.cat === c).length]));
 ---
 <div class="p-wrap">
@@ -153,6 +156,39 @@ const counts = Object.fromEntries(cats.map((c) => [c, d.projects.filter((p) => p
       </ul>
     </section>
 
+    <section id="contact" class="p-contact" aria-labelledby="h-contact">
+      <div class="p-contact-text">
+        <h2 id="h-contact" class="h2">{c.h}<span class="period">.</span></h2>
+        <p class="muted" style="margin-top: 8px">{c.p}</p>
+        <p class="muted" style="margin-top: 14px; font-size: 15px">{c.orEmail} <a href="mailto:Junxuan.Bao@Gmail.com" style="color: var(--primary-text); font-weight: 600">Junxuan.Bao@Gmail.com</a></p>
+        <p class="muted" style="margin-top: 14px; font-size: 15px">{c.business} <a href={businessHref + '#contact'} style="color: var(--primary-text); font-weight: 600">{c.businessLink} →</a></p>
+      </div>
+      {formKey ? (
+        <form class="form p-form" data-web3forms data-subject={c.subject} data-sending={c.sending} data-sent={c.sent} data-failed={c.failed} novalidate>
+          <input type="hidden" name="access_key" value={formKey} />
+          <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="field"><label for="pc-name">{c.name}</label><input id="pc-name" name="name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for="pc-email">{c.email}</label><input id="pc-email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="field full"><label for="pc-org">{c.org} <small>{c.optional}</small></label><input id="pc-org" name="organization" type="text" autocomplete="organization" /></div>
+          <fieldset>
+            <legend>{c.reason}</legend>
+            <div class="needs">
+              {c.reasons.map((x, i) => <label><input type="radio" name="reason" value={x} checked={i === 0} /><span>{x}</span></label>)}
+            </div>
+          </fieldset>
+          <div class="field full"><label for="pc-msg">{c.msg}</label><textarea id="pc-msg" name="message" rows="5" placeholder={c.msgPh} required></textarea></div>
+          <button class="btn btn-primary" type="submit">{c.send}</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="fine">{c.privacy}</p>
+        </form>
+      ) : (
+        <div class="form p-form">
+          <a class="btn btn-primary" href={`mailto:Junxuan.Bao@Gmail.com?subject=${encodeURIComponent(c.subject)}`}>{c.emailMe}</a>
+          <p class="fine">{c.privacy}</p>
+        </div>
+      )}
+    </section>
+
     <footer class="p-footer"><span>© 2026 Junxuan Bao</span><a href={businessHref}>{d.ui.business} →</a></footer>
   </main>
 </div>
@@ -258,6 +294,10 @@ const counts = Object.fromEntries(cats.map((c) => [c, d.projects.filter((p) => p
   };
   addEventListener('scroll', setActive, { passive: true });
   setActive();
+
+  // Contact form
+  import { initWeb3Forms } from '../../scripts/web3forms';
+  initWeb3Forms();
 
   // Print-friendly résumé
   document.querySelectorAll('[data-print]').forEach((b) => b.addEventListener('click', () => window.print()));

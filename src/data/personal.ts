@@ -429,7 +429,8 @@ export function getPersonal(lang: Lang) {
         { id: 'experience', label: T('Experience', '经历') },
         { id: 'education', label: T('Education', '教育') },
         { id: 'skills', label: T('Skills', '技能') },
-        { id: 'writing', label: T('Writing', '教程') }
+        { id: 'writing', label: T('Writing', '教程') },
+        { id: 'contact', label: T('Contact', '联系') }
       ],
       now: T('Now', '现在'), updated: T('Updated November 2026', '2026 年 11 月更新'),
       projects: T('Projects', '项目'), projectsSub: T('Select a project to read more.', '点击项目查看详情。'),
@@ -442,6 +443,22 @@ export function getPersonal(lang: Lang) {
       close: T('Close', '关闭'), myRole: T('Role', '角色'), whatIDid: T('What I did', '主要工作'), results: T('Results', '成果'), tools: T('Tools', '技术与方法'),
       prev: T('Previous', '上一个'), next: T('Next', '下一个'), courses: T('Courses', '课程'),
       business: T('Junxuan Bao Solutions Inc.', 'Junxuan Bao Solutions Inc.')
+    },
+    contact: {
+      h: T('Get in touch', '联系我'),
+      p: T("Whether it's a role, a collaboration or just a question, send me a note. I usually reply within a few days.", '无论是工作机会、合作还是问题，都欢迎留言，我通常会在几天内回复。'),
+      business: T('Looking for software for your company? Use the business inquiry form instead.', '如果是企业软件开发需求，请使用公司页的询价表单。'),
+      businessLink: T('Business inquiry', '企业询价'),
+      name: T('Name', '姓名'), email: T('Email', '邮箱'), org: T('Company or school', '公司或学校'), optional: T('(optional)', '（选填）'),
+      reason: T('What is this about?', '来意'),
+      reasons: [T('Job opportunity', '工作机会'), T('Collaboration', '合作'), T('Speaking or interview', '分享或采访'), T('Question', '问题咨询'), T('Just saying hi', '打个招呼')],
+      msg: T('Message', '留言'), msgPh: T('A few lines about what you have in mind.', '简单说说你的想法。'),
+      send: T('Send', '发送'), sending: T('Sending…', '发送中…'),
+      sent: T('Thanks! Your message has been sent.', '谢谢，你的留言已发送。'),
+      failed: T('Something went wrong. Please email Junxuan.Bao@Gmail.com instead.', '发送失败，请直接发送邮件至 Junxuan.Bao@Gmail.com。'),
+      subject: T('New message from junxuanb.com', '来自 junxuanb.com 的新留言'),
+      privacy: T('Your details are only used to reply to you.', '你的信息仅用于回复你。'),
+      emailMe: T('Email me', '发送邮件'), orEmail: T('Or email me directly at', '也可以直接发送邮件至')
     },
     profile: {
       photoAlt: T('Portrait of Junxuan Bao', '鲍俊轩的职业照'),

@@ -538,3 +538,11 @@ dialog.modal::backdrop { background: rgba(10, 15, 30, 0.55); }
 .legal table { width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: 15px; }
 .legal th, .legal td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 @media (max-width: 1023px) { .legal { padding: 24px 16px 64px; } }
+
+/* personal contact */
+.p-contact { display: flex; flex-wrap: wrap; gap: 28px 40px; padding: 36px; border-radius: var(--radius-lg); background: var(--tint); }
+.p-contact-text { flex: 1 1 260px; min-width: 0; }
+.p-form { flex: 1.4 1 360px; background: var(--surface); }
+.p-form .field input, .p-form .field textarea { background: var(--surface); }
+@media (max-width: 1023px) { .p-contact { padding: 24px 18px; border-radius: 28px; } .p-form { padding: 18px; } }
+@media print { .p-contact { display: none !important; } }

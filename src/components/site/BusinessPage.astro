@@ -165,7 +165,7 @@ const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
       <a href="mailto:Junxuan.Bao@Gmail.com">Junxuan.Bao@Gmail.com</a>
     </div>
     {formKey ? (
-      <form class="form" data-inquiry data-subject={d.form.subject} data-sending={d.form.sending} data-sent={d.form.sent} data-failed={d.form.failed} novalidate>
+      <form class="form" data-web3forms data-subject={d.form.subject} data-sending={d.form.sending} data-sent={d.form.sent} data-failed={d.form.failed} novalidate>
         <input type="hidden" name="access_key" value={formKey} />
         <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div class="field"><label for="f-name">{d.form.name}</label><input id="f-name" name="name" type="text" autocomplete="name" required /></div>
@@ -257,42 +257,6 @@ const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
   });
 
   // Inquiry form: submits to Web3Forms, which emails the details to Junxuan.Bao@Gmail.com.
-  const form = document.querySelector<HTMLFormElement>('[data-inquiry]');
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
-    const status = form.querySelector<HTMLElement>('.form-status');
-    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const data = new FormData(form);
-    const payload = {
-      access_key: data.get('access_key'),
-      botcheck: data.get('botcheck') ? true : '',
-      subject: `${form.dataset.subject} · ${data.get('company') || data.get('name')}`,
-      from_name: String(data.get('name') ?? ''),
-      replyto: String(data.get('email') ?? ''),
-      name: data.get('name'),
-      email: data.get('email'),
-      company: data.get('company') || '-',
-      needs: data.getAll('need').join(', ') || '-',
-      budget: data.get('budget') || '-',
-      timeline: data.get('timeline'),
-      message: data.get('message')
-    };
-    if (button) { button.disabled = true; button.dataset.label = button.textContent ?? ''; button.textContent = form.dataset.sending ?? ''; }
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok || !json.success) throw new Error(json.message || res.statusText);
-      form.reset();
-      if (status) { status.textContent = form.dataset.sent ?? ''; status.dataset.state = 'ok'; }
-    } catch {
-      if (status) { status.textContent = form.dataset.failed ?? ''; status.dataset.state = 'error'; }
-    } finally {
-      if (button) { button.disabled = false; button.textContent = button.dataset.label ?? ''; }
-    }
-  });
+  import { initWeb3Forms } from '../../scripts/web3forms';
+  initWeb3Forms();
 </script>
