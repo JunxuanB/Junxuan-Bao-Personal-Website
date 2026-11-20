@@ -1,13 +1,17 @@
 ---
+import { bizNav, type BizView } from '../../data/nav';
+
 interface Props {
   lang: 'en' | 'zh';
   mode: 'personal' | 'business';
   personalHref: string;
   businessHref: string;
   langHref: string;
+  bizView?: BizView;
 }
-const { lang, mode, personalHref, businessHref, langHref } = Astro.props;
+const { lang, mode, personalHref, businessHref, langHref, bizView = 'home' } = Astro.props;
 const zh = lang === 'zh';
+const nav = bizNav(lang);
 ---
 <header class="site-header">
   <a class="brand" href={mode === 'personal' ? personalHref : businessHref}>
@@ -16,7 +20,15 @@ const zh = lang === 'zh';
   </a>
   <nav class="mode-switch" aria-label={zh ? '切换个人与公司' : 'Personal or business'}>
     <a href={personalHref} aria-current={mode === 'personal' ? 'page' : undefined}>Personal</a>
-    <a href={businessHref} aria-current={mode === 'business' ? 'page' : undefined}>Business</a>
+    <div class="biz-menu" data-biz-menu data-current={mode === 'business' ? '' : undefined}>
+      <a href={businessHref} aria-current={mode === 'business' && bizView === 'home' ? 'page' : undefined}>Business</a>
+      <button class="biz-caret" type="button" aria-expanded="false" aria-controls="biz-drop" aria-label={zh ? '展开业务板块' : 'Show business sections'}>
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <ul class="biz-drop" id="biz-drop">
+        {nav.map((n) => <li><a href={n.href} aria-current={mode === 'business' && n.view === bizView ? 'page' : undefined}>{n.label}</a></li>)}
+      </ul>
+    </div>
   </nav>
   <div class="header-tools">
     <a class="icon-btn" href={langHref} hreflang={zh ? 'en' : 'zh-CN'} lang={zh ? 'en' : 'zh-CN'} aria-label={zh ? 'Switch to English' : '切换到中文'}>{zh ? 'EN' : '中文'}</a>
@@ -26,3 +38,17 @@ const zh = lang === 'zh';
     </button>
   </div>
 </header>
+
+<script>
+  // Business dropdown: opens on hover (desktop) and on the caret button (touch and keyboard).
+  const menu = document.querySelector<HTMLElement>('[data-biz-menu]');
+  const caret = menu?.querySelector<HTMLButtonElement>('.biz-caret');
+  const setOpen = (open: boolean) => {
+    if (!menu || !caret) return;
+    menu.toggleAttribute('data-open', open);
+    caret.setAttribute('aria-expanded', String(open));
+  };
+  caret?.addEventListener('click', () => setOpen(!menu?.hasAttribute('data-open')));
+  document.addEventListener('click', (e) => { if (menu && !menu.contains(e.target as Node)) setOpen(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+</script>

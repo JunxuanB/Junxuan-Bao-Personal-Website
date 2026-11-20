@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import photo from '../../assets/junxuan-bao.jpg';
 import { getPersonal, type Lang } from '../../data/personal';
-import { images, imageAlt } from '../../data/images';
+import { imageFor, imageAlt } from '../../data/images';
 
 interface Props { lang: Lang; businessHref: string }
 const { lang, businessHref } = Astro.props;
@@ -80,7 +80,7 @@ const counts = Object.fromEntries(cats.map((c) => [c, d.projects.filter((p) => p
             <li data-cat={p.cat}>
               <button class="pcard" type="button" data-look={p.cat} data-open={`project-${p.id}`} aria-haspopup="dialog">
                 {p.img && (
-                  <span class="pcard-shot"><Image src={images[p.img]} alt="" width={720} quality={80} /></span>
+                  <span class="pcard-shot"><Image src={imageFor(p.img, lang)} alt="" width={720} quality={80} /></span>
                 )}
                 <span class="pcard-body">
                   <span class="pcard-meta"><span class="dot" aria-hidden="true"></span>{p.org} · {p.year}</span>
@@ -214,7 +214,7 @@ const counts = Object.fromEntries(cats.map((c) => [c, d.projects.filter((p) => p
         <h2 class="modal-title" id={`project-${p.id}-title`}>{p.headline}</h2>
         {gallery.length > 0 && (
           <div class="modal-gallery">
-            {gallery.map((k) => <Image src={images[k]} alt={imageAlt[k][lang]} width={1400} quality={80} loading="lazy" />)}
+            {gallery.map((k) => <Image src={imageFor(k, lang)} alt={imageAlt[k][lang]} width={1400} quality={80} loading="lazy" />)}
           </div>
         )}
       </div>
