@@ -3,6 +3,7 @@ import '../styles/site.css';
 import SiteHeader from '../components/site/SiteHeader.astro';
 import photo from '../assets/junxuan-bao.jpg';
 import { getImage } from 'astro:assets';
+import { bizPath, type BizView } from '../data/nav';
 
 interface Props {
   lang: 'en' | 'zh';
@@ -11,12 +12,14 @@ interface Props {
   description: string;
   /** Whether the page has a counterpart in the other language. */
   alternates?: boolean;
+  /** Which Business page this is (overview or one of the sub-pages). */
+  bizView?: BizView;
 }
 
-const { lang, mode, title, description, alternates = true } = Astro.props;
+const { lang, mode, title, description, alternates = true, bizView = 'home' } = Astro.props;
 const paths = {
-  en: { personal: '/', business: '/business/' },
-  zh: { personal: '/zh/', business: '/zh/business/' }
+  en: { personal: '/', business: bizPath('en', bizView) },
+  zh: { personal: '/zh/', business: bizPath('zh', bizView) }
 };
 const other = lang === 'en' ? 'zh' : 'en';
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -57,7 +60,7 @@ const ogImage = await getImage({ src: photo, width: 1200, format: 'jpg' });
     </script>
   </head>
   <body>
-    <SiteHeader lang={lang} mode={mode} personalHref={paths[lang].personal} businessHref={paths[lang].business} langHref={paths[other][mode]} />
+    <SiteHeader lang={lang} mode={mode} personalHref={paths[lang].personal} businessHref={bizPath(lang)} langHref={paths[other][mode]} bizView={bizView} />
     <slot />
     <script>
       const root = document.documentElement;

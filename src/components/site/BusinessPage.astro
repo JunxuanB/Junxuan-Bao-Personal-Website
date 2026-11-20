@@ -3,164 +3,218 @@ import { Image } from 'astro:assets';
 import photo from '../../assets/junxuan-bao.jpg';
 import { getBusiness } from '../../data/business';
 import type { Lang } from '../../data/personal';
-import { images, imageAlt } from '../../data/images';
+import { bizNav, type BizView } from '../../data/nav';
+import { imageFor, imageAlt } from '../../data/images';
 
-interface Props { lang: Lang; personalHref: string }
-const { lang, personalHref } = Astro.props;
+interface Props { lang: Lang; view?: BizView; personalHref: string }
+const { lang, view = 'home', personalHref } = Astro.props;
 const d = getBusiness(lang);
-const t = d.t;
+const v = d.views[view];
+const s = d.shared;
+const nav = bizNav(lang);
 const byId = (id: string) => d.cases.find((c) => c.id === id)!;
-const tones: Record<string, string> = { myec: 'tint', oa: 'warm', iam: 'tint', creator: 'soft', ue5: 'soft', halfbiz: 'warm', envoy: 'soft' };
-const featured = t.featuredIds.map(byId);
-const rest = d.cases.filter((c) => !t.featuredIds.includes(c.id));
+const featured = (v.work?.featuredIds ?? []).map(byId);
+const rest = (v.work?.restIds ?? []).map(byId);
+// Dialogs are only rendered for the cases shown on this page.
+const pageCases = [...featured, ...rest];
 const shortName = (title: string) => title.split(/[:：]/)[0];
+const order = v.workFirst ? ['work', 'services'] : ['services', 'work'];
 // Set PUBLIC_WEB3FORMS_KEY (from web3forms.com) at build time to enable the inquiry form.
 const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
 ---
 <main class="b-main" id="top">
+  <nav class="b-subnav" aria-label={d.ui.subnav}>
+    {nav.map((n) => <a href={n.href} aria-current={n.view === view ? 'page' : undefined}>{n.label}</a>)}
+  </nav>
+
   <section class="b-hero">
-    <p class="b-chip"><span class="dot" aria-hidden="true"></span>{t.chip}</p>
-    <h1 class="b-h1">{t.h1a} <span>{t.h1b}</span></h1>
-    <p class="b-intro">{t.intro}</p>
+    <p class="b-chip"><span class="dot" aria-hidden="true"></span>{v.chip}</p>
+    <h1 class="b-h1">{v.h1a} <span>{v.h1b}</span></h1>
+    <p class="b-intro">{v.intro}</p>
     <div class="b-ctas">
-      <a class="btn btn-primary btn-lg" href="#contact">{t.cta1}</a>
-      <a class="btn btn-soft btn-lg" href="#work">{t.cta2} →</a>
+      <a class="btn btn-primary btn-lg" href="#contact">{d.ui.cta1}</a>
+      <a class="btn btn-soft btn-lg" href={v.cta2.href}>{v.cta2.label} →</a>
     </div>
   </section>
 
-  <section aria-labelledby="h-proof">
-    <div class="b-panel">
-      <span class="b-panel-c1" aria-hidden="true"></span>
-      <span class="b-panel-c2" aria-hidden="true"></span>
-      <div class="b-panel-in">
-        <div>
-          <p class="kicker">{t.proofKicker}</p>
-          <h2 id="h-proof">{t.proofH}</h2>
-          <p>{t.proofP}</p>
+  {v.segments && (
+    <section id="segments" class="b-sec" aria-labelledby="h-segments">
+      <div class="b-sec-head">
+        <h2 id="h-segments" class="b-h2">{v.segments.h}<span class="period">.</span></h2>
+        <p>{v.segments.p}</p>
+      </div>
+      <ul class="segs">
+        {v.segments.items.map((g) => (
+          <li>
+            <a class="seg" href={g.href} data-tone={g.tone}>
+              <span class="service-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={g.icon}></path></svg></span>
+              <span class="kicker">{g.kicker}</span>
+              <h3>{g.h}</h3>
+              <p>{g.p}</p>
+              <ul>{g.items.map((x) => <li><span class="dot" aria-hidden="true"></span>{x}</li>)}</ul>
+              <span class="seg-go">{g.go} →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {(v.panel || v.stats) && (
+    <section class="b-proof" aria-labelledby={v.panel ? 'h-proof' : undefined} aria-label={v.panel ? undefined : d.ui.highlights}>
+      {v.panel && (
+        <div class="b-panel">
+          <span class="b-panel-c1" aria-hidden="true"></span>
+          <span class="b-panel-c2" aria-hidden="true"></span>
+          <div class="b-panel-in">
+            <div>
+              <p class="kicker">{v.panel.kicker}</p>
+              <h2 id="h-proof">{v.panel.h}</h2>
+              <p>{v.panel.p}</p>
+            </div>
+            <ul class="b-systems">
+              {v.panel.systems.map((x) => (
+                <li>
+                  <button class="b-system" type="button" data-open={`case-${x.id}`} aria-haspopup="dialog">
+                    <span class="b-system-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={x.icon}></path></svg></span>
+                    <span class="b-system-text"><b>{x.name}</b><small>{x.what}</small></span>
+                    <span class="b-system-metric">{x.metric}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <ul class="b-systems">
-          {t.systems.map((s) => (
+      )}
+      {v.stats && (
+        <div class:list={['b-stats', { flat: !v.panel }]} role="list" aria-label={d.ui.highlights}>
+          {v.stats.map((x) => <div role="listitem"><div class="stat-num">{x.num}</div><div class="stat-label">{x.label}</div></div>)}
+        </div>
+      )}
+    </section>
+  )}
+
+  {v.why && (
+    <section class="b-sec" aria-labelledby="h-why">
+      <h2 id="h-why" class="b-h2">{v.why.h}<span class="period">.</span></h2>
+      <ul class="why">
+        {v.why.items.map((w) => <li><span class="why-n">{w.n}</span><h3>{w.h}</h3><p>{w.p}</p></li>)}
+      </ul>
+    </section>
+  )}
+
+  {order.map((block) => block === 'services' ? (
+    v.services && (
+      <section id="services" class="b-sec" aria-labelledby="h-services">
+        <div class="b-sec-head">
+          <h2 id="h-services" class="b-h2">{v.services.h}<span class="period">.</span></h2>
+          <p>{v.services.p}</p>
+        </div>
+        <ul class="services">
+          {v.services.items.map((x) => (
+            <li class="service">
+              <span class="service-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={x.icon}></path></svg></span>
+              <h3>{x.h}</h3>
+              <p>{x.p}</p>
+              {x.caseId && <button class="link-btn" type="button" data-open={`case-${x.caseId}`} aria-haspopup="dialog">{d.ui.example}: {shortName(byId(x.caseId).title)} →</button>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  ) : (
+    v.work && (
+      <section id="work" class="b-sec" aria-labelledby="h-work">
+        <div class="b-sec-head">
+          <h2 id="h-work" class="b-h2">{v.work.h}<span class="period">.</span></h2>
+          <p>{d.ui.clickCase}</p>
+        </div>
+        <ul class="featured">
+          {featured.map((c) => (
             <li>
-              <button class="b-system" type="button" data-open={`case-${s.id}`} aria-haspopup="dialog">
-                <span class="b-system-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon}></path></svg></span>
-                <span class="b-system-text"><b>{s.name}</b><small>{s.what}</small></span>
-                <span class="b-system-metric">{s.metric}</span>
+              <button class="fcard" type="button" data-open={`case-${c.id}`} aria-haspopup="dialog">
+                <span class="fcard-cover" data-tone={c.tone}>
+                  {c.img ? (
+                    <>
+                      <Image src={imageFor(c.img, lang)} alt="" width={1000} quality={80} />
+                      <span class="pill fcard-badge"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span class="fcard-circle" aria-hidden="true"></span>
+                      <span class="fcard-in">
+                        <span class="kicker">{c.client}</span>
+                        <span class="fcard-mono">{c.mono}</span>
+                        <span class="pill"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
+                      </span>
+                    </>
+                  )}
+                </span>
+                <span class="fcard-meta">{c.client} · {c.industry}</span>
+                <span class="fcard-title">{c.title}</span>
+                <span class="fcard-sum">{c.summary}</span>
               </button>
             </li>
           ))}
         </ul>
+        {rest.length > 0 && (
+          <ul class="case-rows">
+            {rest.map((c) => (
+              <li>
+                <button class="case-row" type="button" data-open={`case-${c.id}`} aria-haspopup="dialog">
+                  <span class="case-mono" data-tone={c.tone} aria-hidden="true">{c.mono}</span>
+                  <span class="case-text"><b>{c.title}</b><small>{c.client} · {c.industry}</small></span>
+                  <span class="case-metric"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
+                  <span class="arrow-dot" aria-hidden="true">→</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    )
+  ))}
+
+  {v.steps && (
+    <section id="process" class="b-sec" aria-labelledby="h-process">
+      <h2 id="h-process" class="b-h2">{s.procH}<span class="period">.</span></h2>
+      <ol class="steps">
+        {s.steps.map((x, i) => <li><div class="step-rail" aria-hidden="true"><span class="step-n">0{i + 1}</span><span class="step-line"></span></div><h3>{x.h}</h3><p>{x.p}</p></li>)}
+      </ol>
+    </section>
+  )}
+
+  {v.faq && (
+    <section class="b-sec faq-wrap" aria-labelledby="h-faq">
+      <h2 id="h-faq" class="b-h2">{s.faqH}<span class="period">.</span></h2>
+      <div class="faq">
+        {v.faq.map((q, i) => <details open={i === 0}><summary>{q.q}</summary><p>{q.a}</p></details>)}
       </div>
-    </div>
-    <div class="b-stats" role="list" aria-label={d.ui.highlights}>
-      {t.stats.map((s) => <div role="listitem"><div class="stat-num">{s.num}</div><div class="stat-label">{s.label}</div></div>)}
-    </div>
-  </section>
+    </section>
+  )}
 
-  <section class="b-sec b-sec-first" aria-labelledby="h-why">
-    <h2 id="h-why" class="b-h2">{t.whyH}<span class="period">.</span></h2>
-    <ul class="why">
-      {t.why.map((w) => <li><span class="why-n">{w.n}</span><h3>{w.h}</h3><p>{w.p}</p></li>)}
-    </ul>
-  </section>
-
-  <section id="services" class="b-sec" aria-labelledby="h-services">
-    <div class="b-sec-head">
-      <h2 id="h-services" class="b-h2">{t.servH}<span class="period">.</span></h2>
-      <p>{t.servP}</p>
-    </div>
-    <ul class="services">
-      {t.services.map((s) => (
-        <li class="service">
-          <span class="service-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon}></path></svg></span>
-          <h3>{s.h}</h3>
-          <p>{s.p}</p>
-          {s.caseId && <button class="link-btn" type="button" data-open={`case-${s.caseId}`} aria-haspopup="dialog">{d.ui.example}: {shortName(byId(s.caseId).title)} →</button>}
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section id="work" class="b-sec" aria-labelledby="h-work">
-    <div class="b-sec-head">
-      <h2 id="h-work" class="b-h2">{t.workH}<span class="period">.</span></h2>
-      <p>{d.ui.clickCase}</p>
-    </div>
-    <ul class="featured">
-      {featured.map((c) => (
-        <li>
-          <button class="fcard" type="button" data-open={`case-${c.id}`} aria-haspopup="dialog">
-            <span class="fcard-cover" data-tone={tones[c.id]}>
-              {c.img ? (
-                <>
-                  <Image src={images[c.img]} alt="" width={1000} quality={80} />
-                  <span class="pill fcard-badge"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
-                </>
-              ) : (
-                <>
-                  <span class="fcard-circle" aria-hidden="true"></span>
-                  <span class="fcard-in">
-                    <span class="kicker">{c.client}</span>
-                    <span class="fcard-mono">{c.mono}</span>
-                    <span class="pill"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
-                  </span>
-                </>
-              )}
-            </span>
-            <span class="fcard-meta">{c.client} · {c.industry}</span>
-            <span class="fcard-title">{c.title}</span>
-            <span class="fcard-sum">{c.summary}</span>
-          </button>
-        </li>
-      ))}
-    </ul>
-    <ul class="case-rows">
-      {rest.map((c) => (
-        <li>
-          <button class="case-row" type="button" data-open={`case-${c.id}`} aria-haspopup="dialog">
-            <span class="case-mono" data-tone={tones[c.id]} aria-hidden="true">{c.mono}</span>
-            <span class="case-text"><b>{c.title}</b><small>{c.client} · {c.industry}</small></span>
-            <span class="case-metric"><span class="dot" aria-hidden="true"></span>{c.metric}</span>
-            <span class="arrow-dot" aria-hidden="true">→</span>
-          </button>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section id="process" class="b-sec" aria-labelledby="h-process">
-    <h2 id="h-process" class="b-h2">{t.procH}<span class="period">.</span></h2>
-    <ol class="steps">
-      {t.steps.map((s, i) => <li><div class="step-rail" aria-hidden="true"><span class="step-n">0{i + 1}</span><span class="step-line"></span></div><h3>{s.h}</h3><p>{s.p}</p></li>)}
-    </ol>
-  </section>
-
-  <section class="b-sec faq-wrap" aria-labelledby="h-faq">
-    <h2 id="h-faq" class="b-h2">{t.faqH}<span class="period">.</span></h2>
-    <div class="faq">
-      {t.faq.map((q, i) => <details open={i === 0}><summary>{q.q}</summary><p>{q.a}</p></details>)}
-    </div>
-  </section>
-
-  <section id="about" class="b-sec about-wrap" aria-labelledby="h-about">
-    <div>
-      <h2 id="h-about" class="b-h2">{t.aboutH}<span class="period">.</span></h2>
-      <p class="about-1">{t.about1}</p>
-      <p class="about-2">{t.about2}</p>
-      <a class="founder" href={personalHref}>
-        <Image src={photo} alt={t.founderAlt} width={120} quality={85} />
-        <span><b>{t.founderName}</b><small>{t.founderLink} →</small></span>
-      </a>
-    </div>
-    <dl class="facts">
-      {t.facts.map((f) => <div><dt>{f.k}</dt><dd>{f.v}</dd></div>)}
-    </dl>
-  </section>
+  {v.about && (
+    <section id="about" class="b-sec about-wrap" aria-labelledby="h-about">
+      <div>
+        <h2 id="h-about" class="b-h2">{s.aboutH}<span class="period">.</span></h2>
+        <p class="about-1">{s.about1}</p>
+        <p class="about-2">{s.about2}</p>
+        <a class="founder" href={personalHref}>
+          <Image src={photo} alt={s.founderAlt} width={120} quality={85} />
+          <span><b>{s.founderName}</b><small>{s.founderLink} →</small></span>
+        </a>
+      </div>
+      <dl class="facts">
+        {s.facts.map((f) => <div><dt>{f.k}</dt><dd>{f.v}</dd></div>)}
+      </dl>
+    </section>
+  )}
 
   <section id="contact" class="contact" aria-labelledby="h-contact">
     <span class="contact-circle" aria-hidden="true"></span>
     <div class="contact-text">
-      <h2 id="h-contact">{t.contactH}</h2>
-      <p>{t.contactP}</p>
+      <h2 id="h-contact">{v.contactH}</h2>
+      <p>{v.contactP}</p>
       <p class="small">{d.ui.orEmail}</p>
       <a href="mailto:Junxuan.Bao@Gmail.com">Junxuan.Bao@Gmail.com</a>
     </div>
@@ -200,21 +254,21 @@ const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
   <nav aria-label={lang === 'zh' ? '页脚' : 'Footer'}><a href="/privacy-notice/">{d.ui.privacy}</a><a href={personalHref}>{d.ui.founder}</a></nav>
 </footer>
 
-<div class="b-action"><a href="#contact">{t.cta1}</a></div>
+<div class="b-action"><a href="#contact">{d.ui.cta1}</a></div>
 
-{d.cases.map((c, i) => {
-  const prev = d.cases[(i - 1 + d.cases.length) % d.cases.length];
-  const next = d.cases[(i + 1) % d.cases.length];
-  const look = tones[c.id] === 'warm' ? 'company' : tones[c.id] === 'tint' ? 'ec' : 'other';
+{pageCases.map((c, i) => {
+  const prev = pageCases[(i - 1 + pageCases.length) % pageCases.length];
+  const next = pageCases[(i + 1) % pageCases.length];
+  const many = pageCases.length > 1;
   return (
     <dialog class="modal" id={`case-${c.id}`} aria-labelledby={`case-${c.id}-title`}>
-      <div class="modal-head" data-look={look}>
+      <div class="modal-head" data-look={c.tone === 'warm' ? 'company' : 'ec'}>
         <span class="modal-circle" aria-hidden="true"></span>
         <button class="modal-close" type="button" data-close aria-label={d.ui.close}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
         <div class="modal-chips"><span>{c.industry}</span><span>{c.year}</span></div>
         <p class="modal-name">{c.client}</p>
         <h2 class="modal-title" id={`case-${c.id}-title`}>{c.title}</h2>
-        {c.img && <div class="case-modal-cover"><Image src={images[c.img]} alt={imageAlt[c.img][lang]} width={1400} quality={80} loading="lazy" /></div>}
+        {c.img && <div class="case-modal-cover"><Image src={imageFor(c.img, lang)} alt={imageAlt[c.img][lang]} width={1400} quality={80} loading="lazy" /></div>}
       </div>
       <div class="modal-body">
         <ul class="modal-results">{c.results.map((r) => <li><b>{r.n}</b><span>{r.l}</span></li>)}</ul>
@@ -228,14 +282,14 @@ const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
           </div>
           <div>
             <h3 class="modal-h3">{d.ui.stack}</h3>
-            <ul class="modal-stack">{c.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+            <ul class="modal-stack">{c.stack.map((x) => <li class="chip">{x}</li>)}</ul>
             {c.link && <ul class="modal-links"><li><a href={c.link.h}>{c.link.l} ↗</a></li></ul>}
           </div>
         </div>
         <div class="modal-foot">
-          <button class="btn btn-soft" type="button" data-goto={`case-${prev.id}`}>← {prev.mono}</button>
+          {many && <button class="btn btn-soft" type="button" data-goto={`case-${prev.id}`}>← {prev.mono}</button>}
           <a class="btn btn-primary" href="#contact" data-close>{d.ui.similar}</a>
-          <button class="btn btn-soft" type="button" data-goto={`case-${next.id}`}>{next.mono} →</button>
+          {many && <button class="btn btn-soft" type="button" data-goto={`case-${next.id}`}>{next.mono} →</button>}
         </div>
       </div>
     </dialog>

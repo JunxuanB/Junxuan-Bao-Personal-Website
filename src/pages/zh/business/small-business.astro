@@ -1,0 +1,9 @@
+---
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import BusinessPage from '../../../components/site/BusinessPage.astro';
+import { getBusiness } from '../../../data/business';
+const { meta } = getBusiness('zh').views.small;
+---
+<SiteLayout lang="zh" mode="business" bizView="small" title={meta.title} description={meta.description}>
+  <BusinessPage lang="zh" view="small" personalHref="/zh/" />
+</SiteLayout>
